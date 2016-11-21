@@ -8,23 +8,18 @@ from glob import glob
 import collections
 from random import randrange
 
-#ToDo
-# Better implementaiton of file selection: Instead of current implementation, another alternative is to create two dictionaries, classes and directories. 
-## The directory struct is used to randomly find files, giving equal distribution of all fiels in training. 
-## The classes is used to map the directory into it's class, using a dictionary of the following format {dir_path : class_num}
+
+
 
 class ParticleSet(object):
 
-	def __init__(self, root_dir, directroy_map, class_size, target_dim):
+	def __init__(self, root_dir, classes, target_dim):
 	    self._root_dir = root_dir
-	    self._directroy_map = directroy_map
-	    self._class_size = class_size
+	    self._classes = classes
 	    self._target_dim = target_dim
 	    self._epochs_completed = 0
 	    self._samples_completed = 0
 
-	    # Create the filename list
-	    self._filelist = self._create_filelist()
 	    print "ParticleSet Initialized"
 
 
@@ -34,12 +29,8 @@ class ParticleSet(object):
 		return self._root_dir
 
 	@property
-	def directroy_map(self):
-		return self._directroy_map
-
-	@property
-	def class_size(self):
-		return self._class_size
+	def classes(self):
+		return self._classes
 
 	@property
 	def target_dim(self):
@@ -53,36 +44,32 @@ class ParticleSet(object):
 	def samples_completed(self):
 		return self._samples_completed
 
-	# Description: Aggregatess all filenames into filelist variable
-	def _create_filelist(self): 
-
-		filelist = []
-		# Iterate through each class. 
-		for key in self._directroy_map:
-			filelist.extend(glob(self._root_dir + key + "/*.jpg"))
-
-		return filelist
-
 	# Description: Randomly selects batch_size image from all training data. 
 	# Pre-processes image to match the target_dim
 	# Organizez batch_size images and labels to be returned. 
 	# ToDo: Split into sub-functions
 	def next_batch(self, batch_size):
 
+		glob_identifier = "/*.jpg"
 		im_size = self._target_dim * self._target_dim
 
 
   		# Initialize numpy arrays to hold data: need to be pre-initialized for efficiency. 
 		# data => numpy matrix with [batch, im_size], where images are greyscale
 		data = np.empty((batch_size, im_size))
-		# labels => one_hot numpy array with [batch, class_size] format
-		labels = np.empty((batch_size, self._class_size))
+		# labels => one_hot numpy array with [batch, len(classes)] format
+		labels = np.empty((batch_size, len(self._classes)))
 
-		# Find batch_size images and labels, and place in data and labels list. 
+		# Fine batch_size images and labels, and place in data, labels list. 
 		for n in range(batch_size):
 			# Iterate through each sub-section of the class
-			file_sel = randrange(len(self._filelist)) # Returns int between [0 to len(felist)-1]
-			file_name = self._filelist[file_sel]
+			c = randrange(len(self._classes)) # Returns int between [0 to len(classes)-1]
+			sub = randrange(len(self._classes[c])) 
+
+			# Extract all files from dessignated folder. 
+			# ToDo: Increase efficiency in extracting file names
+			filelist = glob(self._root_dir + self._classes[c][sub] + glob_identifier)
+			file_sel = randrange(len(filelist))
 
 			### PREPROCESS IMAGE AND APPEND TO DATA STRUCT ###
 			# Imresize is just a wrapper around PIL's resize function. 
@@ -93,23 +80,16 @@ class ParticleSet(object):
 			# 'bilinear' interpolation takes 4 nearest points, and assumes a continuous transition between them to estimate target point. The bilinear interpolation ensures that we don't alias when downsampling.
 			# 'L' is the image mode as defined by PIL, or an 8bit uint (black and white)
 			# ToDo: Think about improved implementation that down-samples and upsamples seperately, taking into account aliasing (opencv, scikit)
-			temp_im = misc.imresize(misc.imread(file_name), (self._target_dim, self._target_dim), 'bilinear', 'L')
+			temp_im = misc.imresize(misc.imread(filelist[file_sel]), (self._target_dim, self._target_dim), 'bilinear', 'L')
 			# Reshape the image into a colum, and insert it into to numpy matrix
 			# Append to image data struct
 			data[n, :] = np.reshape(temp_im, (1, im_size))
 
 
 			### CREATE LABELS AND APPEND TO LABEL STRUCT ###
-			# Translates from selected directory path to class with directory_map
-			end = file_name.rfind("/")
-			start = file_name.rfind("/", 0, end)
-			key = file_name[start+1:end]
-			cur_class = self._directroy_map[key]
-
-			temp_labels = np.zeros((1, self._class_size))
-			temp_labels[0][cur_class] = 1
-			labels[n, :]= temp_labels
-
+			temp_labels = np.zeros((1, len(self._classes)))
+			temp_labels[0][c] = 1
+			labels[n, :] = temp_labels
 			# Increment sample tracking by 1
 			self._samples_completed += 1
 

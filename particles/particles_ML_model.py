@@ -9,54 +9,61 @@ import matplotlib.pyplot as plt
 
 import particles_batch as batch
 
-DEBUG = 1
-LOAD_ENABLE = 0
+DEBUG = 0
 
 # ToDo: 
 ## Break particles_batch.py into further sub-functions
 ## Have next_batch return a data,labels object. 
-## Better to have filelist in memory (or constantly call gob)
-## Figure out in what proportions we should train our network with
 
 
 #### FILE-SYSTEM GLOBAL VARIABLES ####
 base_directory = "./data/IrisDB/"
 
-# directory_map => dictionary with {folder_path : class number folder belong to}
-directroy_map = {
-	"IRIS-BACT": 0, 
-	"IRIS-RBC": 1, 
-	"IRIS-SPRM": 2, 
-	"IRIS-WBC": 3, 
-	"IRIS-CLUMP-WBCC": 4,
-	"IRIS-CLUMP-YSTS": 4,
-	"IRIS-CRYST-CAOX": 4,
-	"IRIS-CRYST-CAPH": 4,
-	"IRIS-CRYST-TPO4": 4,
-	"IRIS-CRYST-URIC": 4, 
-	"IRIS-HYAL": 4,
-	"IRIS-NHYAL-CELL": 4,
-	"IRIS-NHYAL-GRAN": 4,
-	"IRIS-NSQEP-REEP": 4,
-	"IRIS-NSQEP-TREP": 4,
-	"IRIS-SQEP": 4, 
+# classes => dictionary with {class_num : list of directory names}
+# classes = {
+# 	0: ["IRIS-BACT"], 
+# 	1: ["IRIS-CLUMPS/IRIS-WBCC", "IRIS-CLUMPS/IRIS-YSTS"], 
+# 	2: ["IRIS-CRYST/IRIS-CAOX", "IRIS-CRYST/IRIS-CAPH", "IRIS-CRYST/IRIS-TPO4", "IRIS-CRYST/IRIS-URIC"], 
+# 	3: ["IRIS-HYAL"], 
+# 	4: ["IRIS-NHYAL/IRIS-CELL", "IRIS-NHYAL/IRIS-GRAN"], 
+# 	5: ["IRIS-NSQEP/IRIS-REEP", "IRIS-NSQEP/IRIS-TREP"],
+# 	6: ["IRIS-RBC"],
+# 	7: ["IRIS-SPRM"],
+# 	8: ["IRIS-SQEP"],
+# 	9: ["IRIS-WBC"],
+# }
+
+# classes = {
+# 	0: ["IRIS-BACT"], 
+# 	1: ["IRIS-CLUMPS/IRIS-WBCC", "IRIS-CLUMPS/IRIS-YSTS", "IRIS-CRYST/IRIS-CAOX", "IRIS-CRYST/IRIS-CAPH", "IRIS-CRYST/IRIS-TPO4", "IRIS-CRYST/IRIS-URIC", "IRIS-HYAL", "IRIS-NHYAL/IRIS-CELL", "IRIS-NHYAL/IRIS-GRAN", "IRIS-NSQEP/IRIS-REEP", "IRIS-NSQEP/IRIS-TREP", "IRIS-RBC", "IRIS-SQEP", "IRIS-WBC"], 
+# 	2: ["IRIS-SPRM"], 
+# }
+
+# classes => dictionary with {class_num : list of directory names}
+classes = {
+	0: ["IRIS-BACT"], 
+	1: ["IRIS-RBC"],
+	2: ["IRIS-SPRM"],
+	3: ["IRIS-WBC"],
+	4: ["IRIS-CLUMP-WBCC", "IRIS-CLUMP-YSTS", "IRIS-CRYST-CAOX", "IRIS-CRYST-CAPH", "IRIS-CRYST-TPO4", "IRIS-CRYST-URIC", "IRIS-HYAL", "IRIS-NHYAL-CELL", "IRIS-NHYAL-GRAN", "IRIS-NSQEP-REEP", "IRIS-NSQEP-TREP", "IRIS-SQEP"], 
 }
+
 
 
 def main():
 	#### Variable Setup ####
 	target_dim = 52
-	class_size = 5
+	labels_dim = len(classes)
 
 	# Create particle data object for getting training/validation data 
-	particle_data = batch.ParticleSet(base_directory, directroy_map, class_size, target_dim)
+	particle_data = batch.ParticleSet(base_directory, classes, target_dim)
 
 	# Initiate Session: Interactive sessions allows for interleaving instructions that make graph and run graph. 
 	sess = tf.InteractiveSession()
 
 	# Make placeholder variables: These take the training input images, and the corresponding labels
 	x = tf.placeholder(tf.float32, shape=[None, target_dim * target_dim])
-	y_ = tf.placeholder(tf.float32, shape=[None, class_size])
+	y_ = tf.placeholder(tf.float32, shape=[None, labels_dim])
 
 
 	# Reshape data: Reshapes each input x from a 2-D Tensor into a 4D Tensor [batch, image_height, image_width, channel]. 
@@ -83,7 +90,7 @@ def main():
 	# Calculate the 2nd layer. Here, we increase the channels from 32 input to 64 output. 
 	#### LAYER 2: CONVOLUTIONAL LAYER ####
 	# Note: Inceasing channels from 32 to 64 while reducing pixels by 4. 
-	W_conv2 = weight_variable([5, 5, 32, 64])
+	W_conv2 = weight_variable([10, 10, 32, 64])
 	b_conv2 = bias_variable([64])
 
 	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
@@ -118,10 +125,10 @@ def main():
 
 
 	### Layer 5: READOUT LAYER (REGRESSION LAYER) ####
-	# Note: Perform softmax regression on the class_size classes. 
-	# Note: Translation matrix that takes 1024 neuron weights as input, and converts it into class_size evidence outputs for each image. 
-	W_fc2 = weight_variable([1024, class_size])
-	b_fc2 = bias_variable([class_size])
+	# Note: Perform softmax regression on the labels_dim classes. 
+	# Note: Translation matrix that takes 1024 neuron weights as input, and converts it into labels_dim evidence outputs for each image. 
+	W_fc2 = weight_variable([1024, labels_dim])
+	b_fc2 = bias_variable([labels_dim])
 	# Note: Implement the regression model that converts inputs (h_fc1_drop) into probably outcomes (y_conv) using W and b as trained variables. 
 	# y_conv is a size of [batch, label #s]. Use for softmax, and the loss function. 
 	y_conv = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
@@ -146,7 +153,7 @@ def main():
 	sess.run(tf.initialize_all_variables())
 
 	### RUN GRAPH TO TRAIN SYSTEM ###
-	for i in range(10):
+	for i in range(100):
 
 		# Obtain training data
 		# data => 
@@ -159,27 +166,16 @@ def main():
 			train_accuracy = accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0})
 			print("step %d, training accuracy %g"%(i, train_accuracy))
 
-		# Save Trained Variables
-		save_path = saver.save(sess, "./data/particles_model.ckpt")
-		print("Model saved in file: %s" % save_path)
-
-		# Convert weights into a numpy array (and use this for visualization)
-		# W_all is a [784,10] nparray. 
-		W_all = W.eval(session=sess)
-		sess.close()
-
 			if (DEBUG):
 				x_image_out = x_image.eval(session=sess, feed_dict={x: data, y_: labels, keep_prob: 1.0})
-				visualizeData(x_image_out[:,:,:,0], labels[:], 10)
+				visualizeData(x_image_out[:,:,:,0], labels[:], 5)
 
 
 		#Runs a single train step with a single batch using a keep probability of 0.5
 		train_step.run(feed_dict={x: data, y_: labels, keep_prob: 0.5})
 
 
-	
-
-	###  FINAL SUMMARY ###
+	### FINAL SUMMARY ###
 	data, labels = particle_data.next_batch(50)
 	#Prints the final accuracy
 	print("test accuracy %g"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
@@ -217,7 +213,7 @@ def visualizeData(data, labels, step):
 		plt.imshow(data[i, :, :])
 		# Labeling Graph
 		c = np.argmax(labels[i])
-		plt.title("Class %d"%(c))
+		plt.title(classes[c])
 		plt.xlabel(np.transpose(labels[i]))
 	plt.show()
 
