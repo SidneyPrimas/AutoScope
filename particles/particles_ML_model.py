@@ -9,14 +9,22 @@ import matplotlib.pyplot as plt
 
 import particles_batch as batch
 
-DEBUG = 1
-LOAD_ENABLE = 0
+# Global Variables
+DEBUG = False
+LOAD_ENABLE = True
+TRAINING = True
 
 # ToDo: 
 ## Break particles_batch.py into further sub-functions
 ## Have next_batch return a data,labels object. 
 ## Better to have filelist in memory (or constantly call gob)
 ## Figure out in what proportions we should train our network with
+## Automatically restore last saved variables
+## Is it bad to use a random number (issues with not being a real random number)
+## Create wrapper function that just creates the basic neural network (this allows us seperate validation and training)
+## Optimization: When call the accuracy values, call them all at once (instead of re-running the graph)
+## When printing out per-class accuracies, find a more elegent solution than adding one to class number.
+## When printing out per-class accuracies, find an automated way to pretty print
 
 
 #### FILE-SYSTEM GLOBAL VARIABLES ####
@@ -44,6 +52,18 @@ directroy_map = {
 
 
 def main():
+	### Configurable Variables ###
+	training_iters = 101
+	train_batch_size = 100
+	validation_batch_size = 500
+
+	step_display = 10
+	step_save = 100
+	learning_rate = 1e-4
+	dropout = 0.5
+	path_save = "./data/particle_model"
+	path_load = "./data/particle_model-500"
+
 	#### Variable Setup ####
 	target_dim = 52
 	class_size = 5
@@ -135,57 +155,99 @@ def main():
 
 	# Uses Adam optimizer to update all variables in our system
 	# When we run train_step, we updated all W and b. 
-	train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
+	train_step = tf.train.AdamOptimizer(learning_rate).minimize(cross_entropy)
 
 	# Operations for accuracy calculation. 
 	correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
 	accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
+	
+	# Breakdown of inaccuracies across classes
+	# Identifies the actual class when a prediction was wrong. 
+	# Important: We add 1 to argmax (increasing the class size by one) so that the 0 from an accurate prediction is not conflicting with class 0. 
+	ground_truth = tf.cast(tf.not_equal(tf.argmax(y_conv,1), tf.argmax(y_,1)), tf.int64) * (tf.argmax(y_,1) + 1)
+	# Identifies the class we mistakenly selected when a prediction is wrong. 
+	inaccurate_pred = tf.cast(tf.not_equal(tf.argmax(y_conv,1), tf.argmax(y_,1)), tf.int64) * (tf.argmax(y_conv,1) + 1)
 
-	# Initialize all variables
+	### INITIALIZE ALL VARIABLES ###
+	# Create saver opject. 
+	# Note: Since no variables are explicitly specified, saver stores all trainable variables. 
+	# ToDo: Include keep_checkpoint_every_n_hours to only keep checkpoint every n hours. 
+	saver = tf.train.Saver(keep_checkpoint_every_n_hours=1)
+
 	# Before variables can be used within a session, they must be initialized. 
-	sess.run(tf.initialize_all_variables())
+	if (not LOAD_ENABLE):
+		sess.run(tf.initialize_all_variables())
+
+	# Restores all trained variables (stored in model.ckpt). 
+	# Since we restore all variables from the previous session, we don't need to initialize any variables. 
+	if (LOAD_ENABLE): 
+		saver.restore(sess, path_load)
 
 	### RUN GRAPH TO TRAIN SYSTEM ###
-	for i in range(10):
+	for i in range(training_iters):
 
-		# Obtain training data
-		# data => 
-		# labels => [batch, len(classes)]
-		data, labels = particle_data.next_batch(50)
+		# Train
+		#Runs a single train step with a single batch using a keep probability of 0.5
+		if (TRAINING):
+			# Obtain training data
+			data, labels = particle_data.next_batch(train_batch_size)
+			train_step.run(feed_dict={x: data, y_: labels, keep_prob: dropout})
 
-		# At every xth batch, log the result. 
-		if i%50 == 0:
-			# Evaluates the accuracy (doesn't drop nodes during evaluatoin)
-			train_accuracy = accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0})
-			print("step %d, training accuracy %g"%(i, train_accuracy))
+		# Save model 
+		if (i%step_save == 0) and TRAINING: 
+			# Save trainted model
+			# Saves all trainable variables in this session. 
+			save_path = saver.save(sess, path_save, global_step=i)
+			print("Model saved in file: %s" % save_path)
 
-		# Save Trained Variables
-		save_path = saver.save(sess, "./data/particles_model.ckpt")
-		print("Model saved in file: %s" % save_path)
+		# Print log
+		if (i%step_display == 0) or (not TRAINING):
 
-		# Convert weights into a numpy array (and use this for visualization)
-		# W_all is a [784,10] nparray. 
-		W_all = W.eval(session=sess)
-		sess.close()
+			# Obtain training data
+			data, labels = particle_data.next_batch(validation_batch_size)
+
+			# Evaluates the accuracy and cross_entropy (doesn't drop nodes during evaluatoin)
+			# Obtain all values from graph in single session. 
+			train_accuracy, train_loss, truth_train, inaccurate_train = sess.run([accuracy, cross_entropy, ground_truth, inaccurate_pred],feed_dict={x: data, y_: labels, keep_prob: 1.0})
+			print("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
+			
+
+			# Note: GT_Classes are sorted 
+			truth_classes, truth_counts = np.unique(truth_train, return_counts=True)
+			truth_perc = 100*truth_counts/float(len(truth_train))
+			print "When wrong, correct solution:",
+			for n in range(len(truth_classes)): 
+				if (truth_classes[n] == 0):
+					print("\t Accurate: %2.2f, "%(truth_perc[n])),
+				else: 
+					# Subract 1 from n since needed to previously increase class by one to ensure no conflict with 0 from accurate prediction. 
+					c = truth_classes[n] - 1
+					print("Class %d: %2.2f, "%(c, truth_perc[n])),
+			print
+
+			inaccurate_classes, inaccurate_counts = np.unique(inaccurate_train, return_counts=True)
+			inaccurate_perc = 100*inaccurate_counts/float(len(inaccurate_train))
+			print "When wrong, incorrect guess:",
+			for n in range(len(inaccurate_classes)): 
+				if (inaccurate_classes[n] == 0):
+					print("\t Accurate: %2.2f, "%(inaccurate_perc[n])),
+				else: 
+					# Subract 1 from n since needed to previously increase class by one to ensure no conflict with 0 from accurate prediction. 
+					c = inaccurate_classes[n] - 1
+					print("Class %d: %2.2f, "%(c, inaccurate_perc[n])),
+			print "\n\n"
 
 			if (DEBUG):
 				x_image_out = x_image.eval(session=sess, feed_dict={x: data, y_: labels, keep_prob: 1.0})
 				visualizeData(x_image_out[:,:,:,0], labels[:], 10)
 
 
-		#Runs a single train step with a single batch using a keep probability of 0.5
-		train_step.run(feed_dict={x: data, y_: labels, keep_prob: 0.5})
-
-
 	
 
 	###  FINAL SUMMARY ###
-	data, labels = particle_data.next_batch(50)
+	data, labels = particle_data.next_batch(validation_batch_size)
 	#Prints the final accuracy
-	print("test accuracy %g"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
-	# Prints final weights ( by fethcing them out of tensorflow graph)
-	W_fc2_out =  W_fc2.eval(session=sess)
-	print W_fc2_out
+	print("Final Accuracy %1.3f"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
 
 
 	sess.close
