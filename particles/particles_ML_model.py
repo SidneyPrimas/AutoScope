@@ -25,6 +25,7 @@ TRAINING = True
 ## Optimization: When call the accuracy values, call them all at once (instead of re-running the graph)
 ## When printing out per-class accuracies, find a more elegent solution than adding one to class number.
 ## When printing out per-class accuracies, find an automated way to pretty print
+## How many filters per layer
 
 
 #### FILE-SYSTEM GLOBAL VARIABLES ####
@@ -53,7 +54,7 @@ directroy_map = {
 
 def main():
 	### Configurable Variables ###
-	training_iters = 101
+	training_iters = 50
 	train_batch_size = 100
 	validation_batch_size = 500
 
@@ -93,6 +94,7 @@ def main():
 
 	# Perform Convolution: Convolve x_image with W_conv1 filter, and add the offset. 
 	# Then, for each channel of each pixel, take the ReLU. 
+	# Size of h_conv1: [batch, 52, 52, 32]
 	h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
 	# Perfomr Max Pooling: Performs max pooling on the input, striding across the data with 2x2 matrices. 
 	# Essentially, we reduce each non-overlapping 2x2 matrix into a single data point. 
