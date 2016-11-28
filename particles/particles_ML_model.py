@@ -35,39 +35,39 @@ base_directory = "./data/IrisDB/"
 directroy_map = {
 	"IRIS-BACT": 0, 
 	"IRIS-RBC": 1, 
-	"IRIS-SPRM": 2, 
-	"IRIS-WBC": 3, 
-	"IRIS-CLUMP-WBCC": 4,
-	"IRIS-CLUMP-YSTS": 4,
-	"IRIS-CRYST-CAOX": 4,
-	"IRIS-CRYST-CAPH": 4,
-	"IRIS-CRYST-TPO4": 4,
-	"IRIS-CRYST-URIC": 4, 
-	"IRIS-HYAL": 4,
-	"IRIS-NHYAL-CELL": 4,
-	"IRIS-NHYAL-GRAN": 4,
-	"IRIS-NSQEP-REEP": 4,
-	"IRIS-NSQEP-TREP": 4,
-	"IRIS-SQEP": 4, 
+	"IRIS-SPRM": 3, 
+	"IRIS-WBC": 2, 
+	"IRIS-CLUMP-WBCC": 2,
+	"IRIS-CLUMP-YSTS": 3,
+	"IRIS-CRYST-CAOX": 3,
+	"IRIS-CRYST-CAPH": 3,
+	"IRIS-CRYST-TPO4": 3,
+	"IRIS-CRYST-URIC": 3, 
+	"IRIS-HYAL": 3,
+	"IRIS-NHYAL-CELL": 3,
+	"IRIS-NHYAL-GRAN": 3,
+	"IRIS-NSQEP-REEP": 3,
+	"IRIS-NSQEP-TREP": 3,
+	"IRIS-SQEP": 3, 
 }
 
 
 def main():
 	### Configurable Variables ###
-	training_iters = 50
+	training_iters = 10
 	train_batch_size = 100
 	validation_batch_size = 500
 
 	step_display = 10
-	step_save = 100
+	step_save = 10
 	learning_rate = 1e-4
 	dropout = 0.5
 	path_save = "./data/particle_model"
-	path_load = "./data/particle_model-500"
+	path_load = "./data/particle_model"
 
 	#### Variable Setup ####
 	target_dim = 52
-	class_size = 5
+	class_size = 4
 
 	# Create particle data object for getting training/validation data 
 	particle_data = batch.ParticleSet(base_directory, directroy_map, class_size, target_dim)
@@ -199,7 +199,7 @@ def main():
 		if (i%step_save == 0) and TRAINING: 
 			# Save trainted model
 			# Saves all trainable variables in this session. 
-			save_path = saver.save(sess, path_save, global_step=i)
+			save_path = saver.save(sess, path_save)
 			print("Model saved in file: %s" % save_path)
 
 		# Print log
@@ -249,7 +249,7 @@ def main():
 	###  FINAL SUMMARY ###
 	data, labels = particle_data.next_batch(validation_batch_size)
 	#Prints the final accuracy
-	print("Final Accuracy %1.3f"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
+	print("Final Accuracy %1.3f \n\n"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
 
 
 	sess.close
