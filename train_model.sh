@@ -23,7 +23,7 @@ echo "REAME at $READFILE"
 
 readme="Important Parameters:"
 
-echo "$readme" > "$dest/$READFILE"
+echo "$readme" > "$READFILE"
 
 count=1
 # Train model indefinitely (until manually interrupted)

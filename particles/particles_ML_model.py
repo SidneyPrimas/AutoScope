@@ -23,8 +23,8 @@ TRAINING = True
 ## Is it bad to use a random number (issues with not being a real random number)
 ## Create wrapper function that just creates the basic neural network (this allows us seperate validation and training)
 ## Optimization: When call the accuracy values, call them all at once (instead of re-running the graph)
-## When printing out per-class accuracies, find a more elegent solution than adding one to class number.
-## When printing out per-class accuracies, find an automated way to pretty print
+## When print >> log,ing out per-class accuracies, find a more elegent solution than adding one to class number.
+## When print >> log,ing out per-class accuracies, find an automated way to pretty print >> log,
 ## How many filters per layer
 
 
@@ -187,6 +187,7 @@ def main():
 		saver.restore(sess, path_load)
 
 	### RUN GRAPH TO TRAIN SYSTEM ###
+	log=open('./log/log', 'a', 1)
 	for i in range(training_iters):
 
 		# Train
@@ -198,13 +199,13 @@ def main():
 
 		# Save model 
 		# ToDo: Implement better saving mechanism
-		if (i%step_save == -1) and TRAINING: 
+		if (i%step_save == 0) and TRAINING: 
 			# Save trainted model
 			# Saves all trainable variables in this session. 
 			save_path = saver.save(sess, path_save)
-			print("Model saved in file: %s" % save_path)
+			print >> log,("Model saved in file: %s" % save_path)
 
-		# Print log
+
 		if (i%step_display == 0) or (not TRAINING):
 
 			# Obtain training data
@@ -213,33 +214,33 @@ def main():
 			# Evaluates the accuracy and cross_entropy (doesn't drop nodes during evaluation)
 			# Obtain all values from graph in single session. 
 			train_accuracy, train_loss, truth_train, inaccurate_train = sess.run([accuracy, cross_entropy, ground_truth, inaccurate_pred],feed_dict={x: data, y_: labels, keep_prob: 1.0})
-			print("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
+			print >> log,("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
 			
 
 			# Note: GT_Classes are sorted 
 			truth_classes, truth_counts = np.unique(truth_train, return_counts=True)
 			truth_perc = 100*truth_counts/float(len(truth_train))
-			print "When wrong, correct solution:",
+			print >> log, "When wrong, correct solution:",
 			for n in range(len(truth_classes)): 
 				if (truth_classes[n] == 0):
-					print("\t Accurate: %2.2f, "%(truth_perc[n])),
+					print >> log,("\t Accurate: %2.2f, "%(truth_perc[n])),
 				else: 
 					# Subract 1 from n since needed to previously increase class by one to ensure no conflict with 0 from accurate prediction. 
 					c = truth_classes[n] - 1
-					print("Class %d: %2.2f, "%(c, truth_perc[n])),
-			print
+					print >> log,("Class %d: %2.2f, "%(c, truth_perc[n])),
+			print >> log, "\n"
 
 			inaccurate_classes, inaccurate_counts = np.unique(inaccurate_train, return_counts=True)
 			inaccurate_perc = 100*inaccurate_counts/float(len(inaccurate_train))
-			print "When wrong, incorrect guess:",
+			print >> log, "When wrong, incorrect guess:",
 			for n in range(len(inaccurate_classes)): 
 				if (inaccurate_classes[n] == 0):
-					print("\t Accurate: %2.2f, "%(inaccurate_perc[n])),
+					print >> log,("\t Accurate: %2.2f, "%(inaccurate_perc[n])),
 				else: 
 					# Subract 1 from n since needed to previously increase class by one to ensure no conflict with 0 from accurate prediction. 
 					c = inaccurate_classes[n] - 1
-					print("Class %d: %2.2f, "%(c, inaccurate_perc[n])),
-			print "\n\n"
+					print >> log,("Class %d: %2.2f, "%(c, inaccurate_perc[n])),
+			print >> log, "\n\n"
 
 			if (DEBUG):
 				x_image_out = x_image.eval(session=sess, feed_dict={x: data, y_: labels, keep_prob: 1.0})
@@ -250,12 +251,12 @@ def main():
 
 	###  FINAL SUMMARY ###
 	data, labels = particle_data.next_batch(validation_batch_size, validation=True)
-	#Prints the final accuracy
-	print("Final Accuracy %1.3f \n\n"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
+	#Print the final accuracy
+	print >> log,("Final Accuracy %1.3f \n\n"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
 	save_path = saver.save(sess, path_save)
-    print("Final Model  saved in file: %s" % save_path)
+	print >> log,("Final Model  saved in file: %s" % save_path)
 
-
+	log.close()
 	sess.close
 
 ### HELPER FUNCTIONS ###
