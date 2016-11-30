@@ -197,7 +197,8 @@ def main():
 			train_step.run(feed_dict={x: data, y_: labels, keep_prob: dropout})
 
 		# Save model 
-		if (i%step_save == 0) and TRAINING: 
+		# ToDo: Implement better saving mechanism
+		if (i%step_save == -1) and TRAINING: 
 			# Save trainted model
 			# Saves all trainable variables in this session. 
 			save_path = saver.save(sess, path_save)
@@ -251,6 +252,8 @@ def main():
 	data, labels = particle_data.next_batch(validation_batch_size, validation=True)
 	#Prints the final accuracy
 	print("Final Accuracy %1.3f \n\n"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
+	save_path = saver.save(sess, path_save)
+    print("Final Model  saved in file: %s" % save_path)
 
 
 	sess.close
