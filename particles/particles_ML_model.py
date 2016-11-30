@@ -228,7 +228,7 @@ def main():
 					# Subract 1 from n since needed to previously increase class by one to ensure no conflict with 0 from accurate prediction. 
 					c = truth_classes[n] - 1
 					print >> log,("Class %d: %2.2f, "%(c, truth_perc[n])),
-			print >> log, "\n"
+			print >> log, ""
 
 			inaccurate_classes, inaccurate_counts = np.unique(inaccurate_train, return_counts=True)
 			inaccurate_perc = 100*inaccurate_counts/float(len(inaccurate_train))
@@ -240,7 +240,7 @@ def main():
 					# Subract 1 from n since needed to previously increase class by one to ensure no conflict with 0 from accurate prediction. 
 					c = inaccurate_classes[n] - 1
 					print >> log,("Class %d: %2.2f, "%(c, inaccurate_perc[n])),
-			print >> log, "\n\n"
+			print >> log, "\n"
 
 			if (DEBUG):
 				x_image_out = x_image.eval(session=sess, feed_dict={x: data, y_: labels, keep_prob: 1.0})
@@ -252,9 +252,9 @@ def main():
 	###  FINAL SUMMARY ###
 	data, labels = particle_data.next_batch(validation_batch_size, validation=True)
 	#Print the final accuracy
-	print >> log,("Final Accuracy %1.3f \n\n"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
+	print >> log,("Final Accuracy %1.3f"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
 	save_path = saver.save(sess, path_save)
-	print >> log,("Final Model  saved in file: %s" % save_path)
+	print >> log,("Final Model saved in file: %s" % save_path)
 
 	log.close()
 	sess.close
