@@ -54,7 +54,7 @@ directroy_map = {
 
 def main():
 	### Configurable Variables ###
-	training_iters = 10
+	#training_iters = 10
 	train_batch_size = 100
 	validation_batch_size = 500
 
@@ -188,7 +188,9 @@ def main():
 
 	### RUN GRAPH TO TRAIN SYSTEM ###
 	log=open('./log/log', 'a', 1)
-	for i in range(training_iters):
+	i = 0
+	while (True):
+		i+=1
 
 		# Train
 		#Runs a single train step with a single batch using a keep probability of 0.5
