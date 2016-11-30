@@ -15,17 +15,26 @@ from random import randrange
 
 class ParticleSet(object):
 
-	def __init__(self, root_dir, directroy_map, class_size, target_dim):
+	def __init__(self, root_dir, directroy_map, class_size, target_dim, validation_proportion=0.1):
 	    self._root_dir = root_dir
+	    # The map data structure that relates each directory to a specific class. 
 	    self._directroy_map = directroy_map
+	    # The number of classes we categorize images into. 
 	    self._class_size = class_size
-	    self._target_dim = target_dim
+	    # Dimension the input images are upsampled/downsampled to. 
+	    self._target_dim = target_dim 
+	    # The number of epochs used for training or validation (since this class was instantiated)
 	    self._epochs_completed = 0
+	    # The number of samples used for training or validation (since this class was instantiated)
 	    self._samples_completed = 0
 
-	    # Create the filename list
-	    self._filelist = self._create_filelist()
+	    # Complete list of files use for training and validation (no overlap between categories)
+	    # validation_size: Size of the total dataset used for validation (not used for training).
+	    self._trainlist, self._validlist, self._validation_size = self._create_filelists(validation_proportion)
+
 	    print "ParticleSet Initialized"
+	    print("Training Set Size: %d"%(len(self._trainlist)))
+	    print("Validation Set Size: %d"%(len(self._validlist)))
 
 
   	# Note: @Property routes external calls to Class/Object properties through these functions. Allows for elegant constraint checking. 
@@ -53,21 +62,39 @@ class ParticleSet(object):
 	def samples_completed(self):
 		return self._samples_completed
 
-	# Description: Aggregatess all filenames into filelist variable
-	def _create_filelist(self): 
+	# Description: Aggregates all filenames into trainlist and validlist
+	def _create_filelists(self, validation_proportion): 
 
-		filelist = []
-		# Iterate through each class. 
+		trainlist = []
+		validlist = []
+		# Build list of all images use for both training and validation. 
 		for key in self._directroy_map:
-			filelist.extend(glob(self._root_dir + key + "/*.jpg"))
+			trainlist.extend(glob(self._root_dir + key + "/*.jpg"))
 
-		return filelist
+
+		# Based on the total number of files in the dataset, determine the valid set. 
+		validation_size = int(len(trainlist)*validation_proportion)
+
+		# Move number of original images (validation_size) into validlist. Remove them from trainlist. 
+		for i in range(validation_size):
+			file_sel = randrange(len(trainlist)) # Returns int between [0 to len(trainlist)-1]
+			# Add the selected file to the validation set
+			validlist.append(trainlist[file_sel])
+			# Remove the file 
+			del trainlist[file_sel]
+
+
+
+		return trainlist, validlist, validation_size
 
 	# Description: Randomly selects batch_size image from all training data. 
 	# Pre-processes image to match the target_dim
 	# Organizez batch_size images and labels to be returned. 
 	# ToDo: Split into sub-functions
-	def next_batch(self, batch_size):
+	def next_batch(self, batch_size, validation=False):
+
+		# Select which dataset to use: training or validation
+		filelist = self._validlist if validation else self._trainlist
 
 		im_size = self._target_dim * self._target_dim
 
@@ -81,8 +108,8 @@ class ParticleSet(object):
 		# Find batch_size images and labels, and place in data and labels list. 
 		for n in range(batch_size):
 			# Iterate through each sub-section of the class
-			file_sel = randrange(len(self._filelist)) # Returns int between [0 to len(felist)-1]
-			file_name = self._filelist[file_sel]
+			file_sel = randrange(len(filelist)) # Returns int between [0 to len(felist)-1]
+			file_name = filelist[file_sel]
 
 			### PREPROCESS IMAGE AND APPEND TO DATA STRUCT ###
 			# Imresize is just a wrapper around PIL's resize function. 

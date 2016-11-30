@@ -68,9 +68,10 @@ def main():
 	#### Variable Setup ####
 	target_dim = 52
 	class_size = 4
+	validation_proportion = 0.1
 
 	# Create particle data object for getting training/validation data 
-	particle_data = batch.ParticleSet(base_directory, directroy_map, class_size, target_dim)
+	particle_data = batch.ParticleSet(base_directory, directroy_map, class_size, target_dim, validation_proportion)
 
 	# Initiate Session: Interactive sessions allows for interleaving instructions that make graph and run graph. 
 	sess = tf.InteractiveSession()
@@ -206,9 +207,9 @@ def main():
 		if (i%step_display == 0) or (not TRAINING):
 
 			# Obtain training data
-			data, labels = particle_data.next_batch(validation_batch_size)
+			data, labels = particle_data.next_batch(validation_batch_size, validation=True)
 
-			# Evaluates the accuracy and cross_entropy (doesn't drop nodes during evaluatoin)
+			# Evaluates the accuracy and cross_entropy (doesn't drop nodes during evaluation)
 			# Obtain all values from graph in single session. 
 			train_accuracy, train_loss, truth_train, inaccurate_train = sess.run([accuracy, cross_entropy, ground_truth, inaccurate_pred],feed_dict={x: data, y_: labels, keep_prob: 1.0})
 			print("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
@@ -247,7 +248,7 @@ def main():
 	
 
 	###  FINAL SUMMARY ###
-	data, labels = particle_data.next_batch(validation_batch_size)
+	data, labels = particle_data.next_batch(validation_batch_size, validation=True)
 	#Prints the final accuracy
 	print("Final Accuracy %1.3f \n\n"%accuracy.eval(feed_dict={x: data, y_: labels, keep_prob: 1.0}))
 
