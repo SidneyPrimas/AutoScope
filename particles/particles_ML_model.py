@@ -10,8 +10,8 @@ import matplotlib.pyplot as plt
 import particles_batch as batch
 
 # Global Variables
-DEBUG = False
-LOAD_ENABLE = True
+DEBUG = True
+LOAD_ENABLE = False
 TRAINING = True
 
 # ToDo: 
@@ -35,20 +35,20 @@ base_directory = "./data/IrisDB/"
 directroy_map = {
 	"IRIS-BACT": 0, 
 	"IRIS-RBC": 1, 
-	"IRIS-SPRM": 3, 
-	"IRIS-WBC": 2, 
-	"IRIS-CLUMP-WBCC": 2,
-	"IRIS-CLUMP-YSTS": 3,
-	"IRIS-CRYST-CAOX": 3,
-	"IRIS-CRYST-CAPH": 3,
-	"IRIS-CRYST-TPO4": 3,
-	"IRIS-CRYST-URIC": 3, 
-	"IRIS-HYAL": 3,
-	"IRIS-NHYAL-CELL": 3,
-	"IRIS-NHYAL-GRAN": 3,
-	"IRIS-NSQEP-REEP": 3,
-	"IRIS-NSQEP-TREP": 3,
-	"IRIS-SQEP": 3, 
+	"IRIS-SPRM": 2, 
+	"IRIS-WBC": 3, 
+	"IRIS-CLUMP-WBCC": 4,
+	"IRIS-CLUMP-YSTS": 5,
+	"IRIS-CRYST-CAOX": 6,
+	"IRIS-CRYST-CAPH": 7,
+	"IRIS-CRYST-TPO4": 8,
+	"IRIS-CRYST-URIC": 9, 
+	"IRIS-HYAL": 10,
+	"IRIS-NHYAL-CELL": 11,
+	"IRIS-NHYAL-GRAN": 12,
+	"IRIS-NSQEP-REEP": 13,
+	"IRIS-NSQEP-TREP": 14,
+	"IRIS-SQEP": 15, 
 }
 
 
@@ -67,7 +67,7 @@ def main():
 
 	#### Variable Setup ####
 	target_dim = 52
-	class_size = 4
+	class_size = 16
 	validation_proportion = 0.1
 
 	# Create particle data object for getting training/validation data 
