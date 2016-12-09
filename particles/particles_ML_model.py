@@ -11,7 +11,7 @@ import particles_batch as batch
 
 # Global Variables
 DEBUG = False
-LOAD_ENABLE = True
+LOAD_ENABLE = False
 TRAINING = True
 
 # ToDo: 
@@ -33,22 +33,22 @@ base_directory = "./data/IrisDB/"
 
 # directory_map => dictionary with {folder_path : class number folder belong to}
 directroy_map = {
-	"IRIS-BACT": 0, 
-	"IRIS-RBC": 1, 
-	"IRIS-SPRM": 3, 
-	"IRIS-WBC": 2, 
-	"IRIS-CLUMP-WBCC": 2,
-	"IRIS-CLUMP-YSTS": 3,
-	"IRIS-CRYST-CAOX": 3,
-	"IRIS-CRYST-CAPH": 3,
-	"IRIS-CRYST-TPO4": 3,
-	"IRIS-CRYST-URIC": 3, 
-	"IRIS-HYAL": 3,
-	"IRIS-NHYAL-CELL": 3,
-	"IRIS-NHYAL-GRAN": 3,
-	"IRIS-NSQEP-REEP": 3,
-	"IRIS-NSQEP-TREP": 3,
-	"IRIS-SQEP": 3, 
+	"IRIS-BACT": 0, #0
+	"IRIS-RBC": 1, #1
+	"IRIS-SPRM": 2, #3
+	"IRIS-WBC": 3, #2
+	"IRIS-CLUMP-WBCC": 3,#2
+	"IRIS-CLUMP-YSTS": 5,#3
+	"IRIS-CRYST-CAOX": 4,
+	"IRIS-CRYST-CAPH": 4,
+	"IRIS-CRYST-TPO4": 4,
+	"IRIS-CRYST-URIC": 4, 
+	"IRIS-HYAL": 5,
+	"IRIS-NHYAL-CELL": 5,
+	"IRIS-NHYAL-GRAN": 5,
+	"IRIS-NSQEP-REEP": 5,
+	"IRIS-NSQEP-TREP": 5,
+	"IRIS-SQEP": 5, 
 }
 
 
@@ -56,10 +56,10 @@ def main():
 	### Configurable Variables ###
 	#training_iters = 10
 	train_batch_size = 100
-	validation_batch_size = 500
+	validation_batch_size = 100
 
 	step_display = 10
-	step_save = 10
+	step_save = 1000
 	learning_rate = 1e-4
 	dropout = 0.5
 	path_save = "./data/particle_model"
@@ -67,7 +67,7 @@ def main():
 
 	#### Variable Setup ####
 	target_dim = 52
-	class_size = 4
+	class_size = 6
 	validation_proportion = 0.1
 
 	# Create particle data object for getting training/validation data 
@@ -154,7 +154,31 @@ def main():
 	# Defines the loss function: Train all W and b in order to minimize loss across all training inputs. 
 	# Note on softmax_cross_entropy_with_logits: applies softmax across unnormalized data, and sums across all classes. 
 	# Notes on tf.reduce_mean: Computes the mean of the batch (so that we only update the variables once per batch). 
-	cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(y_conv, y_))
+	# Implementation without weighing: cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(y_conv, y_))
+
+	# Loss with Weights
+	# First, create list of weights for each class based on the proportion of images in that class. 
+	# Note: The more images for a class the lower the weight. 
+	# A weight is selected so that (probably_of_class_appearing)*(weight_for_class) = 1. 
+	# In this way, the loss in each class is re-balanced so that each class will see a similar amount of loss per batch. 
+	# This is better because othewise the loss that is used to train the NN will be dominated by feedback from a single class. 
+	total_images =  sum(particle_data.files_per_class.values())
+	weight = np.zeros((class_size))
+	prob_of_class = np.zeros((class_size))
+	for key, value in particle_data.files_per_class.iteritems():
+		prob_of_class[key] = value/float(total_images)
+		weight[key] = class_size/(prob_of_class[key] * class_size)
+
+	print "Probabiliyt of class based on image distribution: "
+	print prob_of_class
+	print "Calculated Weights: "
+	print weight
+
+	pos_weight = tf.constant(weight, dtype=tf.float32)
+
+	# The weighted cross entropy allows to adjust the loss through a pos_weight factor. 
+	# The positive weight factor allows us to adjust the loss based on the target (or true label).
+	cross_entropy = tf.reduce_mean(tf.nn.weighted_cross_entropy_with_logits(y_conv, y_, pos_weight))
 
 	# Uses Adam optimizer to update all variables in our system
 	# When we run train_step, we updated all W and b. 
@@ -163,13 +187,6 @@ def main():
 	# Operations for accuracy calculation. 
 	correct_prediction = tf.equal(tf.argmax(y_conv,1), tf.argmax(y_,1))
 	accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-	
-	# Breakdown of inaccuracies across classes
-	# Identifies the actual class when a prediction was wrong. 
-	# Important: We add 1 to argmax (increasing the class size by one) so that the 0 from an accurate prediction is not conflicting with class 0. 
-	ground_truth = tf.cast(tf.not_equal(tf.argmax(y_conv,1), tf.argmax(y_,1)), tf.int64) * (tf.argmax(y_,1) + 1)
-	# Identifies the class we mistakenly selected when a prediction is wrong. 
-	inaccurate_pred = tf.cast(tf.not_equal(tf.argmax(y_conv,1), tf.argmax(y_,1)), tf.int64) * (tf.argmax(y_conv,1) + 1)
 
 	### INITIALIZE ALL VARIABLES ###
 	# Create saver opject. 
@@ -187,7 +204,7 @@ def main():
 		saver.restore(sess, path_load)
 
 	### RUN GRAPH TO TRAIN SYSTEM ###
-	log=open('./log/log', 'a', 1)
+	log=open('./log/log_debug', 'a', 1)
 	i = 0
 	while (True):
 		i+=1
@@ -215,34 +232,33 @@ def main():
 
 			# Evaluates the accuracy and cross_entropy (doesn't drop nodes during evaluation)
 			# Obtain all values from graph in single session. 
-			train_accuracy, train_loss, truth_train, inaccurate_train = sess.run([accuracy, cross_entropy, ground_truth, inaccurate_pred],feed_dict={x: data, y_: labels, keep_prob: 1.0})
-			print >> log,("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
+			train_accuracy, train_loss, y_truth, y_pred = sess.run([accuracy, cross_entropy, y_, y_conv],feed_dict={x: data, y_: labels, keep_prob: 1.0})
 			
+			print >> log,("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
+			print ("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
 
-			# Note: GT_Classes are sorted 
-			truth_classes, truth_counts = np.unique(truth_train, return_counts=True)
-			truth_perc = 100*truth_counts/float(len(truth_train))
-			print >> log, "When wrong, correct solution:",
-			for n in range(len(truth_classes)): 
-				if (truth_classes[n] == 0):
-					print >> log,("\t Accurate: %2.2f, "%(truth_perc[n])),
-				else: 
-					# Subract 1 from n since needed to previously increase class by one to ensure no conflict with 0 from accurate prediction. 
-					c = truth_classes[n] - 1
-					print >> log,("Class %d: %2.2f, "%(c, truth_perc[n])),
-			print >> log, ""
 
-			inaccurate_classes, inaccurate_counts = np.unique(inaccurate_train, return_counts=True)
-			inaccurate_perc = 100*inaccurate_counts/float(len(inaccurate_train))
-			print >> log, "When wrong, incorrect guess:",
-			for n in range(len(inaccurate_classes)): 
-				if (inaccurate_classes[n] == 0):
-					print >> log,("\t Accurate: %2.2f, "%(inaccurate_perc[n])),
-				else: 
-					# Subract 1 from n since needed to previously increase class by one to ensure no conflict with 0 from accurate prediction. 
-					c = inaccurate_classes[n] - 1
-					print >> log,("Class %d: %2.2f, "%(c, inaccurate_perc[n])),
-			print >> log, "\n"
+
+			# Create confusion matrix
+			truth_class = np.argmax(y_truth, axis=1)
+			pred_class = np.argmax(y_pred, axis=1) 
+			confusion = np.zeros((class_size, class_size), dtype=float)
+			for num, truth_cl in enumerate(truth_class): 
+				confusion[truth_cl, pred_class[num]] += 1
+
+
+			print "Confusion Matrix:"
+			print confusion 
+			print >> log, "Confusion Matrix:"
+			print >> log, confusion 
+
+			print >> log, "Results:"
+			print >> log, truth_class
+			print >> log, pred_class
+			print >> log, "CNN Value:"
+			print >> log, y_pred
+			print >> log, "\n\n"
+
 
 			if (DEBUG):
 				x_image_out = x_image.eval(session=sess, feed_dict={x: data, y_: labels, keep_prob: 1.0})

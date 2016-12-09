@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from glob import glob
 import collections
 from random import randrange
+import collections
 
 #ToDo
 # Better implementaiton of file selection: Instead of current implementation, another alternative is to create two dictionaries, classes and directories. 
@@ -30,7 +31,10 @@ class ParticleSet(object):
 
 	    # Complete list of files use for training and validation (no overlap between categories)
 	    # validation_size: Size of the total dataset used for validation (not used for training).
+	    # TODO: Create struct for related variables. 
 	    self._trainlist, self._validlist, self._validation_size = self._create_filelists(validation_proportion)
+	    self._files_per_class = self._get_files_per_class()
+	    print self._files_per_class
 
 	    print "ParticleSet Initialized"
 	    print("Training Set Size: %d"%(len(self._trainlist)))
@@ -62,6 +66,22 @@ class ParticleSet(object):
 	def samples_completed(self):
 		return self._samples_completed
 
+	@property
+	def files_per_class(self):
+		return self._files_per_class
+
+	def _get_files_per_class(self): 
+		# Init dictionary to include ints (which are initialized to 0)
+		files_per_class = collections.defaultdict(int)
+
+		# Count files per directory
+		for key, value in self._directroy_map.iteritems():
+			dir_list = glob(self._root_dir + key + "/*.jpg")
+			files_per_class[value] += len(dir_list)
+
+		return files_per_class
+
+
 	# Description: Aggregates all filenames into trainlist and validlist
 	def _create_filelists(self, validation_proportion): 
 
@@ -69,8 +89,9 @@ class ParticleSet(object):
 		validlist = []
 		# Build list of all images use for both training and validation. 
 		for key in self._directroy_map:
-			trainlist.extend(glob(self._root_dir + key + "/*.jpg"))
-
+			dir_list = glob(self._root_dir + key + "/*.jpg")
+			trainlist.extend(dir_list )
+			
 
 		# Based on the total number of files in the dataset, determine the valid set. 
 		validation_size = int(len(trainlist)*validation_proportion)
@@ -84,8 +105,8 @@ class ParticleSet(object):
 			del trainlist[file_sel]
 
 
-
 		return trainlist, validlist, validation_size
+
 
 	# Description: Randomly selects batch_size image from all training data. 
 	# Pre-processes image to match the target_dim
@@ -136,6 +157,14 @@ class ParticleSet(object):
 			temp_labels = np.zeros((1, self._class_size))
 			temp_labels[0][cur_class] = 1
 			labels[n, :]= temp_labels
+
+			#TODO: Debug
+			# print "Debugging: %d"%(self._samples_completed)
+			# print "File_Name: %s"%(file_name)
+			# print "Key: %s"%(key)
+			# print "Current Class: %d"%(cur_class)
+			# print temp_labels
+			# print "\n"
 
 			# Increment sample tracking by 1
 			self._samples_completed += 1
