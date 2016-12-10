@@ -55,10 +55,10 @@ def main():
 
 	params.learning_rate = 1e-4
 	params.dropout = 0.5
-	params.target_dim = 64
+	params.target_dim = 128
 	params.class_size = len(np.unique(params.directory_map.values()))
 
-	params.data_directory = "./data/IrisDB_split/"
+	params.data_directory = "./data/IrisDB_process/"
 	params.filter_path = "./data/particle_model_filters"
 	params.fc_layers_path = "./data/particle_model_fc_layers-%d"%(params.class_size)
 	
@@ -308,10 +308,10 @@ def getLossWeights(particle_data, params):
 		prob_of_class[key] = value/float(total_images)
 		weight[key] = params.class_size/(prob_of_class[key] * params.class_size)
 
-	print "Probabability of class based on image distribution: "
-	print prob_of_class
-	print "Calculated Weights: "
-	print weight
+	print >> params.log,("Probabability of class based on image distribution: ")
+	print >> params.log,(prob_of_class)
+	print >> params.log,("Calculated Weights: ")
+	print >> params.log,(weight)
 
 	return weight
 	
