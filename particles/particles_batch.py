@@ -7,16 +7,10 @@ import matplotlib.pyplot as plt
 from glob import glob
 import collections
 from random import randrange
-import collections
-
-#ToDo
-# Better implementaiton of file selection: Instead of current implementation, another alternative is to create two dictionaries, classes and directories. 
-## The directory struct is used to randomly find files, giving equal distribution of all fiels in training. 
-## The classes is used to map the directory into it's class, using a dictionary of the following format {dir_path : class_num}
 
 class ParticleSet(object):
 
-	def __init__(self, root_dir, directroy_map, class_size, target_dim, validation_proportion=0.1):
+	def __init__(self, root_dir, directroy_map, class_size, target_dim):
 	    self._root_dir = root_dir
 	    # The map data structure that relates each directory to a specific class. 
 	    self._directroy_map = directroy_map
@@ -30,15 +24,11 @@ class ParticleSet(object):
 	    self._samples_completed = 0
 
 	    # Complete list of files use for training and validation (no overlap between categories)
-	    # validation_size: Size of the total dataset used for validation (not used for training).
-	    # TODO: Create struct for related variables. 
-	    self._trainlist, self._validlist, self._validation_size = self._create_filelists(validation_proportion)
-	    self._files_per_class = self._get_files_per_class()
-	    print self._files_per_class
-
-	    print "ParticleSet Initialized"
-	    print("Training Set Size: %d"%(len(self._trainlist)))
-	    print("Validation Set Size: %d"%(len(self._validlist)))
+	    # TODO: Create structure to hold directory/file info
+	    self._trainlist, self._validlist, self._files_per_class = self._create_filelists()
+		# Sanity check class_Size
+	    if (self._class_size != len(self._files_per_class)):
+	    	raise Exception("Class size does disagrees in different modules.")
 
 
   	# Note: @Property routes external calls to Class/Object properties through these functions. Allows for elegant constraint checking. 
@@ -70,42 +60,36 @@ class ParticleSet(object):
 	def files_per_class(self):
 		return self._files_per_class
 
-	def _get_files_per_class(self): 
-		# Init dictionary to include ints (which are initialized to 0)
-		files_per_class = collections.defaultdict(int)
+	@property
+	def trainlist(self):
+		return self._trainlist
 
-		# Count files per directory
-		for key, value in self._directroy_map.iteritems():
-			dir_list = glob(self._root_dir + key + "/*.jpg")
-			files_per_class[value] += len(dir_list)
-
-		return files_per_class
+	@property
+	def validlist(self):
+		return self._validlist
 
 
 	# Description: Aggregates all filenames into trainlist and validlist
-	def _create_filelists(self, validation_proportion): 
+	def _create_filelists(self): 
 
 		trainlist = []
 		validlist = []
+		# Init dictionary to include ints (which are initialized to 0)
+		files_per_class = collections.defaultdict(int)
+
 		# Build list of all images use for both training and validation. 
-		for key in self._directroy_map:
-			dir_list = glob(self._root_dir + key + "/*.jpg")
-			trainlist.extend(dir_list )
-			
+		for key, value in self._directroy_map.iteritems():
+			# Create train dataset
+			dir_list_train = glob(self._root_dir + "Training/" + key + "/*.jpg")
+			trainlist.extend(dir_list_train)
 
-		# Based on the total number of files in the dataset, determine the valid set. 
-		validation_size = int(len(trainlist)*validation_proportion)
+			# Create validation dataset
+			dir_list_valid = glob(self._root_dir + "Validation/" + key + "/*.jpg")
+			validlist.extend(dir_list_valid)
 
-		# Move number of original images (validation_size) into validlist. Remove them from trainlist. 
-		for i in range(validation_size):
-			file_sel = randrange(len(trainlist)) # Returns int between [0 to len(trainlist)-1]
-			# Add the selected file to the validation set
-			validlist.append(trainlist[file_sel])
-			# Remove the file 
-			del trainlist[file_sel]
+			files_per_class[value] += len(dir_list_train) + len(dir_list_valid)
 
-
-		return trainlist, validlist, validation_size
+		return trainlist, validlist, files_per_class
 
 
 	# Description: Randomly selects batch_size image from all training data. 
