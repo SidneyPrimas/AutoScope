@@ -15,13 +15,16 @@ import ml_model as ml_model
 
 # Global Variables
 DEBUG = False
+EQUAL_IMAGES_PER_CLASS = True
 LOAD_FILTERS = False
 LOAD_FC_LAYERS = False
 TRAINING = True
 
 # ToDo: 
 ## Create wrapper function that just creates the basic neural network (this allows us seperate validation and training)
-
+## Create a count of the number of iterations in TF. 
+## Switch to sparse softmax (faster computation)
+## Create a global debug statement to enable all debug print statements
 
 directory_map = {
 	"IRIS-BACT": 0, 		#0
@@ -50,8 +53,10 @@ def main():
 	params.train_batch_size = 100
 	params.validation_batch_size = 100
 
-	params.step_display = 10
+	params.step_display = 3
 	params.step_save = 10
+	params.step_count = 0
+	params.image_trained_count = 0
 
 	params.learning_rate = 1e-4
 	params.dropout = 0.5
@@ -153,20 +158,24 @@ def main():
 	### SETUP LOSS FUNCTION AND TRAINING IN GRAPH ###
 	# Defines the loss function: Train all W and b in order to minimize loss across all training inputs. 
 	# Note on softmax_cross_entropy_with_logits: applies softmax across unnormalized data, and sums across all classes. 
+	# Note on sparse_softmax_cross_entropy_with_logits: Used when label can only be a single result per lable (and not a distribution)
 	# Notes on tf.reduce_mean: Computes the mean of the batch (so that we only update the variables once per batch). 
+	if EQUAL_IMAGES_PER_CLASS: 
+		cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(y_conv, y_))
 
-	# Determine loss function with weights according to proportion of images. 
-	# Create list of weights for each class based on the proportion of images in that class. 
-	# Note: The more images for a class the lower the weight. 
-	# A weight is selected so that (probably_of_class_appearing)*(weight_for_class) = 1. 
-	# In this way, the loss in each class is re-balanced so that each class will see a similar amount of loss per batch. 
-	# This is better because othewise the loss that is used to train the NN will be dominated by feedback from a single class. 
-	weight = getLossWeights(particle_data, params)
-	pos_weight = tf.constant(weight, dtype=tf.float32)
+	else:
+		# Determine loss function with weights according to proportion of images. 
+		# Create list of weights for each class based on the proportion of images in that class. 
+		# Note: The more images for a class the lower the weight. 
+		# A weight is selected so that (probably_of_class_appearing)*(weight_for_class) = 1. 
+		# In this way, the loss in each class is re-balanced so that each class will see a similar amount of loss per batch. 
+		# This is better because othewise the loss that is used to train the NN will be dominated by feedback from a single class. 
+		loss_weight_per_class = getLossWeights(particle_data, params)
+		pos_weight = tf.constant(loss_weight_per_class, dtype=tf.float32)
 
-	# The weighted cross entropy allows to adjust the loss through a pos_weight factor. 
-	# The positive weight factor allows us to adjust the loss based on the target (or true label).
-	cross_entropy = tf.reduce_mean(tf.nn.weighted_cross_entropy_with_logits(y_conv, y_, pos_weight))
+		# The weighted cross entropy allows to adjust the loss through a pos_weight factor. 
+		# The positive weight factor allows us to adjust the loss based on the target (or true label).
+		cross_entropy = tf.reduce_mean(tf.nn.weighted_cross_entropy_with_logits(y_conv, y_, pos_weight))
 
 	# Uses Adam optimizer to update all variables in our system
 	# When we run train_step, we updated all W and b. 
@@ -199,19 +208,19 @@ def main():
 
 
 	### RUN GRAPH TO TRAIN SYSTEM ###
-	i = 0
 	while (True):
-		i+=1
+		params.step_count+=1
 
 		# Train
 		#Runs a single train step with a single batch using a keep probability of 0.5
 		if (TRAINING):
+			params.image_trained_count += params.train_batch_size
 			# Obtain training data
-			data, labels = particle_data.next_batch(params.train_batch_size)
+			data, labels = particle_data.next_batch(params.train_batch_size, validation=False, per_class_order=EQUAL_IMAGES_PER_CLASS)
 			train_step.run(feed_dict={x: data, y_: labels, keep_prob: params.dropout})
 
 		# Save model 
-		if (i%params.step_save == 0) and TRAINING: 
+		if (params.step_count%params.step_save == 0) and TRAINING: 
 			# Save variables (save filters and fully connected layers seperately)
 			saver_filters.save(sess, params.filter_path)
 			saver_fc_layers.save(sess, params.fc_layers_path)
@@ -220,17 +229,17 @@ def main():
 
 
 		# Display Results
-		if (i%params.step_display == 0) or (not TRAINING):
+		if (params.step_count%params.step_display == 0) or (not TRAINING):
 
 			# Obtain training data
-			data, labels = particle_data.next_batch(params.validation_batch_size, validation=True)
+			data, labels = particle_data.next_batch(params.validation_batch_size, validation=True, per_class_order=EQUAL_IMAGES_PER_CLASS)
 
 			# Evaluates the accuracy and cross_entropy (doesn't drop nodes during evaluation)
 			# Obtain all values from graph in single session. 
 			train_accuracy, train_loss, y_truth, y_pred = sess.run([accuracy, cross_entropy, y_, y_conv],feed_dict={x: data, y_: labels, keep_prob: 1.0})
 			
-			print >> params.log,("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
-			print ("step: %d, batch loss: %2.6f, training accuracy: %1.3f "%(i, train_loss, train_accuracy))
+			print >> params.log,("Step: %d, Images Trained: %d, Batch loss: %2.6f, Training accuracy: %1.3f "%(params.step_count, params.image_trained_count, train_loss, train_accuracy))
+			print ("Step: %d, Images Trained: %d, Batch loss: %2.6f, Training accuracy: %1.3f"%(params.step_count, params.image_trained_count, train_loss, train_accuracy))
 
 			# Create and confusion matrix
 			log_confusion_matrix(y_truth, y_pred, params)
@@ -289,6 +298,9 @@ def log_confusion_matrix(y_truth, y_pred, params):
 def print_log_header(particle_data, params):
 	print >> params.log,("###### HEADER START ###### \n")
 	print >> params.log,("Log file: %s")%(params.log.name)
+	print >> params.log,("Equal Images Per Class (%r)")%(EQUAL_IMAGES_PER_CLASS)
+	print >> params.log,("Save Filter Model (%r): %s")%(LOAD_FILTERS, params.filter_path)
+	print >> params.log,("Save FC Layer Model (%r): %s")%(LOAD_FC_LAYERS, params.fc_layers_path)
 	print >> params.log,("Number of Classes: %d")%(params.class_size)
 	print >> params.log,("Image Dimension: %dx%d")%(params.target_dim, params.target_dim)
 	print >> params.log,("Training Set Size: %d")%(len(particle_data.trainlist))
@@ -312,6 +324,7 @@ def getLossWeights(particle_data, params):
 	print >> params.log,(prob_of_class)
 	print >> params.log,("Calculated Weights: ")
 	print >> params.log,(weight)
+	print >> params.log,("\n\n")
 
 	return weight
 	

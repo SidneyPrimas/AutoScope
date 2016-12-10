@@ -12,6 +12,8 @@ class ML_Model_Parameters(object):
         self.validation_batch_size = 0
         self.step_display = 0
         self.step_save = 0
+        self.step_count = 0 
+        self.image_trained_count = 0
         self.learning_rate = 0
         self.dropout = 0
         self.target_dim = 0
@@ -24,4 +26,4 @@ class ML_Model_Parameters(object):
         # Creat Log (Append data, and flush to file)
         now = datetime.datetime.now()
         log_file_name = now.strftime("./log/log_%Y-%m-%d_%H:%M:%S")
-        self.log=open(log_file_name,  'a', 1000)
+        self.log=open(log_file_name,  'a', 250)
