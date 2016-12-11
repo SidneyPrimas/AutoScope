@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import datetime
 import pprint
 from collections import namedtuple
+import matplotlib.gridspec as gridspec
 
 import particles_batch as batch
 import ml_model as ml_model
@@ -16,9 +17,10 @@ import ml_model as ml_model
 # Global Variables
 DEBUG = False
 EQUAL_IMAGES_PER_CLASS = True
-LOAD_FILTERS = False
+LOAD_FILTERS = True
 LOAD_FC_LAYERS = False
-TRAINING = True
+TRAINING = False
+VISUALIZE_FILTERS = True
 
 # ToDo: 
 ## Create wrapper function that just creates the basic neural network (this allows us seperate validation and training)
@@ -199,8 +201,8 @@ def main():
 	# Restore variables (weights) from previous training sessions. 
 	# We over-write the initilized values with weights from previous session
 	if (LOAD_FILTERS): 
-		saver_filters.restore(sess, params.filter_path)
-		print >> params.log,("Restored Filters from: %s")%(params.filter_path)
+		saver_filters.restore(sess, "./data/saved_models/particle_model_filters_6classes_basicGraph_imagesPerClass_v1")
+		print >> params.log,("Restored Filters from: %s")%("./data/saved_models/particle_model_filters_6classes_basicGraph_imagesPerClass_v1")
 
 	if (LOAD_FC_LAYERS): 
 		saver_fc_layers.restore(sess, params.fc_layers_path)
@@ -242,6 +244,12 @@ def main():
 			
 			# Create and confusion matrix
 			log_confusion_matrix(y_truth, y_pred, params)
+
+			# Visualize Filter
+			if (VISUALIZE_FILTERS):
+				filters1, filters2 = sess.run([W_conv1, W_conv2],feed_dict={x: data, y_: labels, keep_prob: 1.0})
+				visualizeFilters(filters1)
+				visualizeFilters(filters2)
 
 			# Print images used in this batch
 			if (DEBUG):
@@ -326,6 +334,17 @@ def getLossWeights(particle_data, params):
 
 	return weight
 	
+def visualizeFilters(filter_struct):
+	plt.figure(figsize = (8, 8))
+	gs1 = gridspec.GridSpec(8, 8, wspace=0.0, hspace=0.0)
+
+	for i in range(0, np.shape(filter_struct)[3]):
+		ax1 = plt.subplot(gs1[i])
+		plt.imshow(filter_struct[:, :,0,i])
+		plt.axis('off')
+
+	plt.savefig("./data/test.png",bbox_inches='tight')
+	plt.show()
 
 def visualizeData(data, labels, step):
 	for i in range(0, np.shape(data)[0], step):

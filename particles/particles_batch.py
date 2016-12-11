@@ -174,7 +174,6 @@ class ParticleSet(object):
 			temp_im = misc.imread(file_name)
 			# If the image is not the expected shape (compare using tuples_, resize it
 			if (temp_im.shape != (self._target_dim, self._target_dim)):
-				print "Kill me"
 				# Imresize is just a wrapper around PIL's resize function. 
 				# Imresize upsamples and downsamples the image. 
 				# Upsampling: Essentially, we upsample by introducing 0 ponits in the matrix, and then use bilinear interpolation. 
