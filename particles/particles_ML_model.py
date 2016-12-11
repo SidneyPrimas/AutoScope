@@ -27,22 +27,22 @@ TRAINING = True
 ## Create a global debug statement to enable all debug print statements
 
 directory_map = {
-	"IRIS-BACT": 0, 		#0
-	"IRIS-RBC": 1, 			#1
-	"IRIS-SPRM": 3, 		#3
-	"IRIS-WBC": 2, 			#2
-	"IRIS-CLUMP-WBCC": 2,	#2
-	"IRIS-CLUMP-YSTS": 3,	#3
-	"IRIS-CRYST-CAOX": 3,	#3
-	"IRIS-CRYST-CAPH": 3,	#3
-	"IRIS-CRYST-TPO4": 3,	#3
-	"IRIS-CRYST-URIC": 3, 	#3
-	"IRIS-HYAL": 3,			#3
-	"IRIS-NHYAL-CELL": 3,	#3
-	"IRIS-NHYAL-GRAN": 3,	#3
-	"IRIS-NSQEP-REEP": 3,	#3
-	"IRIS-NSQEP-TREP": 3,	#3
-	"IRIS-SQEP": 3, 		#3
+    "IRIS-BACT": 0,         #0
+    "IRIS-RBC": 1,          #1
+    "IRIS-SPRM": 5,         #3
+    "IRIS-WBC": 2,          #2
+    "IRIS-CLUMP-WBCC": 2,   #2
+    "IRIS-CLUMP-YSTS": 5,   #3
+    "IRIS-CRYST-CAOX": 3,   #3
+    "IRIS-CRYST-CAPH": 3,   #3
+    "IRIS-CRYST-TPO4": 3,   #3
+    "IRIS-CRYST-URIC": 3,   #3
+    "IRIS-HYAL": 4,         #3
+    "IRIS-NHYAL-CELL": 4,   #3
+    "IRIS-NHYAL-GRAN": 4,   #3
+    "IRIS-NSQEP-REEP": 5,   #3
+    "IRIS-NSQEP-TREP": 5,   #3
+    "IRIS-SQEP": 5,         #3
 }
 
 
@@ -53,8 +53,8 @@ def main():
 	params.train_batch_size = 100
 	params.validation_batch_size = 300
 
-	params.step_display = 10
-	params.step_save = 10
+	params.step_display = 100
+	params.step_save = 500
 	params.step_count = 0
 	params.image_trained_count = 0
 
