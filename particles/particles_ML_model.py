@@ -286,9 +286,10 @@ def log_confusion_matrix(y_truth, y_pred, params):
 	print >> params.log, "Confusion Matrix:"
 	print >> params.log, confusion 
 
-	print >> params.log, "Results:"
-	print >> params.log, truth_class
-	print >> params.log, pred_class
+	# Debug
+	# print >> params.log, "Results:"
+	# print >> params.log, truth_class
+	# print >> params.log, pred_class
 	print >> params.log, "\n\n"
 
 # Print log header, summarizing this model. 
