@@ -60,10 +60,10 @@ def main():
 
 	params.learning_rate = 1e-4
 	params.dropout = 0.5
-	params.target_dim = 128
+	params.target_dim = 64
 	params.class_size = len(np.unique(params.directory_map.values()))
 
-	params.data_directory = "./data/IrisDB_process/"
+	params.data_directory = "./data/IrisDB/"
 	params.filter_path = "./data/particle_model_filters"
 	params.fc_layers_path = "./data/particle_model_fc_layers-%d"%(params.class_size)
 	
