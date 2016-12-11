@@ -64,7 +64,7 @@ def main():
 	params.class_size = len(np.unique(params.directory_map.values()))
 
 	params.data_directory = "./data/IrisDB/"
-	params.filter_path = "./data/particle_model_filters"
+	params.filter_path = "./data/particle_model_filters_2times2Layers"
 	params.fc_layers_path = "./data/particle_model_fc_layers-%d"%(params.class_size)
 	
 
@@ -94,28 +94,38 @@ def main():
 	# Note: Increase channels from 1 to 32 while reducing pixels by 4. 
 	# Define the Filter: The weight variable is a 5x5 kernel (the filter). 
 	# The convolutional layer transforms 1 input channel (greyscale) to 32 output channels (32 is arbitrary)
-	W_conv1 = weight_variable([5, 5, 1, 32], name='W_conv1')
+	W_conv1_a = weight_variable([3, 3, 1, 32], name='W_conv1_a')
 	# Define the bias for each channel. 
-	b_conv1 = bias_variable([32], name='b_conv1')
+	b_conv1_a = bias_variable([32], name='b_conv1_a')
+
+	# Additional convolusional layer
+	W_conv1_b = weight_variable([3, 3, 32, 32], name='W_conv1_b')
+	b_conv1_b = bias_variable([32], name='b_conv1_b')
 
 	# Perform Convolution: Convolve x_image with W_conv1 filter, and add the offset. 
 	# Then, for each channel of each pixel, take the ReLU. 
 	# Size of h_conv1: [batch, 52, 52, 32]
-	h_conv1 = tf.nn.relu(conv2d(x_image, W_conv1) + b_conv1)
+	h_conv1_a = tf.nn.relu(conv2d(x_image, W_conv1_a) + b_conv1_a)
+	h_conv1_b = tf.nn.relu(conv2d(h_conv1_a, W_conv1_b) + b_conv1_b)
 	# Perfomr Max Pooling: Performs max pooling on the input, striding across the data with 2x2 matrices. 
 	# Essentially, we reduce each non-overlapping 2x2 matrix into a single data point. 
 	# Output has shape of [batch, 26, 26, 32], where 15 is the batch size.
-	h_pool1 = max_pool_2x2(h_conv1)
+	h_pool1 = max_pool_2x2(h_conv1_b)
 
 
 	# Calculate the 2nd layer. Here, we increase the channels from 32 input to 64 output. 
 	#### LAYER 2: CONVOLUTIONAL LAYER ####
 	# Note: Inceasing channels from 32 to 64 while reducing pixels by 4. 
-	W_conv2 = weight_variable([5, 5, 32, 64], name='W_conv2')
-	b_conv2 = bias_variable([64], name='b_conv2')
+	W_conv2_a = weight_variable([3, 3, 32, 64], name='W_conv2_a')
+	b_conv2_a = bias_variable([64], name='b_conv2_a')
 
-	h_conv2 = tf.nn.relu(conv2d(h_pool1, W_conv2) + b_conv2)
-	h_pool2 = max_pool_2x2(h_conv2)
+	# Additional convolusional layer
+	W_conv2_b = weight_variable([3, 3, 64, 64], name='W_conv2_b')
+	b_conv2_b = bias_variable([64], name='b_conv2_b')
+
+	h_conv2_a = tf.nn.relu(conv2d(h_pool1, W_conv2_a) + b_conv2_a)
+	h_conv2_b = tf.nn.relu(conv2d(h_conv2_a, W_conv2_b) + b_conv2_b)
+	h_pool2 = max_pool_2x2(h_conv2_b)
 
 	#### LAYER 3: DENSELEY CONNECTED LAYER ####
 	# Note: A denseley connected layer starts using a regression model to translate data into evidence.  
@@ -188,7 +198,7 @@ def main():
 	### INITIALIZE ALL VARIABLES ###
 	# Create saver opject. 
 	# Note: Since no variables are explicitly specified, saver stores all trainable variables. 
-	saver_filters = tf.train.Saver([W_conv1, b_conv1, W_conv2, b_conv2])
+	saver_filters = tf.train.Saver([W_conv1_a, b_conv1_a, W_conv1_b, b_conv1_b, W_conv2_a, b_conv2_a, W_conv2_b, b_conv2_b])
 
 	saver_fc_layers = tf.train.Saver([W_fc1, b_fc1, W_fc2, b_fc2])
 
@@ -296,6 +306,7 @@ def log_confusion_matrix(y_truth, y_pred, params):
 def print_log_header(particle_data, params):
 	print >> params.log,("###### HEADER START ###### \n")
 	print >> params.log,("Log file: %s")%(params.log.name)
+	print >> params.log,("Graph: 2 Convolutional Layers with 2 Convolutions at 3x3")
 	print >> params.log,("Equal Images Per Class: (%r)")%(EQUAL_IMAGES_PER_CLASS)
 	print >> params.log,("Filter Model (%s), Saved at: %s")%("Loaded" if LOAD_FILTERS else "Not Loaded", params.filter_path)
 	print >> params.log,("FC Layer Model (%s), Saved at: %s")%("Loaded" if LOAD_FC_LAYERS else "Not Loaded", params.fc_layers_path)
