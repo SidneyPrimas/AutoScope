@@ -29,20 +29,20 @@ TRAINING = True
 directory_map = {
 	"IRIS-BACT": 0, 		#0
 	"IRIS-RBC": 1, 			#1
-	"IRIS-SPRM": 2, 		#3
-	"IRIS-WBC": 3, 			#2
-	"IRIS-CLUMP-WBCC": 3,	#2
-	"IRIS-CLUMP-YSTS": 5,	#3
-	"IRIS-CRYST-CAOX": 4,	#3
-	"IRIS-CRYST-CAPH": 4,	#3
-	"IRIS-CRYST-TPO4": 4,	#3
-	"IRIS-CRYST-URIC": 4, 	#3
-	"IRIS-HYAL": 5,			#3
-	"IRIS-NHYAL-CELL": 5,	#3
-	"IRIS-NHYAL-GRAN": 5,	#3
-	"IRIS-NSQEP-REEP": 5,	#3
-	"IRIS-NSQEP-TREP": 5,	#3
-	"IRIS-SQEP": 5, 		#3
+	"IRIS-SPRM": 3, 		#3
+	"IRIS-WBC": 2, 			#2
+	"IRIS-CLUMP-WBCC": 2,	#2
+	"IRIS-CLUMP-YSTS": 3,	#3
+	"IRIS-CRYST-CAOX": 3,	#3
+	"IRIS-CRYST-CAPH": 3,	#3
+	"IRIS-CRYST-TPO4": 3,	#3
+	"IRIS-CRYST-URIC": 3, 	#3
+	"IRIS-HYAL": 3,			#3
+	"IRIS-NHYAL-CELL": 3,	#3
+	"IRIS-NHYAL-GRAN": 3,	#3
+	"IRIS-NSQEP-REEP": 3,	#3
+	"IRIS-NSQEP-TREP": 3,	#3
+	"IRIS-SQEP": 3, 		#3
 }
 
 
@@ -51,9 +51,9 @@ def main():
 	params = ml_model.ML_Model_Parameters()
 	params.directory_map = directory_map
 	params.train_batch_size = 100
-	params.validation_batch_size = 100
+	params.validation_batch_size = 300
 
-	params.step_display = 3
+	params.step_display = 10
 	params.step_save = 10
 	params.step_count = 0
 	params.image_trained_count = 0
@@ -298,9 +298,9 @@ def log_confusion_matrix(y_truth, y_pred, params):
 def print_log_header(particle_data, params):
 	print >> params.log,("###### HEADER START ###### \n")
 	print >> params.log,("Log file: %s")%(params.log.name)
-	print >> params.log,("Equal Images Per Class (%r)")%(EQUAL_IMAGES_PER_CLASS)
-	print >> params.log,("Save Filter Model (%r): %s")%(LOAD_FILTERS, params.filter_path)
-	print >> params.log,("Save FC Layer Model (%r): %s")%(LOAD_FC_LAYERS, params.fc_layers_path)
+	print >> params.log,("Equal Images Per Class: (%r)")%(EQUAL_IMAGES_PER_CLASS)
+	print >> params.log,("Filter Model (%s), Saved at: %s")%("Loaded" if LOAD_FILTERS else "Not Loaded", params.filter_path)
+	print >> params.log,("FC Layer Model (%s), Saved at: %s")%("Loaded" if LOAD_FC_LAYERS else "Not Loaded", params.fc_layers_path)
 	print >> params.log,("Number of Classes: %d")%(params.class_size)
 	print >> params.log,("Image Dimension: %dx%d")%(params.target_dim, params.target_dim)
 	print >> params.log,("Training Set Size: %d")%(len(particle_data.trainlist))
