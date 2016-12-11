@@ -239,8 +239,7 @@ def main():
 			train_accuracy, train_loss, y_truth, y_pred = sess.run([accuracy, cross_entropy, y_, y_conv],feed_dict={x: data, y_: labels, keep_prob: 1.0})
 			
 			print >> params.log,("Step: %d, Images Trained: %d, Batch loss: %2.6f, Training accuracy: %1.3f "%(params.step_count, params.image_trained_count, train_loss, train_accuracy))
-			print ("Step: %d, Images Trained: %d, Batch loss: %2.6f, Training accuracy: %1.3f"%(params.step_count, params.image_trained_count, train_loss, train_accuracy))
-
+			
 			# Create and confusion matrix
 			log_confusion_matrix(y_truth, y_pred, params)
 
@@ -284,8 +283,6 @@ def log_confusion_matrix(y_truth, y_pred, params):
 		confusion[truth_cl, pred_class[num]] += 1
 
 
-	print "Confusion Matrix:"
-	print confusion 
 	print >> params.log, "Confusion Matrix:"
 	print >> params.log, confusion 
 
