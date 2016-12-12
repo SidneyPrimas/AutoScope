@@ -19,7 +19,7 @@ DEBUG = False
 EQUAL_IMAGES_PER_CLASS = True
 LOAD_FILTERS = True
 LOAD_FC_LAYERS = False
-TRAINING = False
+TRAINING = True
 VISUALIZE_FILTERS = True
 
 # ToDo: 
@@ -27,6 +27,11 @@ VISUALIZE_FILTERS = True
 ## Create a count of the number of iterations in TF. 
 ## Switch to sparse softmax (faster computation)
 ## Create a global debug statement to enable all debug print statements
+
+# To Get in Correct State: 
+## Change load file path (hardcoded)
+## Increase iteration number
+## Turn off/on visualization 
 
 directory_map = {
     "IRIS-BACT": 0,         #0
@@ -55,8 +60,8 @@ def main():
 	params.train_batch_size = 100
 	params.validation_batch_size = 300
 
-	params.step_display = 100
-	params.step_save = 500
+	params.step_display = 1
+	params.step_save = 1
 	params.step_count = 0
 	params.image_trained_count = 0
 
