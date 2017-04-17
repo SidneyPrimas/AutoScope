@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import matplotlib.image as mpimg
-import matplotlib.pyplot as plt
 import datetime
 import pprint
 from collections import namedtuple
@@ -27,6 +26,11 @@ VISUALIZE_FILTERS = True
 ## Create a count of the number of iterations in TF. 
 ## Switch to sparse softmax (faster computation)
 ## Create a global debug statement to enable all debug print statements
+
+# To Get in Correct State: 
+## Change load file path (hardcoded)
+## Increase iteration number
+## Turn off/on visualization 
 
 directory_map = {
     "IRIS-BACT": 0,         #0
