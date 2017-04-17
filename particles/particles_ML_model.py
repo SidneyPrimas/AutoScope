@@ -14,12 +14,12 @@ import particles_batch as batch
 import ml_model as ml_model
 
 # Global Variables
-DEBUG = False
+DEBUG = True
 EQUAL_IMAGES_PER_CLASS = True
 LOAD_FILTERS = True
 LOAD_FC_LAYERS = False
 TRAINING = True
-VISUALIZE_FILTERS = True
+VISUALIZE_FILTERS = False
 
 # ToDo: 
 ## Create wrapper function that just creates the basic neural network (this allows us seperate validation and training)
@@ -35,20 +35,20 @@ VISUALIZE_FILTERS = True
 directory_map = {
     "IRIS-BACT": 0,         #0
     "IRIS-RBC": 1,          #1
-    "IRIS-SPRM": 5,         #3
+    "IRIS-SPRM": 3,         #3
     "IRIS-WBC": 2,          #2
     "IRIS-CLUMP-WBCC": 2,   #2
-    "IRIS-CLUMP-YSTS": 5,   #3
+    "IRIS-CLUMP-YSTS": 3,   #3
     "IRIS-CRYST-CAOX": 3,   #3
     "IRIS-CRYST-CAPH": 3,   #3
     "IRIS-CRYST-TPO4": 3,   #3
     "IRIS-CRYST-URIC": 3,   #3
-    "IRIS-HYAL": 4,         #3
-    "IRIS-NHYAL-CELL": 4,   #3
-    "IRIS-NHYAL-GRAN": 4,   #3
-    "IRIS-NSQEP-REEP": 5,   #3
-    "IRIS-NSQEP-TREP": 5,   #3
-    "IRIS-SQEP": 5,         #3
+    "IRIS-HYAL": 3,         #3
+    "IRIS-NHYAL-CELL": 3,   #3
+    "IRIS-NHYAL-GRAN": 3,   #3
+    "IRIS-NSQEP-REEP": 3,   #3
+    "IRIS-NSQEP-TREP": 3,   #3
+    "IRIS-SQEP": 3,         #3
 }
 
 
