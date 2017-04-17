@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import matplotlib.image as mpimg
-import matplotlib.pyplot as plt
 import datetime
 import pprint
 from collections import namedtuple
@@ -206,8 +205,8 @@ def main():
 	# Restore variables (weights) from previous training sessions. 
 	# We over-write the initilized values with weights from previous session
 	if (LOAD_FILTERS): 
-		saver_filters.restore(sess, "./data/saved_models/particle_model_filters_6classes_basicGraph_imagesPerClass_v1")
-		print >> params.log,("Restored Filters from: %s")%("./data/saved_models/particle_model_filters_6classes_basicGraph_imagesPerClass_v1")
+		saver_filters.restore(sess, "./data/saved_models/particle_model_filters_6classes_basicGraph_imagesPerClass_newImages_178_v2")
+		print >> params.log,("Restored Filters from: %s")%("./data/saved_models/particle_model_filters_6classes_basicGraph_imagesPerClass_newImages_178_v2")
 
 	if (LOAD_FC_LAYERS): 
 		saver_fc_layers.restore(sess, params.fc_layers_path)
