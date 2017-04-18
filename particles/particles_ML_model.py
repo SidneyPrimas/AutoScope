@@ -14,23 +14,27 @@ import particles_batch as batch
 import ml_model as ml_model
 
 # Global Variables
-DEBUG = True
+DEBUG = False
 EQUAL_IMAGES_PER_CLASS = True
 LOAD_FILTERS = True
 LOAD_FC_LAYERS = False
 TRAINING = True
 VISUALIZE_FILTERS = False
 
+# Current Setup of Neural Network: 
+## The neural net currently has 5 layers, with each convolutional layer having two convolutionals built into it. So, counting these sublayers, we have a 7-layer network.
+
+# To Get in Correct State: 
+## Change load file path (hardcoded)
+## Update the target_dim based on the size of the input image
+## Increase iteration number to display/save
+## Turn off/on visualization 
+
 # ToDo: 
 ## Create wrapper function that just creates the basic neural network (this allows us seperate validation and training)
 ## Create a count of the number of iterations in TF. 
 ## Switch to sparse softmax (faster computation)
 ## Create a global debug statement to enable all debug print statements
-
-# To Get in Correct State: 
-## Change load file path (hardcoded)
-## Increase iteration number
-## Turn off/on visualization 
 
 directory_map = {
     "IRIS-BACT": 0,         #0
@@ -66,10 +70,10 @@ def main():
 
 	params.learning_rate = 1e-4
 	params.dropout = 0.5
-	params.target_dim = 64
+	params.target_dim = 116
 	params.class_size = len(np.unique(params.directory_map.values()))
 
-	params.data_directory = "./data/IrisDB/"
+	params.data_directory = "./data/IrisDB_resampling/"
 	params.filter_path = "./data/particle_model_filters_2times2Layers"
 	params.fc_layers_path = "./data/particle_model_fc_layers-%d"%(params.class_size)
 	
@@ -157,7 +161,7 @@ def main():
 	# Note: The placeholder allows us to insert the dropout probability during training, and remove it during testing. 
 	keep_prob = tf.placeholder(tf.float32)
 	# Note: The dropout function drops nodes in graph. 
-	# Note: For nodes it keeps, it scales by 1/keep_prob. And sets other elements to 0. This should keep the expected sume the same. 
+	# Note: For nodes it keeps, it scales by 1/keep_prob. And sets other elements to 0. This should keep the expected sum the same. 
 	h_fc1_drop = tf.nn.dropout(h_fc1, keep_prob)
 
 

@@ -70,7 +70,9 @@ for i, path in enumerate(image_path_list):
 print "Maximum Image Size: %dx%d" % (max_width, max_width)
 
 # Calculate the dimensions of the largest image after downsampling. All images will be resampled to this. 
-final_dim = int(round(max_width * width_reduction))
+# Due to max-pooling within a Neural Network, need to ensure that the final_dim is divisible by 4. 
+final_dim_base = int(round(max_width * width_reduction))
+final_dim = final_dim_base + (4-final_dim_base%4)
 print "Output Image Size: %dx%d" % (final_dim, final_dim)
 
 # Step 2: Resample all images by first downsampling to alter um/pixel resolution, and then upsampling to the same image size. 
