@@ -241,7 +241,7 @@ def main():
 
 		# Save model 
 		# Save graph nodes after first run, and every step_display iterations after. 
-		if (params.step_count%params.step_save == 1) and TRAINING: 
+		if (params.step_count%params.step_save == 0) and TRAINING: 
 			# Save variables (save filters and fully connected layers seperately)
 			saver_filters.save(sess, params.filter_path)
 			saver_fc_layers.save(sess, params.fc_layers_path)
