@@ -172,7 +172,7 @@ class ParticleSet(object):
 
 			### PREPROCESS IMAGE AND APPEND TO DATA STRUCT ###
 			temp_im = misc.imread(file_name)
-			# If the image is not the expected shape (compare using tuples_, resize it
+			# If the image is not the expected shape (compare using tuples), resize it
 			if (temp_im.shape != (self._target_dim, self._target_dim)):
 				# Imresize is just a wrapper around PIL's resize function. 
 				# Imresize upsamples and downsamples the image. 
@@ -182,7 +182,8 @@ class ParticleSet(object):
 				# 'bilinear' interpolation takes 4 nearest points, and assumes a continuous transition between them to estimate target point. The bilinear interpolation ensures that we don't alias when downsampling.
 				# 'L' is the image mode as defined by PIL, or an 8bit uint (black and white)
 				# ToDo: Think about improved implementation that down-samples and upsamples seperately, taking into account aliasing (opencv, scikit)
-				temp_im = misc.imresize(temp_im, (self._target_dim, self._target_dim), 'bilinear', 'L')
+				# temp_im = misc.imresize(temp_im, (self._target_dim, self._target_dim), 'bilinear', 'L')
+				raise Exception("All images used for training should have the same dimensions. Look at: %s" % file_name)
 
 
 			# Reshape the image into a colum, and insert it into to numpy matrix
