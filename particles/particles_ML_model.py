@@ -249,7 +249,7 @@ def main():
 
 
 		# Display Results
-		if (params.step_count%params.step_display == 0) or (not TRAINING):
+		if (params.step_count%params.step_display == 1) or (not TRAINING):
 
 			# Obtain training data
 			data, labels = particle_data.next_batch(params.validation_batch_size, validation=True, per_class_order=EQUAL_IMAGES_PER_CLASS)

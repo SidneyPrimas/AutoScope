@@ -11,6 +11,8 @@ git clone https://github.com/SidneyPrimas/particle_recognition.git
 
 # Get data (make sure the link is directly to the appropriate zip)
 wget https://www.dropbox.com/s/xu0rax6kd7o3nhh/2016_11_27_IrisDB.zip
+# Get the original data organized into classes within validation/training. Original image size. 
+wget https://www.dropbox.com/s/1knqdxcv590x604/2017_04_IrisDB_resampling.zip
 
 # Get unzip
 sudo apt-get install unzip
@@ -32,3 +34,7 @@ pip install Pillow
 # Setup TF (Python 2.7 on Ubuntu with only CPUs)
 export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp27-none-linux_x86_64.whl
 sudo pip install --upgrade $TF_BINARY_URL
+
+
+# Getting file from EC2
+scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-249-89.us-east-2.compute.amazonaws.com:particle_recognition/log/log_2017-04-18_18\:46\:55 ./log/downsampling_experiment/
