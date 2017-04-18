@@ -240,7 +240,8 @@ def main():
 			train_step.run(feed_dict={x: data, y_: labels, keep_prob: params.dropout})
 
 		# Save model 
-		if (params.step_count%params.step_save == 0) and TRAINING: 
+		# Save graph nodes after first run, and every step_display iterations after. 
+		if (params.step_count%params.step_save == 1) and TRAINING: 
 			# Save variables (save filters and fully connected layers seperately)
 			saver_filters.save(sess, params.filter_path)
 			saver_fc_layers.save(sess, params.fc_layers_path)
@@ -249,6 +250,7 @@ def main():
 
 
 		# Display Results
+		# Validate and display validation results after first run, and every step_display iterations after. 
 		if (params.step_count%params.step_display == 1) or (not TRAINING):
 
 			# Obtain training data
