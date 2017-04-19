@@ -60,11 +60,11 @@ def main():
 	### Setup Configuration Parameters ###
 	params = ml_model.ML_Model_Parameters()
 	params.directory_map = directory_map
-	params.train_batch_size = 100
-	params.validation_batch_size = 300
+	params.train_batch_size = 50
+	params.validation_batch_size = 200
 
-	params.step_display = 1
-	params.step_save = 1
+	params.step_display = 40
+	params.step_save = 100
 	params.step_count = 0
 	params.image_trained_count = 0
 
@@ -240,7 +240,6 @@ def main():
 			train_step.run(feed_dict={x: data, y_: labels, keep_prob: params.dropout})
 
 		# Save model 
-		# Save graph nodes after first run, and every step_display iterations after. 
 		if (params.step_count%params.step_save == 0) and TRAINING: 
 			# Save variables (save filters and fully connected layers seperately)
 			saver_filters.save(sess, params.filter_path)
