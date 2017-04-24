@@ -4,6 +4,8 @@
     Date created: 4/17/2017
     Python Version: 2.7
     Description: Given the reference images of urine particles, we resample all the images to alter the digital resolution of the image. 
+    The code is currently setup to downsample from original_resolution to target_resolution, and then upsample to a final_dim. 
+    The final_dim is the size of the largest image after the initial downsampling. 
 """
 
 # PIL: image processing tool

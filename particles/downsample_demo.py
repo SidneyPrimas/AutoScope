@@ -1,4 +1,13 @@
-# Particles data
+"""
+    File name: downsample_demo.py
+    Author: Sidney Primas
+    Date created: 4/17/2017
+    Python Version: 2.7
+    Description: Given a source_data_directory, graphs images in 1) original format, 2) downsampled format, and 3) upsampled format. 
+"""
+
+# Execution: 
+## Adjust the parameters (original_dim, target_dim, source_data_directory and classes). Run. 
 
 # Scipy image processing tool
 from scipy import ndimage
@@ -13,26 +22,24 @@ import matplotlib.pyplot as plt
 from glob import glob
 import os
 
-original_dim = 128
-target_dim = 26
-source_data_directory = "/Users/sidneyprimas/Documents/Professional/MIT/Sodini/Microscope/TensorFlow/data/IrisDB_resampling/"
-import_count = 2
 
-## Obtain images from all classes
-#dir_input_data = glob(source_data_directory + "Validation/*")
+original_dim = 100
+target_dim = 18
+source_data_directory = "/Users/sidneyprimas/Documents/Professional/MIT/Sodini/Microscope/TensorFlow/data/IrisDB_demo/Validation/"
+import_count = 1
 
 ## Obtain images from select classes  
 classes = {
-	0: "IRIS-BACT", 
-	1: "IRIS-RBC",
-	2: "IRIS-SPRM",
-	3: "IRIS-WBC",
+	#0: "IRIS-BACT", 
+	0: "IRIS-RBC",
+	#2: "IRIS-SPRM",
+	#3: "IRIS-WBC",
 	#4: "IRIS-SQEP",
 }
 
 # Iterate through each selected class
 for c in range(len(classes)):
-	target_file = source_data_directory + classes[c] + "/2.jpg"
+	target_file = source_data_directory + classes[c] + "/0.jpg"
 
 
 	### Downsample the Image Using Scipy (wrapper around PIL) ###

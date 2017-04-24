@@ -1,5 +1,5 @@
 #### High Level Design Notes ####
-+ Results of Resampling: The key to key question with resampling is if information about the image is lost through the resampling process. 
++ Results of Resampling: The question with resampling is if information about the image is lost through the resampling process. 
 ++ Upsample: When an image is upsampled, we do not lose information. Instead, we just spread information across more pixels. Upsampling is similar to increasing the number of pixels when the image is limited by analog resolution of the optics.  
 ++ Downsample: When an image is downsampled, we do lose information as the higher frequency components start disappearing. Downsampling is like reducing the digital resolution of the image sensor. 
 
@@ -21,3 +21,4 @@
 
 ### TO DO ### 
 + Instead of overwriting the existing file, we need to keep the original file structure, and save into a new file structure. This way, we keep the original and altered images. The shortcut is to just copy the original files, and then modify the copy. 
++ Downsample: When we resample the image to the same final dimensions (the last step), we sometimes downsample a lage image to 52x52px. However, the resampling algo used is bilinear, which is not good for downsampling. 

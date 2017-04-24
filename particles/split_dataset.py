@@ -4,14 +4,8 @@
     Date created: 4/17/2017
     Python Version: 2.7
     Description: Split the dataset into the training images and the validation images.  
+    Each folder in the source directry can only have images (and no sub-folders). 
 """
-
-## Code Skeleton 
-# Get all the folders through GLOB
-# Iterate through each folder. 
-# Identify the total number of images in a folder. 
-# For the first 10% of images, put them in a validation folder. 
-# For the rest of the images, put them in a training folder. 
 
 import numpy as np
 import math

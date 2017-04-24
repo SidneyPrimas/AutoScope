@@ -36,5 +36,8 @@ export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorf
 sudo pip install --upgrade $TF_BINARY_URL
 
 
-# Getting file from EC2
+# Getting log from EC2
 scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-249-89.us-east-2.compute.amazonaws.com:particle_recognition/log/log_2017-04-18_18\:46\:55 ./log/downsampling_experiment/
+
+# Getting image from EC2
+scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-120-151.us-east-2.compute.amazonaws.com:particle_recognition/data/IrisDB_resampling/Validation/IRIS-NHYAL-CELL/0.jpg ./1p4_NHYAL-CELL_0.jpg
