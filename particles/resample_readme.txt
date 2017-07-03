@@ -14,6 +14,7 @@
 
 ### Implementation Notes ###
 + Notes on Interpolation: By default, we interpolate the base pixels in the image when we use image show. To turn this off, we set the interpolation to 'none'. However, 'none' isn't avaialbe, so we use 'nearest'. The 'nearest' interpolation is equivilant to 'none' at normal scale, but allows for reinterpolation when the image is scaled in a pdf.
++ Downsampling/Upsampling with Bilinear Interpolation: https://math.stackexchange.com/questions/48903/2d-array-downsampling-and-upsampling-using-bilinear-interpolation
 
 #### Execution Notes ####
 + When you run resample.py, make sure you run it from the Tensorflow directory (the root directory). The relative internal paths have been defined assuming the code is run from the root directory. 

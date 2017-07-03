@@ -41,3 +41,6 @@ scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-249-89.u
 
 # Getting image from EC2
 scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-120-151.us-east-2.compute.amazonaws.com:particle_recognition/data/IrisDB_resampling/Validation/IRIS-NHYAL-CELL/0.jpg ./1p4_NHYAL-CELL_0.jpg
+
+# Getting models from EC2
+scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-180-230.us-east-2.compute.amazonaws.com:particle_recognition/data/particle_model_filters ./6classes_basicGraph_imagesPerClass_imagesPerClass_particle_model_filters 
