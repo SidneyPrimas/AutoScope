@@ -1,0 +1,8 @@
++ Histogram Equalization: We plot the intensities (the value) of each pixel on a histogram. Usually, the intensities of pixels are concentrated around a certain intensity level. However, for better contrast, we want to to have the intensities distributed across the entire intensity spectrum, which will visually exentuate changes in intensity, and thus contrast. 
++ Contrast Limited Adaptive Histogram Equalization: Each pixel is updated based on applying Histogram Equalization to a square box surrounding it. This helps because the entire image might have certain areas of high contrast and low contrast, thus meaning that Histogram Equalization is not that effective since we cannot really spread out the distribution. This approach localizes the contrast optimization to a smaller part ofthe image. Doing this for every pixel is computation intensive. Thus, we split the image into tiles. Find the histogram equalization for each tile. And, update each pixel based on the combination of transformations from 4 surroudning tiles (through bilinear interpolation). The contrast limiting part means that when there are outlier pixels (usually noise) in any tile, we clip those pixels and put them in another bin. This reduces the noise that otherwise would be amplified. 
+
+
++ Interpolation function for imshow: By default, we interpolate the base pixels in the image when we use image show.  To turn this off, we set the interpolation to 'none'. However, 'none' isn't avaialbe, so we use 'nearest'. The 'nearest' interpolation is equivilant to 'none' at normal scale, but allows for reinterpolation when the image is scaled in a pdf. 
+
+Rescource: 
++ Histogram Equalization Rescource: https://egtheory.wordpress.com/2016/04/21/automicroscopy/
