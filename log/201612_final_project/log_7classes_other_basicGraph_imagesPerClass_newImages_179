@@ -1,0 +1,3453 @@
+###### HEADER START ###### 
+
+Log file: ./log/log_2016-12-12_06:29:50
+Equal Images Per Class: (True)
+Filter Model (Not Loaded), Saved at: ./data/particle_model_filters
+FC Layer Model (Not Loaded), Saved at: ./data/particle_model_fc_layers-7
+Number of Classes: 7
+Image Dimension: 52x52
+Training Set Size: 86380
+Validation Set Size: 1373
+*** Directory Map ***
+{'IRIS-BACT': 0,
+ 'IRIS-CLUMP-WBCC': 3,
+ 'IRIS-CLUMP-YSTS': 6,
+ 'IRIS-CRYST-CAOX': 4,
+ 'IRIS-CRYST-CAPH': 4,
+ 'IRIS-CRYST-TPO4': 4,
+ 'IRIS-CRYST-URIC': 4,
+ 'IRIS-HYAL': 5,
+ 'IRIS-NHYAL-CELL': 5,
+ 'IRIS-NHYAL-GRAN': 5,
+ 'IRIS-NSQEP-REEP': 5,
+ 'IRIS-NSQEP-TREP': 5,
+ 'IRIS-RBC': 1,
+ 'IRIS-SPRM': 2,
+ 'IRIS-SQEP': 5,
+ 'IRIS-WBC': 3}
+*** Images Per Class ***
+{0: 6400, 1: 6400, 2: 6400, 3: 12800, 4: 24662, 5: 24691, 6: 6400}
+
+###### HEADER END ###### 
+
+
+
+Step: 100, Images Trained: 10000, Batch loss: 22.503160, Training accuracy: 0.527 
+Confusion Matrix:
+[[ 13.   0.  29.   0.   0.   0.   1.]
+ [  0.  23.   0.   0.  20.   0.   0.]
+ [  3.   0.  32.   0.   2.   2.   4.]
+ [  0.   1.   0.  29.   8.   4.   1.]
+ [  1.   7.   0.   4.  24.   3.   3.]
+ [  0.   2.  15.   6.   3.  16.   1.]
+ [  6.   1.   1.   4.   8.   2.  21.]]
+
+
+
+Step: 200, Images Trained: 20000, Batch loss: 3.632911, Training accuracy: 0.420 
+Confusion Matrix:
+[[ 18.   0.  16.   0.   0.   9.   0.]
+ [  5.  20.   2.   0.   2.   2.  11.]
+ [  8.   0.  25.   0.   0.   9.   1.]
+ [  0.   4.   0.  25.   7.   3.   4.]
+ [  8.   6.   1.   7.   9.   5.   7.]
+ [  5.   1.   8.   9.   3.  12.   5.]
+ [ 14.   0.   0.   3.   3.   6.  17.]]
+
+
+
+Step: 300, Images Trained: 30000, Batch loss: 2.197607, Training accuracy: 0.223 
+Confusion Matrix:
+[[ 23.   0.  20.   0.   0.   0.   0.]
+ [ 30.   3.   1.   1.   4.   1.   3.]
+ [ 31.   0.  11.   0.   0.   1.   0.]
+ [ 11.   0.   3.  19.   5.   3.   2.]
+ [ 23.   1.   1.   8.   3.   4.   3.]
+ [ 23.   0.   8.   4.   1.   6.   1.]
+ [ 34.   0.   1.   1.   4.   0.   2.]]
+
+
+
+Step: 400, Images Trained: 40000, Batch loss: 2.244989, Training accuracy: 0.243 
+Confusion Matrix:
+[[ 35.   0.   7.   0.   0.   0.   0.]
+ [ 39.   0.   0.   2.   1.   1.   0.]
+ [ 27.   0.  15.   1.   0.   0.   0.]
+ [ 19.   0.   0.   8.  10.   4.   2.]
+ [ 27.   0.   2.   4.   8.   2.   0.]
+ [ 29.   1.   5.   3.   2.   3.   0.]
+ [ 33.   0.   0.   2.   4.   0.   4.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 500, Images Trained: 50000, Batch loss: 1.797227, Training accuracy: 0.210 
+Confusion Matrix:
+[[ 15.   0.  28.   0.   0.   0.   0.]
+ [ 34.   1.   0.   2.   5.   0.   1.]
+ [ 16.   0.  26.   0.   0.   1.   0.]
+ [ 13.   0.   2.   5.  16.   3.   3.]
+ [ 23.   0.  11.   2.   6.   1.   0.]
+ [ 19.   0.   9.   1.   4.  10.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]]
+
+
+
+Step: 600, Images Trained: 60000, Batch loss: 2.160855, Training accuracy: 0.250 
+Confusion Matrix:
+[[ 36.   0.   6.   0.   0.   0.   0.]
+ [ 38.   2.   0.   1.   2.   0.   0.]
+ [ 25.   0.  18.   0.   0.   0.   0.]
+ [ 20.   0.   0.   8.  12.   2.   1.]
+ [ 29.   1.   2.   2.   7.   2.   0.]
+ [ 35.   0.   3.   1.   2.   2.   0.]
+ [ 34.   0.   1.   1.   4.   1.   2.]]
+
+
+
+Step: 700, Images Trained: 70000, Batch loss: 1.823879, Training accuracy: 0.217 
+Confusion Matrix:
+[[ 36.   0.   6.   0.   0.   0.   0.]
+ [ 40.   0.   0.   0.   3.   0.   0.]
+ [ 32.   0.  11.   0.   0.   0.   0.]
+ [ 24.   0.   0.   1.  15.   2.   1.]
+ [ 31.   0.   4.   0.   8.   0.   0.]
+ [ 31.   0.   0.   2.   1.   9.   0.]
+ [ 38.   0.   1.   0.   3.   1.   0.]]
+
+
+
+Step: 800, Images Trained: 80000, Batch loss: 1.856524, Training accuracy: 0.257 
+Confusion Matrix:
+[[  3.  33.   7.   0.   0.   0.   0.]
+ [  0.  34.   0.   6.   3.   0.   0.]
+ [  0.  34.   9.   0.   0.   0.   0.]
+ [  0.  15.   1.  25.   1.   1.   0.]
+ [  0.  31.   3.   6.   3.   0.   0.]
+ [  0.  28.   5.   7.   0.   3.   0.]
+ [  3.  36.   1.   1.   0.   1.   0.]]
+
+
+
+Step: 900, Images Trained: 90000, Batch loss: 1.866398, Training accuracy: 0.217 
+Confusion Matrix:
+[[  2.  27.  14.   0.   0.   0.   0.]
+ [  0.  17.   0.  17.   8.   0.   1.]
+ [  0.  27.  16.   0.   0.   0.   0.]
+ [  0.  12.   0.  25.   3.   3.   0.]
+ [  0.  25.   1.  15.   1.   0.   1.]
+ [  1.  28.   2.   6.   1.   4.   1.]
+ [  0.  35.   0.   5.   0.   2.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 1000, Images Trained: 100000, Batch loss: 1.943498, Training accuracy: 0.240 
+Confusion Matrix:
+[[  1.  38.   4.   0.   0.   0.   0.]
+ [  0.  20.   0.  21.   1.   0.   0.]
+ [  1.  26.  16.   0.   0.   0.   0.]
+ [  1.   7.   0.  29.   3.   3.   0.]
+ [  3.  17.   1.  16.   4.   0.   2.]
+ [  3.  25.   1.  11.   1.   2.   0.]
+ [  0.  33.   0.  10.   0.   0.   0.]]
+
+
+
+Step: 1100, Images Trained: 110000, Batch loss: 1.850643, Training accuracy: 0.267 
+Confusion Matrix:
+[[  0.  43.   0.   0.   0.   0.   0.]
+ [  0.  34.   0.   7.   2.   0.   0.]
+ [  0.  35.   6.   0.   0.   1.   0.]
+ [  0.   7.   0.  32.   2.   2.   0.]
+ [  0.  26.   0.  12.   4.   1.   0.]
+ [  0.  26.   0.  13.   0.   4.   0.]
+ [  0.  36.   0.   7.   0.   0.   0.]]
+
+
+
+Step: 1200, Images Trained: 120000, Batch loss: 1.846409, Training accuracy: 0.233 
+Confusion Matrix:
+[[  2.  20.  20.   0.   0.   0.   0.]
+ [  0.  37.   0.   5.   1.   0.   0.]
+ [  0.  37.   6.   0.   0.   0.   0.]
+ [  0.  17.   0.  20.   3.   3.   0.]
+ [  1.  27.   4.   9.   2.   0.   0.]
+ [  0.  26.   6.   8.   0.   3.   0.]
+ [  1.  38.   0.   1.   0.   3.   0.]]
+
+
+
+Step: 1300, Images Trained: 130000, Batch loss: 1.821468, Training accuracy: 0.240 
+Confusion Matrix:
+[[  0.  43.   0.   0.   0.   0.   0.]
+ [  0.  32.   0.   9.   2.   0.   0.]
+ [  1.  35.   7.   0.   0.   0.   0.]
+ [  1.  10.   0.  31.   1.   0.   0.]
+ [  0.  29.   0.  12.   2.   0.   0.]
+ [  0.  32.   0.  10.   1.   0.   0.]
+ [  0.  38.   0.   3.   1.   0.   0.]]
+
+
+
+Step: 1400, Images Trained: 140000, Batch loss: 1.807492, Training accuracy: 0.240 
+Confusion Matrix:
+[[  0.  41.   2.   0.   0.   0.   0.]
+ [  0.  34.   0.   5.   0.   1.   3.]
+ [  0.  33.   9.   0.   0.   0.   0.]
+ [  0.   7.   0.  27.   1.   6.   2.]
+ [  0.  29.   1.  11.   0.   1.   1.]
+ [  0.  32.   1.   8.   0.   2.   0.]
+ [  0.  35.   0.   8.   0.   0.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 1500, Images Trained: 150000, Batch loss: 1.794595, Training accuracy: 0.233 
+Confusion Matrix:
+[[  0.  42.   0.   0.   0.   0.   0.]
+ [  0.  31.   0.   9.   0.   0.   3.]
+ [  0.  42.   1.   0.   0.   0.   0.]
+ [  0.   6.   0.  35.   2.   0.   0.]
+ [  0.  25.   0.  14.   1.   1.   2.]
+ [  0.  31.   0.   7.   1.   2.   2.]
+ [  0.  36.   0.   7.   0.   0.   0.]]
+
+
+
+Step: 1600, Images Trained: 160000, Batch loss: 1.786949, Training accuracy: 0.180 
+Confusion Matrix:
+[[  0.  42.   0.   0.   0.   0.   0.]
+ [  0.  14.   0.  14.   0.  10.   5.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [  0.   2.   0.  39.   0.   1.   1.]
+ [  0.  19.   0.  18.   0.   6.   0.]
+ [  0.  25.   0.  16.   0.   1.   1.]
+ [  0.  28.   0.   9.   0.   6.   0.]]
+
+
+
+Step: 1700, Images Trained: 170000, Batch loss: 1.765704, Training accuracy: 0.227 
+Confusion Matrix:
+[[  0.  42.   0.   0.   0.   0.   0.]
+ [  0.  17.   0.  17.   6.   0.   3.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  41.   1.   0.   0.]
+ [  0.  21.   0.  16.   6.   0.   0.]
+ [  0.  23.   0.  17.   1.   1.   1.]
+ [  0.  28.   0.   8.   4.   0.   3.]]
+
+
+
+Step: 1800, Images Trained: 180000, Batch loss: 1.786039, Training accuracy: 0.240 
+Confusion Matrix:
+[[  0.  43.   0.   0.   0.   0.   0.]
+ [  0.  31.   0.   2.   0.   7.   3.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [  0.   5.   0.  33.   0.   2.   2.]
+ [  0.  21.   1.  15.   2.   3.   1.]
+ [  0.  28.   0.   8.   0.   4.   3.]
+ [  0.  35.   0.   5.   0.   1.   2.]]
+
+
+
+Step: 1900, Images Trained: 190000, Batch loss: 1.788201, Training accuracy: 0.257 
+Confusion Matrix:
+[[  0.  42.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   2.   0.   2.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [  0.   4.   0.  37.   0.   1.   1.]
+ [  0.  29.   0.  10.   0.   2.   2.]
+ [  0.  26.   0.  15.   0.   1.   1.]
+ [  0.  36.   0.   2.   0.   5.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 2000, Images Trained: 200000, Batch loss: 1.801787, Training accuracy: 0.300 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [ 20.   3.   0.   9.   0.   5.   6.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  3.   1.   0.  37.   2.   0.   0.]
+ [ 19.   5.   0.  14.   0.   2.   3.]
+ [ 21.   0.   0.  14.   0.   4.   3.]
+ [ 28.   0.   0.   9.   0.   3.   3.]]
+
+
+
+Step: 2100, Images Trained: 210000, Batch loss: 1.771056, Training accuracy: 0.287 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [ 22.   4.   0.   6.   0.   8.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  4.   0.   0.  31.   1.   3.   3.]
+ [ 19.   1.   0.  17.   0.   5.   1.]
+ [ 24.   1.   0.  12.   0.   6.   0.]
+ [ 21.   1.   0.  14.   0.   5.   2.]]
+
+
+
+Step: 2200, Images Trained: 220000, Batch loss: 1.780722, Training accuracy: 0.303 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [ 11.   4.   0.   8.   1.   6.  13.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   0.   0.  39.   0.   3.   0.]
+ [ 19.   0.   0.  18.   0.   3.   3.]
+ [ 21.   1.   0.  16.   0.   3.   1.]
+ [ 28.   1.   0.   6.   4.   2.   2.]]
+
+
+
+Step: 2300, Images Trained: 230000, Batch loss: 1.778979, Training accuracy: 0.263 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [ 36.   0.   0.   4.   1.   0.   2.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  5.   2.   0.  31.   0.   0.   4.]
+ [ 25.   4.   0.  12.   2.   0.   0.]
+ [ 25.   0.   0.  14.   0.   3.   1.]
+ [ 38.   1.   0.   4.   0.   0.   0.]]
+
+
+
+Step: 2400, Images Trained: 240000, Batch loss: 1.733091, Training accuracy: 0.333 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [ 29.   7.   0.   1.   0.   0.   6.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  39.   2.   2.   0.]
+ [ 20.   1.   0.  16.   4.   0.   1.]
+ [ 23.   1.   0.  14.   3.   1.   1.]
+ [ 28.   0.   0.   5.   4.   0.   6.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 2500, Images Trained: 250000, Batch loss: 1.718189, Training accuracy: 0.323 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [ 10.   8.   0.  11.   0.   6.   8.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  40.   0.   2.   1.]
+ [ 12.   3.   0.  21.   0.   2.   5.]
+ [ 23.   0.   0.  16.   0.   3.   1.]
+ [ 18.   3.   0.  11.   0.   7.   3.]]
+
+
+
+Step: 2600, Images Trained: 260000, Batch loss: 1.849706, Training accuracy: 0.237 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [ 42.   1.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  7.   2.   0.  26.   0.   4.   4.]
+ [ 32.   2.   0.   7.   0.   2.   0.]
+ [ 33.   1.   0.   7.   0.   0.   2.]
+ [ 37.   0.   0.   4.   0.   0.   1.]]
+
+
+
+Step: 2700, Images Trained: 270000, Batch loss: 1.704982, Training accuracy: 0.343 
+Confusion Matrix:
+[[ 42.   1.   0.   0.   0.   0.   0.]
+ [  1.   3.   0.  21.  15.   0.   3.]
+ [ 39.   3.   0.   0.   0.   0.   1.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [  8.   2.   0.  20.   7.   0.   6.]
+ [ 18.   3.   0.  12.   2.   6.   1.]
+ [  9.   5.   0.  18.   9.   0.   2.]]
+
+
+
+Step: 2800, Images Trained: 280000, Batch loss: 1.796568, Training accuracy: 0.313 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [ 25.  16.   0.   1.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   8.   0.  35.   0.   0.   0.]
+ [ 23.   7.   0.  13.   0.   0.   0.]
+ [ 27.   3.   0.  13.   0.   0.   0.]
+ [ 37.   4.   0.   2.   0.   0.   0.]]
+
+
+
+Step: 2900, Images Trained: 290000, Batch loss: 1.712002, Training accuracy: 0.363 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  3.  25.   0.   7.   8.   0.   0.]
+ [ 42.   1.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  39.   2.   0.   0.]
+ [ 15.   7.   0.  20.   1.   0.   0.]
+ [ 19.   6.   0.  17.   0.   1.   0.]
+ [ 24.   9.   0.   6.   4.   0.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 3000, Images Trained: 300000, Batch loss: 1.696378, Training accuracy: 0.350 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  3.  16.   0.  20.   4.   0.   0.]
+ [ 42.   1.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  42.   1.   0.   0.]
+ [  7.  13.   0.  18.   4.   0.   0.]
+ [ 18.   7.   0.  15.   3.   0.   0.]
+ [ 16.  12.   0.  12.   3.   0.   0.]]
+
+
+
+Step: 3100, Images Trained: 310000, Batch loss: 1.688983, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  3.  20.   0.  20.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  41.   0.   1.   0.]
+ [ 10.  10.   0.  23.   0.   0.   0.]
+ [ 15.   5.   0.  23.   0.   0.   0.]
+ [ 18.  12.   0.  12.   0.   0.   0.]]
+
+
+
+Step: 3200, Images Trained: 320000, Batch loss: 1.673368, Training accuracy: 0.323 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  14.   0.  27.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   2.   0.  40.   0.   0.   0.]
+ [ 12.   9.   0.  22.   0.   0.   0.]
+ [ 13.  11.   0.  19.   0.   0.   0.]
+ [ 15.  14.   0.  14.   0.   0.   0.]]
+
+
+
+Step: 3300, Images Trained: 330000, Batch loss: 1.679362, Training accuracy: 0.333 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  15.   0.  26.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  42.   0.   0.   0.]
+ [ 10.   7.   0.  26.   0.   0.   0.]
+ [ 20.   8.   0.  15.   0.   0.   0.]
+ [ 13.  11.   0.  19.   0.   0.   0.]]
+
+
+
+Step: 3400, Images Trained: 340000, Batch loss: 1.686635, Training accuracy: 0.337 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  16.   0.  26.   0.   0.   0.]
+ [ 42.   1.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  42.   0.   0.   0.]
+ [  8.   9.   0.  26.   0.   0.   0.]
+ [ 24.   2.   0.  17.   0.   0.   0.]
+ [ 14.  19.   0.   9.   0.   0.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 3500, Images Trained: 350000, Batch loss: 1.688716, Training accuracy: 0.390 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  1.  36.   0.   6.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   4.   0.  39.   0.   0.   0.]
+ [ 14.  11.   0.  18.   0.   0.   0.]
+ [ 15.   7.   0.  21.   0.   0.   0.]
+ [ 19.  22.   0.   2.   0.   0.   0.]]
+
+
+
+Step: 3600, Images Trained: 360000, Batch loss: 1.662593, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  18.   0.  24.   0.   0.   0.]
+ [ 42.   1.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [  7.  14.   0.  21.   0.   0.   0.]
+ [ 22.   5.   0.  16.   0.   0.   0.]
+ [ 11.  21.   0.  11.   0.   0.   0.]]
+
+
+
+Step: 3700, Images Trained: 370000, Batch loss: 1.669680, Training accuracy: 0.333 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  14.   0.  27.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [  7.  19.   0.  17.   0.   0.   0.]
+ [ 19.  10.   0.  14.   0.   0.   0.]
+ [ 15.  18.   0.  10.   0.   0.   0.]]
+
+
+
+Step: 3800, Images Trained: 380000, Batch loss: 1.672706, Training accuracy: 0.303 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   6.   0.  36.   0.   0.   0.]
+ [ 38.   4.   0.   0.   0.   0.   1.]
+ [  0.   1.   0.  42.   0.   0.   0.]
+ [  9.  10.   0.  24.   0.   0.   0.]
+ [ 14.   9.   0.  19.   0.   0.   1.]
+ [  8.  19.   0.  16.   0.   0.   0.]]
+
+
+
+Step: 3900, Images Trained: 390000, Batch loss: 1.658863, Training accuracy: 0.330 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.   8.   0.  34.   0.   0.   0.]
+ [ 40.   3.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [  7.  12.   0.  23.   0.   0.   1.]
+ [ 19.   3.   0.  21.   0.   0.   0.]
+ [  7.  19.   0.  11.   0.   0.   6.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 4000, Images Trained: 400000, Batch loss: 1.671574, Training accuracy: 0.337 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  16.   0.  23.   0.   4.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.   2.   0.  40.   1.   0.   0.]
+ [  8.  10.   0.  18.   0.   0.   7.]
+ [ 21.   6.   0.  14.   0.   0.   2.]
+ [ 12.  18.   0.   9.   0.   1.   3.]]
+
+
+
+Step: 4100, Images Trained: 410000, Batch loss: 1.648924, Training accuracy: 0.327 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   9.   0.  30.   0.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  42.   0.   0.   0.]
+ [  6.  17.   0.  18.   0.   0.   2.]
+ [ 21.   2.   0.  20.   0.   0.   0.]
+ [  9.  24.   0.   6.   0.   0.   4.]]
+
+
+
+Step: 4200, Images Trained: 420000, Batch loss: 1.653216, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  22.   0.  20.   0.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  42.   0.   0.   0.]
+ [  7.  13.   0.  17.   0.   0.   5.]
+ [ 17.  11.   0.  15.   0.   0.   0.]
+ [ 15.  16.   0.  11.   0.   0.   1.]]
+
+
+
+Step: 4300, Images Trained: 430000, Batch loss: 1.652471, Training accuracy: 0.357 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  17.   0.  25.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  42.   0.   0.   0.]
+ [  7.  13.   0.  21.   0.   0.   2.]
+ [ 23.   8.   0.  12.   0.   0.   0.]
+ [  8.  24.   0.   6.   0.   0.   5.]]
+
+
+
+Step: 4400, Images Trained: 440000, Batch loss: 1.661038, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  29.   0.  12.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   4.   0.  38.   0.   0.   0.]
+ [  8.  11.   0.  19.   0.   0.   5.]
+ [ 19.   7.   0.  15.   1.   0.   1.]
+ [ 19.  12.   0.   7.   0.   0.   5.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 4500, Images Trained: 450000, Batch loss: 1.651831, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  22.   0.  19.   0.   0.   2.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.   3.   0.  39.   0.   1.   0.]
+ [  7.  11.   0.  23.   0.   0.   2.]
+ [ 22.   7.   0.  12.   0.   0.   2.]
+ [ 11.  18.   0.   9.   0.   0.   4.]]
+
+
+
+Step: 4600, Images Trained: 460000, Batch loss: 1.674127, Training accuracy: 0.397 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  40.   0.   0.   0.   0.   2.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  13.   0.  30.   0.   0.   0.]
+ [ 11.  19.   0.   7.   0.   0.   5.]
+ [ 22.   9.   0.   9.   0.   0.   3.]
+ [ 13.  19.   0.   5.   0.   0.   6.]]
+
+
+
+Step: 4700, Images Trained: 470000, Batch loss: 1.622184, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  17.   0.  25.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.   1.   0.  42.   0.   0.   0.]
+ [  4.  14.   0.  18.   0.   0.   7.]
+ [ 15.   6.   0.  17.   0.   0.   5.]
+ [  5.  18.   0.   6.   0.   0.  14.]]
+
+
+
+Step: 4800, Images Trained: 480000, Batch loss: 1.638478, Training accuracy: 0.363 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  14.   0.  27.   0.   0.   2.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [  4.  14.   0.  21.   0.   0.   4.]
+ [ 23.   6.   0.  10.   0.   0.   4.]
+ [  4.  15.   0.  15.   0.   0.   9.]]
+
+
+
+Step: 4900, Images Trained: 490000, Batch loss: 1.653670, Training accuracy: 0.393 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  23.   0.   3.  12.   0.   4.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   5.   0.  33.   5.   0.   0.]
+ [  9.  10.   0.  12.   5.   0.   7.]
+ [ 15.   6.   0.  15.   2.   0.   5.]
+ [ 16.   9.   0.   2.   1.   0.  14.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 5000, Images Trained: 500000, Batch loss: 1.680890, Training accuracy: 0.380 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  29.   0.  10.   0.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   4.   0.  37.   0.   0.   1.]
+ [ 16.   6.   0.  17.   0.   0.   4.]
+ [ 24.   5.   0.  12.   0.   0.   2.]
+ [ 26.   6.   0.   6.   0.   0.   5.]]
+
+
+
+Step: 5100, Images Trained: 510000, Batch loss: 1.629887, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  19.   0.  22.   0.   0.   2.]
+ [ 41.   0.   0.   0.   0.   0.   1.]
+ [  0.   1.   0.  42.   0.   0.   0.]
+ [  2.  13.   0.  20.   0.   0.   8.]
+ [ 19.  10.   0.  12.   0.   0.   2.]
+ [  8.  14.   0.  12.   0.   0.   9.]]
+
+
+
+Step: 5200, Images Trained: 520000, Batch loss: 1.629291, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  14.   0.  29.   0.   0.   0.]
+ [ 40.   0.   0.   0.   0.   0.   2.]
+ [  0.   2.   0.  41.   0.   0.   0.]
+ [  3.  10.   0.  23.   0.   0.   7.]
+ [ 22.   7.   0.  12.   0.   0.   2.]
+ [  8.  11.   0.  10.   0.   0.  14.]]
+
+
+
+Step: 5300, Images Trained: 530000, Batch loss: 1.639643, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  34.   6.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [  6.   0.   1.  17.   2.   0.  17.]
+ [ 22.   0.   0.  15.   2.   0.   4.]
+ [  9.   0.   0.   7.   1.   0.  25.]]
+
+
+
+Step: 5400, Images Trained: 540000, Batch loss: 1.632771, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  16.  24.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  37.   4.   0.   1.]
+ [  5.   0.   0.  14.  12.   0.  12.]
+ [ 14.   0.   0.  17.   7.   0.   5.]
+ [ 12.   0.   0.   2.  13.   0.  16.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 5500, Images Trained: 550000, Batch loss: 1.670660, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  17.   0.  12.   0.   0.  12.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   6.   0.  36.   0.   0.   1.]
+ [ 13.   7.   0.  13.   0.   0.  10.]
+ [ 22.   7.   0.   7.   0.   0.   7.]
+ [ 19.   3.   2.   4.   0.   0.  15.]]
+
+
+
+Step: 5600, Images Trained: 560000, Batch loss: 1.685998, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  33.   0.   2.   0.   0.   8.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  12.   0.  30.   0.   0.   1.]
+ [ 15.   8.   0.  11.   0.   0.   8.]
+ [ 25.   4.   0.   4.   0.   0.  10.]
+ [ 29.   5.   1.   1.   0.   0.   7.]]
+
+
+
+Step: 5700, Images Trained: 570000, Batch loss: 1.682677, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  27.   0.   2.   0.   0.  14.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  11.   0.  29.   0.   0.   3.]
+ [ 12.   6.   1.   9.   0.   0.  14.]
+ [ 22.   6.   0.   9.   0.   0.   6.]
+ [ 25.   1.   0.   3.   0.   0.  14.]]
+
+
+
+Step: 5800, Images Trained: 580000, Batch loss: 1.622536, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  10.   0.  28.   0.   0.   4.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   4.   0.  38.   0.   0.   1.]
+ [  3.   9.   3.  16.   0.   0.  12.]
+ [ 21.   9.   0.   8.   0.   0.   5.]
+ [  8.   8.   2.   3.   0.   0.  22.]]
+
+
+
+Step: 5900, Images Trained: 590000, Batch loss: 1.617836, Training accuracy: 0.380 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  14.  28.   0.   1.]
+ [ 41.   0.   0.   0.   0.   0.   2.]
+ [  0.   0.   0.  38.   5.   0.   0.]
+ [  5.   0.   0.  16.   6.   0.  16.]
+ [ 18.   0.   0.  10.   8.   0.   7.]
+ [  2.   0.   0.   1.  12.   0.  27.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 6000, Images Trained: 600000, Batch loss: 1.618094, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  24.   0.   9.   0.   8.   2.]
+ [ 41.   0.   2.   0.   0.   0.   0.]
+ [  0.   8.   0.  32.   0.   2.   0.]
+ [  2.   8.   0.  16.   0.  12.   5.]
+ [ 14.   9.   0.  11.   0.   5.   4.]
+ [ 12.   5.   1.   3.   0.  12.  10.]]
+
+
+
+Step: 6100, Images Trained: 610000, Batch loss: 1.641751, Training accuracy: 0.417 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   0.   0.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  19.   0.  24.   0.   0.   0.]
+ [  9.  12.   0.   9.   0.   0.  13.]
+ [ 18.  11.   1.   7.   0.   0.   5.]
+ [ 11.  11.   1.   2.   0.   0.  18.]]
+
+
+
+Step: 6200, Images Trained: 620000, Batch loss: 1.630268, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  23.   0.  18.   0.   0.   2.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.   7.   0.  33.   0.   0.   3.]
+ [  5.  10.   0.  13.   0.   1.  13.]
+ [ 15.   6.   0.  10.   0.   3.   9.]
+ [ 12.   7.   2.   3.   0.   0.  19.]]
+
+
+
+Step: 6300, Images Trained: 630000, Batch loss: 1.662478, Training accuracy: 0.333 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.   3.  35.   0.   5.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  38.   4.   0.   1.]
+ [ 12.   0.   0.  10.   8.   0.  12.]
+ [ 25.   0.   0.  11.   2.   0.   5.]
+ [ 20.   0.   2.   3.   7.   0.  11.]]
+
+
+
+Step: 6400, Images Trained: 640000, Batch loss: 1.663194, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  22.   0.   6.   0.   8.   6.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   5.   0.  32.   0.   4.   2.]
+ [ 10.   6.   0.  12.   0.   3.  12.]
+ [ 24.   3.   0.  10.   0.   4.   2.]
+ [ 27.   2.   0.   3.   0.   1.  10.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 6500, Images Trained: 650000, Batch loss: 1.626700, Training accuracy: 0.433 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  28.   0.  13.   0.   0.   2.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   6.   0.  36.   0.   0.   1.]
+ [  3.   2.   0.  18.   6.   0.  14.]
+ [ 18.   8.   0.  11.   2.   0.   4.]
+ [ 19.   3.   1.   1.   2.   0.  17.]]
+
+
+
+Step: 6600, Images Trained: 660000, Batch loss: 1.626042, Training accuracy: 0.397 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  13.   0.  20.   6.   1.   3.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   3.   0.  37.   1.   1.   1.]
+ [  4.   4.   0.  16.   3.   2.  14.]
+ [ 25.   0.   0.   9.   0.   0.   9.]
+ [ 10.   2.   1.   1.   0.   6.  23.]]
+
+
+
+Step: 6700, Images Trained: 670000, Batch loss: 1.610958, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   0.   0.   2.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  19.   0.  23.   0.   0.   0.]
+ [  3.  19.   1.   6.   0.   0.  14.]
+ [ 14.  11.   0.   7.   0.   0.  11.]
+ [  8.  18.   2.   0.   0.   0.  15.]]
+
+
+
+Step: 6800, Images Trained: 680000, Batch loss: 1.591901, Training accuracy: 0.420 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  23.   0.  19.   0.   1.   0.]
+ [ 41.   0.   0.   0.   0.   0.   1.]
+ [  0.   8.   0.  35.   0.   0.   0.]
+ [  1.  13.   0.  17.   0.   2.  10.]
+ [ 19.   8.   1.   8.   0.   1.   6.]
+ [  5.  10.   2.   1.   0.   1.  24.]]
+
+
+
+Step: 6900, Images Trained: 690000, Batch loss: 1.610940, Training accuracy: 0.453 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   1.   0.   1.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  13.   0.  29.   0.   0.   0.]
+ [  1.  20.   1.  11.   0.   2.   8.]
+ [ 24.  10.   0.   4.   0.   0.   5.]
+ [  6.  10.   1.   0.   0.   2.  24.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 7000, Images Trained: 700000, Batch loss: 1.595819, Training accuracy: 0.397 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  30.   1.  11.   0.   0.   0.]
+ [  1.  25.   0.   4.   0.   0.  13.]
+ [ 16.  17.   0.   2.   0.   0.   8.]
+ [  2.  19.   1.   0.   0.   0.  21.]]
+
+
+
+Step: 7100, Images Trained: 710000, Batch loss: 1.607287, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  25.  15.   0.   2.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  1.   3.   0.  36.   3.   0.   0.]
+ [  4.   0.   0.  12.  14.   0.  13.]
+ [ 18.   0.   0.   9.  10.   0.   6.]
+ [ 10.   1.   0.   2.  12.   0.  18.]]
+
+
+
+Step: 7200, Images Trained: 720000, Batch loss: 1.613064, Training accuracy: 0.350 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   6.   0.   1.  34.   2.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   5.   0.  30.   7.   0.   0.]
+ [  5.   9.   0.   6.  13.   5.   5.]
+ [ 18.   4.   0.   4.   9.   2.   6.]
+ [ 13.   2.   2.   0.  10.   5.  11.]]
+
+
+
+Step: 7300, Images Trained: 730000, Batch loss: 1.596334, Training accuracy: 0.457 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   0.  10.   6.   0.   1.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   5.   0.  36.   1.   0.   1.]
+ [  2.   6.   0.  12.  10.   0.  13.]
+ [ 17.   3.   1.   9.   4.   0.   9.]
+ [  5.   5.   3.   2.   6.   0.  22.]]
+
+
+
+Step: 7400, Images Trained: 740000, Batch loss: 1.607397, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  17.  26.   0.   0.]
+ [ 32.   0.   3.   0.   0.   0.   8.]
+ [  0.   0.   0.  34.   8.   0.   0.]
+ [  1.   0.   2.  10.  17.   4.   9.]
+ [ 18.   0.   2.  12.   6.   0.   5.]
+ [  0.   0.   1.   0.  13.  11.  18.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 7500, Images Trained: 750000, Batch loss: 1.614991, Training accuracy: 0.400 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   0.   0.   2.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  22.   0.  19.   0.   0.   2.]
+ [  3.  18.   1.   8.   0.   0.  13.]
+ [ 25.   9.   0.   3.   0.   0.   6.]
+ [ 12.  13.   1.   0.   0.   0.  17.]]
+
+
+
+Step: 7600, Images Trained: 760000, Batch loss: 1.611177, Training accuracy: 0.380 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  18.   0.  22.   0.   3.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   5.   0.  33.   0.   5.   0.]
+ [  2.   5.   0.  13.   0.  11.  11.]
+ [ 19.   2.   1.   6.   0.   8.   7.]
+ [  9.   3.   1.   5.   0.  13.  12.]]
+
+
+
+Step: 7700, Images Trained: 770000, Batch loss: 1.642306, Training accuracy: 0.340 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   0.   0.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  37.   0.   3.   0.   0.   3.]
+ [ 10.  22.   1.   1.   0.   0.   9.]
+ [ 20.  11.   1.   0.   0.   1.  10.]
+ [ 20.   5.   2.   0.   0.   0.  15.]]
+
+
+
+Step: 7800, Images Trained: 780000, Batch loss: 1.579560, Training accuracy: 0.417 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   2.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  23.   0.  19.   0.   0.   1.]
+ [  1.  29.   0.   7.   0.   0.   6.]
+ [ 22.   8.   1.   5.   1.   0.   5.]
+ [  4.  15.   2.   0.   0.   0.  22.]]
+
+
+
+Step: 7900, Images Trained: 790000, Batch loss: 1.644781, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   6.   0.  19.  14.   0.   4.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   2.   0.  33.   5.   0.   2.]
+ [  9.   2.   0.  11.   5.   0.  16.]
+ [ 26.   0.   2.   5.   0.   0.  10.]
+ [ 18.   1.   3.   0.   4.   0.  17.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 8000, Images Trained: 800000, Batch loss: 1.651386, Training accuracy: 0.297 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.   0.  40.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  21.  18.   0.   4.]
+ [  9.   0.   1.   5.   9.   0.  18.]
+ [ 27.   0.   0.   6.   7.   0.   3.]
+ [ 18.   0.   1.   0.   8.   0.  16.]]
+
+
+
+Step: 8100, Images Trained: 810000, Batch loss: 1.581513, Training accuracy: 0.457 
+Confusion Matrix:
+[[ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  38.   0.   5.   0.   0.   0.]
+ [ 41.   0.   2.   0.   0.   0.   0.]
+ [  0.  12.   0.  31.   0.   0.   0.]
+ [  3.  18.   1.  11.   0.   0.  10.]
+ [ 16.   8.   0.   4.   0.   0.  14.]
+ [  4.  14.   1.   0.   0.   0.  24.]]
+
+
+
+Step: 8200, Images Trained: 820000, Batch loss: 1.603761, Training accuracy: 0.330 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  42.   0.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  42.   0.   0.   1.]
+ [  3.   0.   2.  26.   3.   0.   9.]
+ [ 18.   0.   1.  11.   2.   0.  11.]
+ [ 13.   0.   2.  14.   2.   0.  11.]]
+
+
+
+Step: 8300, Images Trained: 830000, Batch loss: 1.647007, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  37.   0.   0.   0.   3.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  27.   0.  14.   0.   0.   2.]
+ [  3.  16.   1.   7.   0.   4.  11.]
+ [ 25.   6.   2.   5.   0.   0.   5.]
+ [ 27.   1.   2.   0.   0.   3.  10.]]
+
+
+
+Step: 8400, Images Trained: 840000, Batch loss: 1.646400, Training accuracy: 0.393 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  36.   0.   1.   0.   0.   6.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  18.   0.  21.   0.   0.   2.]
+ [  9.   9.   1.  10.   0.   0.  14.]
+ [ 30.   5.   1.   1.   0.   0.   6.]
+ [ 20.   5.   0.   0.   0.   0.  18.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 8500, Images Trained: 850000, Batch loss: 1.582791, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   0.]
+ [ 41.   0.   1.   0.   0.   0.   1.]
+ [  0.  38.   0.   5.   0.   0.   0.]
+ [  0.  31.   0.   3.   0.   0.   9.]
+ [ 19.  17.   0.   0.   0.   0.   7.]
+ [  4.  12.   2.   0.   0.   0.  25.]]
+
+
+
+Step: 8600, Images Trained: 860000, Batch loss: 1.609468, Training accuracy: 0.400 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  25.   0.   9.   4.   0.   5.]
+ [ 41.   0.   1.   0.   0.   0.   1.]
+ [  0.  13.   0.  28.   0.   0.   2.]
+ [  2.  10.   1.   8.   1.   0.  20.]
+ [ 25.   5.   0.   3.   1.   0.   9.]
+ [ 12.   8.   0.   0.   1.   0.  22.]]
+
+
+
+Step: 8700, Images Trained: 870000, Batch loss: 1.628738, Training accuracy: 0.363 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.   6.  34.   1.   2.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   0.   0.  29.  13.   0.   0.]
+ [  3.   0.   1.   8.  15.   3.  13.]
+ [ 25.   0.   1.   4.   8.   1.   4.]
+ [ 11.   0.   1.   0.   6.   3.  21.]]
+
+
+
+Step: 8800, Images Trained: 880000, Batch loss: 1.572079, Training accuracy: 0.333 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  41.   0.   1.   0.]
+ [ 40.   0.   2.   0.   0.   0.   1.]
+ [  0.   1.   0.  40.   0.   1.   1.]
+ [  2.   5.   0.  17.   0.  17.   2.]
+ [ 15.   3.   1.   9.   0.   9.   6.]
+ [  5.   5.   2.   2.   0.  23.   6.]]
+
+
+
+Step: 8900, Images Trained: 890000, Batch loss: 1.587463, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   1.   0.]
+ [ 37.   0.   1.   0.   0.   0.   5.]
+ [  0.  23.   1.  16.   0.   2.   0.]
+ [  0.  20.   0.  10.   3.   9.   1.]
+ [  8.   9.   1.   7.   2.   8.   8.]
+ [  3.  10.   2.   0.   1.  24.   3.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 9000, Images Trained: 900000, Batch loss: 1.586629, Training accuracy: 0.357 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   6.   0.   2.   0.]
+ [  4.  27.   1.   3.   0.   6.   2.]
+ [ 22.  13.   0.   1.   0.   5.   2.]
+ [  2.  11.   1.   0.   0.  18.  10.]]
+
+
+
+Step: 9100, Images Trained: 910000, Batch loss: 1.612197, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  37.   0.   1.   2.   3.   0.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  25.   0.  15.   0.   2.   1.]
+ [  5.  19.   0.   6.   4.   7.   2.]
+ [ 23.   4.   1.   2.   1.   4.   8.]
+ [ 12.   2.   4.   0.   6.   6.  13.]]
+
+
+
+Step: 9200, Images Trained: 920000, Batch loss: 1.694758, Training accuracy: 0.303 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  26.   0.   0.   6.  10.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  16.   0.  13.   4.   5.   2.]
+ [ 20.  12.   1.   3.   1.   6.   0.]
+ [ 31.   4.   2.   0.   2.   4.   0.]
+ [ 33.   1.   1.   0.   1.   3.   4.]]
+
+
+
+Step: 9300, Images Trained: 930000, Batch loss: 1.579370, Training accuracy: 0.427 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  32.   0.   8.   1.   2.   0.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.   7.   0.  33.   0.   3.   0.]
+ [  2.   7.   0.   9.   7.  17.   1.]
+ [ 18.   8.   2.   4.   2.   7.   1.]
+ [  4.   4.   0.   0.   4.  26.   5.]]
+
+
+
+Step: 9400, Images Trained: 940000, Batch loss: 1.600354, Training accuracy: 0.323 
+Confusion Matrix:
+[[ 32.   0.  11.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   0.]
+ [ 16.   0.  12.   0.   0.   5.  10.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [  0.  35.   1.   0.   0.   3.   4.]
+ [ 11.  17.   2.   0.   0.  10.   3.]
+ [  0.  26.   0.   0.   0.  16.   1.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 9500, Images Trained: 950000, Batch loss: 1.591389, Training accuracy: 0.390 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  38.   1.   0.   4.]
+ [ 40.   0.   0.   0.   0.   0.   3.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [  4.   0.   0.  11.   2.   0.  25.]
+ [ 20.   0.   0.   7.   2.   0.  14.]
+ [  8.   0.   2.   2.   2.   0.  29.]]
+
+
+
+Step: 9600, Images Trained: 960000, Batch loss: 1.586928, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  38.   5.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  36.   7.   0.   0.]
+ [  0.   0.   0.  12.   9.  11.  11.]
+ [ 21.   0.   0.   8.   4.   4.   6.]
+ [  6.   0.   2.   2.   7.   7.  19.]]
+
+
+
+Step: 9700, Images Trained: 970000, Batch loss: 1.588671, Training accuracy: 0.463 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  37.   0.   0.   5.   0.   1.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  18.   0.  17.   8.   0.   0.]
+ [  1.  10.   0.   3.  17.   0.  12.]
+ [ 18.   8.   0.   3.   8.   0.   6.]
+ [  5.   1.   1.   0.  10.   0.  26.]]
+
+
+
+Step: 9800, Images Trained: 980000, Batch loss: 1.636460, Training accuracy: 0.300 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   1.  15.  26.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   0.   0.  30.   9.   0.   3.]
+ [  9.   0.   0.  12.  11.   0.  10.]
+ [ 28.   0.   0.   2.   6.   0.   7.]
+ [ 26.   0.   7.   0.   4.   0.   6.]]
+
+
+
+Step: 9900, Images Trained: 990000, Batch loss: 1.632071, Training accuracy: 0.330 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   3.   0.  21.  14.   0.   5.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  3.   0.   0.  31.   3.   0.   6.]
+ [  5.   1.   0.  15.   2.   0.  20.]
+ [ 23.   2.   1.   7.   1.   0.   8.]
+ [ 19.   0.   1.   0.   3.   0.  20.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 10000, Images Trained: 1000000, Batch loss: 1.599239, Training accuracy: 0.417 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 38.   0.   2.   0.   0.   1.   2.]
+ [  0.  16.   0.  22.   5.   0.   0.]
+ [  6.  15.   2.   6.   3.  10.   1.]
+ [ 21.   6.   1.   2.   3.   9.   1.]
+ [  9.   7.   0.   0.   5.  17.   5.]]
+
+
+
+Step: 10100, Images Trained: 1010000, Batch loss: 1.648541, Training accuracy: 0.310 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  32.   0.   0.   8.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  31.   0.   0.   4.   0.   6.]
+ [  5.  15.   0.   0.   5.   0.  18.]
+ [ 25.   8.   1.   0.   1.   0.   8.]
+ [ 20.   4.   5.   0.   1.   0.  13.]]
+
+
+
+Step: 10200, Images Trained: 1020000, Batch loss: 1.578377, Training accuracy: 0.393 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 36.   0.   4.   0.   0.   1.   2.]
+ [  1.  31.   0.   5.   5.   1.   0.]
+ [  2.  21.   1.   4.   8.   5.   2.]
+ [ 11.  14.   3.   0.   7.   5.   3.]
+ [  4.  10.   0.   0.   7.  11.  10.]]
+
+
+
+Step: 10300, Images Trained: 1030000, Batch loss: 1.583904, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 35.   0.   1.   0.   0.   0.   7.]
+ [  0.  42.   0.   0.   0.   0.   1.]
+ [  4.  23.   0.   0.   0.   0.  15.]
+ [ 16.  17.   0.   0.   0.   0.  10.]
+ [  2.  14.   0.   0.   0.   0.  27.]]
+
+
+
+Step: 10400, Images Trained: 1040000, Batch loss: 1.640625, Training accuracy: 0.330 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  17.   0.  21.   0.   0.   5.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   4.   0.  27.   0.   0.  12.]
+ [  3.   3.   1.  12.   0.   0.  23.]
+ [ 27.   5.   1.   3.   0.   0.   7.]
+ [ 29.   0.   1.   1.   0.   0.  12.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 10500, Images Trained: 1050000, Batch loss: 1.630921, Training accuracy: 0.420 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  33.   0.   2.   6.   0.   2.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   9.   0.  25.   2.   0.   6.]
+ [  8.   8.   1.   2.   9.   0.  14.]
+ [ 29.   2.   0.   2.   3.   0.   7.]
+ [ 20.   1.   6.   0.   0.   0.  16.]]
+
+
+
+Step: 10600, Images Trained: 1060000, Batch loss: 1.573432, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  1.  38.   0.   0.   3.   0.   1.]
+ [  4.  29.   0.   0.   3.   0.   7.]
+ [ 15.  11.   3.   0.   2.   0.  12.]
+ [  7.  14.   0.   0.   2.   0.  19.]]
+
+
+
+Step: 10700, Images Trained: 1070000, Batch loss: 1.605083, Training accuracy: 0.320 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  37.   4.   2.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   1.   0.  37.   3.   2.   0.]
+ [  7.   0.   1.  15.   6.  14.   0.]
+ [ 22.   0.   2.   8.   1.  10.   0.]
+ [ 10.   1.   3.   5.   8.  15.   0.]]
+
+
+
+Step: 10800, Images Trained: 1080000, Batch loss: 1.620235, Training accuracy: 0.303 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   1.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   0.   2.   3.   0.]
+ [  6.  20.   2.   0.   3.  12.   0.]
+ [ 25.  14.   0.   0.   1.   3.   0.]
+ [ 16.  12.   0.   0.   3.  11.   1.]]
+
+
+
+Step: 10900, Images Trained: 1090000, Batch loss: 1.581348, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  37.   1.   2.   1.   0.   1.]
+ [  4.  20.   0.   0.   6.   0.  13.]
+ [ 28.   7.   0.   0.   3.   0.   5.]
+ [  6.   5.   4.   0.   5.   0.  23.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 11000, Images Trained: 1100000, Batch loss: 1.659556, Training accuracy: 0.300 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   0.   7.   1.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  30.   0.   0.   6.   5.   0.]
+ [ 13.   8.   0.   0.  10.  11.   0.]
+ [ 30.  10.   0.   0.   1.   2.   0.]
+ [ 31.   1.   2.   0.   6.   3.   0.]]
+
+
+
+Step: 11100, Images Trained: 1110000, Batch loss: 1.563405, Training accuracy: 0.403 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   4.   0.  35.   4.   0.   0.]
+ [ 40.   0.   2.   0.   0.   0.   1.]
+ [  0.   1.   0.  35.   6.   0.   1.]
+ [  2.   2.   0.  16.  13.   0.  10.]
+ [ 23.   4.   2.   3.   3.   0.   7.]
+ [  6.   2.   0.   2.   9.   0.  24.]]
+
+
+
+Step: 11200, Images Trained: 1120000, Batch loss: 1.631473, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  37.   0.   1.   4.   1.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  21.   0.  12.   3.   5.   2.]
+ [  8.  10.   2.   1.   7.  11.   4.]
+ [ 26.   2.   1.   3.   1.  10.   0.]
+ [ 17.   5.   0.   0.   2.  14.   5.]]
+
+
+
+Step: 11300, Images Trained: 1130000, Batch loss: 1.618406, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  23.   0.  18.   0.   0.   2.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  1.  16.   0.  23.   1.   0.   1.]
+ [  7.   9.   1.   7.   4.   0.  15.]
+ [ 28.   5.   0.   3.   0.   0.   7.]
+ [ 16.   1.   2.   0.   2.   0.  22.]]
+
+
+
+Step: 11400, Images Trained: 1140000, Batch loss: 1.579095, Training accuracy: 0.433 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   1.   5.   0.   2.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  19.   0.  19.   2.   0.   3.]
+ [  2.  12.   0.   4.  12.   0.  13.]
+ [ 18.   3.   1.   3.   6.   0.  11.]
+ [  8.   3.   1.   0.  10.   0.  21.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 11500, Images Trained: 1150000, Batch loss: 1.609656, Training accuracy: 0.390 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   0.   0.   1.]
+ [ 41.   0.   0.   0.   0.   0.   2.]
+ [  3.  31.   0.   0.   2.   0.   7.]
+ [  2.  13.   1.   0.   4.   0.  23.]
+ [ 25.   6.   3.   0.   2.   0.   7.]
+ [  8.   3.   1.   0.   2.   0.  29.]]
+
+
+
+Step: 11600, Images Trained: 1160000, Batch loss: 1.575232, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 38.   0.   2.   0.   0.   2.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [  2.  15.   1.   0.  17.   3.   5.]
+ [ 20.   4.   1.   0.  10.   0.   8.]
+ [  6.  12.   2.   0.   7.   2.  14.]]
+
+
+
+Step: 11700, Images Trained: 1170000, Batch loss: 1.581695, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 39.   0.   2.   0.   0.   1.   1.]
+ [  0.  32.   0.   0.  10.   0.   1.]
+ [  4.  12.   0.   0.  11.   1.  15.]
+ [ 22.   4.   0.   0.   6.   1.  10.]
+ [  5.   2.   0.   0.   9.   3.  23.]]
+
+
+
+Step: 11800, Images Trained: 1180000, Batch loss: 1.575860, Training accuracy: 0.390 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   2.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  1.  24.   0.  12.   4.   2.   0.]
+ [  2.  17.   1.   1.  13.   9.   0.]
+ [ 21.   8.   2.   1.   3.   8.   0.]
+ [  8.   7.   3.   0.   7.  18.   0.]]
+
+
+
+Step: 11900, Images Trained: 1190000, Batch loss: 1.573402, Training accuracy: 0.413 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.   7.   0.  35.   1.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.   0.   0.  37.   5.   0.   1.]
+ [  2.   1.   0.  13.  11.   0.  16.]
+ [ 14.   1.   1.   7.   7.   4.   8.]
+ [  3.   0.   2.   4.   4.   7.  23.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 12000, Images Trained: 1200000, Batch loss: 1.584059, Training accuracy: 0.430 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  24.   0.  12.   6.   0.   1.]
+ [ 36.   0.   4.   0.   0.   2.   1.]
+ [  1.  10.   0.  19.   8.   1.   4.]
+ [  1.  15.   1.   5.   7.   0.  13.]
+ [ 19.   5.   2.   2.   4.   1.  10.]
+ [  0.   1.   2.   0.   4.   5.  31.]]
+
+
+
+Step: 12100, Images Trained: 1210000, Batch loss: 1.615729, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  27.   0.   0.   7.   0.   9.]
+ [  2.  13.   2.   0.  10.   3.  13.]
+ [ 27.   7.   0.   0.   2.   1.   6.]
+ [ 13.   0.   3.   0.   7.   4.  15.]]
+
+
+
+Step: 12200, Images Trained: 1220000, Batch loss: 1.543490, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   3.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  18.   0.  21.   1.   3.   0.]
+ [  2.  25.   0.   2.   3.  11.   0.]
+ [ 26.   9.   0.   0.   1.   6.   0.]
+ [  4.  10.   5.   0.   1.  23.   0.]]
+
+
+
+Step: 12300, Images Trained: 1230000, Batch loss: 1.603954, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   0.   0.  16.   0.   0.]
+ [ 41.   0.   1.   0.   0.   0.   1.]
+ [  0.  29.   0.   0.   9.   0.   5.]
+ [  7.   8.   0.   0.  10.   2.  16.]
+ [ 20.   4.   2.   0.   3.   5.   9.]
+ [  5.   0.   4.   0.  11.   4.  19.]]
+
+
+
+Step: 12400, Images Trained: 1240000, Batch loss: 1.580088, Training accuracy: 0.403 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  39.   0.   1.   3.   0.   0.]
+ [ 35.   0.   1.   0.   0.   7.   0.]
+ [  0.  24.   0.  12.   5.   2.   0.]
+ [  0.  22.   0.   0.  13.   7.   0.]
+ [ 16.   9.   1.   1.   2.  14.   0.]
+ [  0.   9.   0.   0.  14.  20.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 12500, Images Trained: 1250000, Batch loss: 1.556613, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 41.   0.   1.   0.   0.   1.   0.]
+ [  0.  37.   0.   0.   1.   0.   4.]
+ [  0.  24.   0.   0.   1.   2.  16.]
+ [ 17.   9.   0.   0.   2.   4.  11.]
+ [  5.   8.   0.   0.   0.   7.  23.]]
+
+
+
+Step: 12600, Images Trained: 1260000, Batch loss: 1.603834, Training accuracy: 0.413 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  36.   0.   5.   2.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  16.   0.  19.   4.   1.   3.]
+ [  6.  10.   0.   0.  10.   7.  10.]
+ [ 24.   9.   0.   2.   0.   2.   6.]
+ [ 12.   4.   0.   0.   0.  12.  14.]]
+
+
+
+Step: 12700, Images Trained: 1270000, Batch loss: 1.634150, Training accuracy: 0.293 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  25.   0.   0.  18.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  1.  19.   0.   0.  18.   5.   0.]
+ [ 10.   8.   1.   0.  16.   8.   0.]
+ [ 28.   2.   0.   0.   9.   4.   0.]
+ [ 16.   2.   0.   0.  14.  11.   0.]]
+
+
+
+Step: 12800, Images Trained: 1280000, Batch loss: 1.646371, Training accuracy: 0.290 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  34.   9.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.   0.   1.  27.   8.   4.   0.]
+ [ 11.   0.   3.   7.  16.   6.   0.]
+ [ 34.   0.   1.   2.   5.   1.   0.]
+ [ 26.   0.   1.   2.   8.   6.   0.]]
+
+
+
+Step: 12900, Images Trained: 1290000, Batch loss: 1.567751, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 28.   0.  14.   0.   0.   1.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 19.   0.   8.   0.   0.  16.   0.]
+ [  0.  36.   0.   0.   5.   1.   0.]
+ [  0.  26.   0.   0.  15.   2.   0.]
+ [  4.   4.   5.   0.   8.  22.   0.]
+ [  0.   9.   0.   0.  18.  16.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 13000, Images Trained: 1300000, Batch loss: 1.617967, Training accuracy: 0.310 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   0.   3.   1.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   0.   5.   3.   0.]
+ [ 10.  15.   1.   0.   4.  13.   0.]
+ [ 27.   3.   2.   0.   4.   7.   0.]
+ [ 15.   0.   4.   0.   6.  17.   0.]]
+
+
+
+Step: 13100, Images Trained: 1310000, Batch loss: 1.600878, Training accuracy: 0.307 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  38.   5.   0.   0.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  2.   0.   0.  24.  13.   3.   1.]
+ [  4.   0.   1.  11.  13.  12.   2.]
+ [ 19.   0.   2.   5.   5.   7.   4.]
+ [  8.   0.   2.   1.   5.  23.   4.]]
+
+
+
+Step: 13200, Images Trained: 1320000, Batch loss: 1.586222, Training accuracy: 0.350 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  35.   0.   0.   3.   0.   5.]
+ [  3.  22.   0.   0.   4.   2.  11.]
+ [ 29.   4.   1.   0.   2.   1.   6.]
+ [  8.  10.   3.   0.   2.   6.  14.]]
+
+
+
+Step: 13300, Images Trained: 1330000, Batch loss: 1.611304, Training accuracy: 0.357 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  32.   0.   0.  11.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  24.   1.   0.  15.   1.   2.]
+ [ 10.   8.   0.   0.  16.   1.   8.]
+ [ 23.   1.   1.   0.   5.   4.   8.]
+ [ 13.   1.   1.   0.   9.   7.  12.]]
+
+
+
+Step: 13400, Images Trained: 1340000, Batch loss: 1.568693, Training accuracy: 0.340 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 41.   0.   0.   0.   0.   1.   0.]
+ [  0.  35.   0.   0.   4.   4.   0.]
+ [  4.  15.   1.   0.   8.  15.   0.]
+ [ 22.   7.   0.   0.   5.   9.   0.]
+ [  6.   2.   2.   0.   8.  25.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 13500, Images Trained: 1350000, Batch loss: 1.599813, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   0.   3.   0.   1.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.  29.   0.   0.  10.   3.   1.]
+ [  3.   9.   0.   0.  17.   4.  10.]
+ [ 20.   9.   1.   0.   7.   4.   2.]
+ [ 11.   2.   1.   0.   4.  19.   6.]]
+
+
+
+Step: 13600, Images Trained: 1360000, Batch loss: 1.593511, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  37.   0.   0.   6.   0.   0.]
+ [ 39.   0.   0.   0.   0.   0.   3.]
+ [  0.  30.   0.   0.   7.   0.   6.]
+ [  3.  11.   0.   0.  13.   2.  14.]
+ [ 23.   5.   0.   0.   5.   1.   9.]
+ [  7.   0.   1.   0.  14.   3.  18.]]
+
+
+
+Step: 13700, Images Trained: 1370000, Batch loss: 1.599786, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   0.   4.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  30.   0.   0.   9.   1.   3.]
+ [  7.  11.   2.   0.  13.   3.   7.]
+ [ 24.   7.   0.   0.   4.   3.   5.]
+ [  6.   0.   1.   0.   5.  20.  11.]]
+
+
+
+Step: 13800, Images Trained: 1380000, Batch loss: 1.563351, Training accuracy: 0.413 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 33.   0.   4.   0.   0.   4.   2.]
+ [  0.  39.   0.   0.   3.   0.   0.]
+ [  1.  20.   0.   0.   8.   2.  12.]
+ [ 15.   5.   1.   0.   6.   3.  13.]
+ [  2.   3.   1.   0.   9.   3.  25.]]
+
+
+
+Step: 13900, Images Trained: 1390000, Batch loss: 1.575044, Training accuracy: 0.357 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  41.   1.   0.   0.]
+ [ 38.   0.   0.   0.   0.   4.   1.]
+ [  0.   0.   0.  32.   5.   0.   6.]
+ [  4.   0.   0.  18.   6.   2.  13.]
+ [ 18.   0.   0.   6.   1.   9.   9.]
+ [  1.   0.   0.  14.   8.   3.  17.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 14000, Images Trained: 1400000, Batch loss: 1.564476, Training accuracy: 0.343 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   1.   0.]
+ [ 40.   0.   2.   0.   0.   1.   0.]
+ [  1.  40.   0.   0.   0.   2.   0.]
+ [  4.  25.   0.   0.   1.  13.   0.]
+ [ 23.   3.   1.   0.   0.  15.   0.]
+ [  7.   7.   2.   0.   1.  26.   0.]]
+
+
+
+Step: 14100, Images Trained: 1410000, Batch loss: 1.556313, Training accuracy: 0.353 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 41.   0.   1.   0.   0.   0.   0.]
+ [  0.  36.   0.   0.   4.   1.   2.]
+ [  1.  21.   0.   0.   8.   4.   9.]
+ [ 20.   7.   0.   0.   5.   1.  10.]
+ [  7.   2.   0.   0.   7.  17.  10.]]
+
+
+
+Step: 14200, Images Trained: 1420000, Batch loss: 1.552643, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   0.   6.   2.   0.]
+ [  2.  19.   0.   0.  14.   8.   0.]
+ [ 26.   3.   0.   0.   5.   8.   0.]
+ [  7.   3.   1.   0.  17.  15.   0.]]
+
+
+
+Step: 14300, Images Trained: 1430000, Batch loss: 1.553483, Training accuracy: 0.440 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 39.   0.   0.   0.   0.   4.   0.]
+ [  0.  31.   0.   0.  12.   0.   0.]
+ [  1.   9.   2.   0.  24.   2.   5.]
+ [ 14.   4.   3.   0.   6.  10.   6.]
+ [  2.   4.   0.   0.  14.   8.  14.]]
+
+
+
+Step: 14400, Images Trained: 1440000, Batch loss: 1.583538, Training accuracy: 0.333 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   1.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  3.  34.   0.   0.   0.   2.   4.]
+ [  2.  21.   0.   0.   0.   3.  17.]
+ [ 22.  11.   3.   0.   0.   3.   3.]
+ [  6.   6.   0.   0.   0.  19.  12.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 14500, Images Trained: 1450000, Batch loss: 1.594255, Training accuracy: 0.293 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  42.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   0.   0.  29.   5.   8.   0.]
+ [  6.   0.   1.  16.   8.  11.   0.]
+ [ 31.   0.   0.   1.   3.   8.   0.]
+ [  8.   0.   1.   2.  11.  21.   0.]]
+
+
+
+Step: 14600, Images Trained: 1460000, Batch loss: 1.558084, Training accuracy: 0.337 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.   0.   0.  39.   4.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  1.   3.   0.  26.  10.   1.   2.]
+ [  2.   0.   0.  16.  18.   5.   1.]
+ [ 13.   0.   3.   6.  11.   3.   7.]
+ [  3.   0.   0.   2.  23.   3.  12.]]
+
+
+
+Step: 14700, Images Trained: 1470000, Batch loss: 1.561520, Training accuracy: 0.327 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  31.   0.  12.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  24.   0.   8.   8.   2.   0.]
+ [  2.   7.   0.  10.  13.   8.   3.]
+ [ 28.   2.   0.   1.   7.   3.   1.]
+ [ 10.   0.   1.   0.  10.  22.   0.]]
+
+
+
+Step: 14800, Images Trained: 1480000, Batch loss: 1.597515, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   0.   2.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  25.   0.   0.  12.   0.   5.]
+ [  4.   6.   0.   0.   8.   6.  19.]
+ [ 26.   4.   2.   0.   0.   3.   7.]
+ [  9.   2.   2.   0.   2.  12.  16.]]
+
+
+
+Step: 14900, Images Trained: 1490000, Batch loss: 1.656729, Training accuracy: 0.303 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  34.   0.   0.   0.   0.   9.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  4.  20.   0.   0.   0.   1.  18.]
+ [  7.   6.   1.   0.   0.  11.  18.]
+ [ 32.   3.   0.   0.   0.   1.   7.]
+ [ 23.   0.   1.   0.   0.   6.  13.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 15000, Images Trained: 1500000, Batch loss: 1.559705, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 39.   0.   1.   0.   0.   0.   2.]
+ [  0.  33.   0.   0.   7.   0.   3.]
+ [  2.  21.   0.   0.   8.   4.   8.]
+ [ 23.   1.   0.   0.   8.   7.   4.]
+ [  2.   1.   1.   1.   9.  15.  14.]]
+
+
+
+Step: 15100, Images Trained: 1510000, Batch loss: 1.545406, Training accuracy: 0.380 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 41.   0.   0.   0.   0.   0.   1.]
+ [  0.  36.   0.   0.   7.   0.   0.]
+ [  1.  16.   1.   0.  15.   6.   4.]
+ [ 21.   7.   1.   0.   2.   2.  10.]
+ [  5.   6.   4.   0.  10.   6.  12.]]
+
+
+
+Step: 15200, Images Trained: 1520000, Batch loss: 1.561954, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 40.   0.   3.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  1.  37.   0.   0.   1.   1.   3.]
+ [  2.  23.   0.   0.   8.   1.   8.]
+ [ 24.   6.   0.   0.   2.   9.   2.]
+ [  8.   6.   1.   0.   8.  15.   5.]]
+
+
+
+Step: 15300, Images Trained: 1530000, Batch loss: 1.560585, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 41.   0.   1.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.  33.   0.   0.   3.   1.   6.]
+ [  3.  19.   1.   0.   7.   5.   8.]
+ [ 20.   7.   0.   0.   7.   6.   3.]
+ [  6.   3.   1.   0.   8.  11.  14.]]
+
+
+
+Step: 15400, Images Trained: 1540000, Batch loss: 1.540286, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   8.   0.  35.   0.   0.   0.]
+ [ 34.   0.   5.   0.   0.   4.   0.]
+ [  0.  15.   0.  18.   6.   0.   4.]
+ [  2.   0.   0.  15.  20.   2.   4.]
+ [ 20.   0.   1.   4.  12.   3.   3.]
+ [  0.   0.   0.   2.  18.  11.  11.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 15500, Images Trained: 1550000, Batch loss: 1.567815, Training accuracy: 0.367 
+Confusion Matrix:
+[[ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  40.   0.   0.   3.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.  29.   0.   0.  10.   3.   0.]
+ [  3.  12.   0.   0.  18.  10.   0.]
+ [ 23.   1.   1.   0.   8.  10.   0.]
+ [  4.   4.   2.   0.   6.  27.   0.]]
+
+
+
+Step: 15600, Images Trained: 1560000, Batch loss: 1.614833, Training accuracy: 0.343 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  28.   0.   0.   4.   4.   6.]
+ [  3.  10.   1.   0.  14.   7.   8.]
+ [ 35.   0.   0.   0.   4.   3.   1.]
+ [ 28.   0.   1.   0.   5.   6.   3.]]
+
+
+
+Step: 15700, Images Trained: 1570000, Batch loss: 1.627854, Training accuracy: 0.310 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   0.   0.  17.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  23.   0.   0.  17.   1.   0.]
+ [ 11.   9.   0.   0.  14.   9.   0.]
+ [ 32.   1.   0.   0.   6.   4.   0.]
+ [ 27.   0.   0.   0.   5.   4.   6.]]
+
+
+
+Step: 15800, Images Trained: 1580000, Batch loss: 1.553322, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.  35.   0.   0.   8.   0.   0.]
+ [  5.   9.   0.   0.  21.   8.   0.]
+ [ 25.   2.   1.   0.   8.   7.   0.]
+ [  8.   0.   1.   0.  17.  17.   0.]]
+
+
+
+Step: 15900, Images Trained: 1590000, Batch loss: 1.681846, Training accuracy: 0.283 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  28.   0.   9.   2.   0.   4.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  7.  17.   0.   6.   3.   2.   8.]
+ [ 19.   5.   2.   2.   4.   4.   7.]
+ [ 30.   1.   0.   3.   2.   4.   3.]
+ [ 38.   0.   2.   0.   1.   1.   1.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 16000, Images Trained: 1600000, Batch loss: 1.581932, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  36.   0.   0.   2.   1.   4.]
+ [  4.  12.   0.   0.   4.   0.  23.]
+ [ 25.   2.   1.   0.   3.   2.   9.]
+ [  8.   1.   3.   0.   5.   9.  17.]]
+
+
+
+Step: 16100, Images Trained: 1610000, Batch loss: 1.657610, Training accuracy: 0.310 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  28.   0.   0.  14.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  6.  22.   0.   0.   9.   1.   5.]
+ [ 15.   2.   1.   0.   8.   3.  14.]
+ [ 25.   2.   0.   0.   2.   2.  12.]
+ [ 26.   0.   0.   0.   0.   4.  13.]]
+
+
+
+Step: 16200, Images Trained: 1620000, Batch loss: 1.584672, Training accuracy: 0.360 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  34.   0.   0.   9.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  18.   0.   0.  22.   0.   2.]
+ [  7.   7.   0.   0.  14.   2.  13.]
+ [ 25.   0.   1.   0.  11.   3.   3.]
+ [  4.   0.   0.   0.  13.  11.  15.]]
+
+
+
+Step: 16300, Images Trained: 1630000, Batch loss: 1.566128, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [ 34.   0.   0.   0.   1.   7.   0.]
+ [  0.   0.   0.  30.  12.   1.   0.]
+ [  1.   0.   0.  16.  20.   3.   3.]
+ [ 14.   0.   2.   3.  10.  10.   4.]
+ [  3.   0.   1.   2.  17.   6.  14.]]
+
+
+
+Step: 16400, Images Trained: 1640000, Batch loss: 1.554605, Training accuracy: 0.357 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 40.   0.   1.   0.   0.   2.   0.]
+ [  0.  38.   0.   0.   2.   0.   3.]
+ [  5.  20.   1.   1.   3.   2.  11.]
+ [ 27.   8.   0.   1.   2.   2.   2.]
+ [  8.  10.   1.   0.   5.   3.  16.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 16500, Images Trained: 1650000, Batch loss: 1.540223, Training accuracy: 0.397 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 35.   0.   2.   0.   0.   5.   0.]
+ [  0.  39.   0.   0.   4.   0.   0.]
+ [  2.  19.   0.   0.  19.   3.   0.]
+ [ 23.   5.   3.   0.   8.   3.   1.]
+ [  3.   2.   1.   0.  25.   3.   9.]]
+
+
+
+Step: 16600, Images Trained: 1660000, Batch loss: 1.589675, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   7.   0.  35.   0.   0.   1.]
+ [ 41.   0.   2.   0.   0.   0.   0.]
+ [  0.   8.   0.  24.   4.   3.   4.]
+ [  7.   0.   0.  13.   3.   3.  17.]
+ [ 18.   0.   1.   6.   1.   8.   9.]
+ [ 10.   0.   0.   2.   0.  13.  17.]]
+
+
+
+Step: 16700, Images Trained: 1670000, Batch loss: 1.563456, Training accuracy: 0.417 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   0.   3.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  22.   0.   0.  19.   0.   2.]
+ [  3.   5.   0.   0.  29.   3.   2.]
+ [ 25.   0.   0.   0.   8.   9.   1.]
+ [  7.   0.   3.   0.  15.  14.   4.]]
+
+
+
+Step: 16800, Images Trained: 1680000, Batch loss: 1.594440, Training accuracy: 0.357 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   0.   3.   0.   1.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  29.   0.   0.   9.   2.   3.]
+ [  4.  10.   2.   0.   9.   7.  11.]
+ [ 29.   2.   0.   0.   4.   4.   3.]
+ [ 10.   0.   2.   0.   8.  11.  12.]]
+
+
+
+Step: 16900, Images Trained: 1690000, Batch loss: 1.581652, Training accuracy: 0.310 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   4.   0.  38.   1.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  10.   0.  21.   6.   0.   6.]
+ [  5.   0.   0.   9.  10.   4.  15.]
+ [ 26.   0.   3.   3.   2.   3.   6.]
+ [  8.   0.   0.   1.  10.  11.  12.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 17000, Images Trained: 1700000, Batch loss: 1.539770, Training accuracy: 0.447 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   3.   0.   0.   0.]
+ [ 39.   0.   0.   0.   0.   2.   1.]
+ [  0.  19.   0.  17.   5.   0.   2.]
+ [  0.   7.   0.  14.   8.   1.  13.]
+ [ 20.   1.   1.   5.   5.   5.   6.]
+ [  4.   0.   2.   5.  10.   1.  21.]]
+
+
+
+Step: 17100, Images Trained: 1710000, Batch loss: 1.572961, Training accuracy: 0.323 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  29.   0.  12.   2.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  18.   0.   9.  12.   3.   1.]
+ [  3.   9.   0.  12.  10.   6.   3.]
+ [ 31.   2.   0.   4.   5.   1.   0.]
+ [  7.   0.   0.   0.  16.  15.   5.]]
+
+
+
+Step: 17200, Images Trained: 1720000, Batch loss: 1.602900, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.  24.   0.   0.  12.   0.   6.]
+ [  8.   7.   0.   0.   9.   1.  18.]
+ [ 28.   5.   0.   0.   2.   1.   7.]
+ [ 16.   0.   1.   0.   3.   7.  16.]]
+
+
+
+Step: 17300, Images Trained: 1730000, Batch loss: 1.595708, Training accuracy: 0.323 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   4.   0.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  25.   0.   0.   8.   1.   9.]
+ [  5.  10.   2.   2.   5.  10.   9.]
+ [ 28.   2.   0.   2.   3.   5.   2.]
+ [  9.   0.   1.   1.   1.  25.   6.]]
+
+
+
+Step: 17400, Images Trained: 1740000, Batch loss: 1.565527, Training accuracy: 0.367 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   0.   5.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  29.   0.   0.  14.   0.   0.]
+ [  5.  11.   0.   0.  15.   1.  10.]
+ [ 28.   1.   2.   0.   6.   2.   4.]
+ [  7.   0.   1.   0.  14.   9.  12.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 17500, Images Trained: 1750000, Batch loss: 1.559912, Training accuracy: 0.313 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  10.   0.  32.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  10.   1.  19.  11.   0.   2.]
+ [  5.   0.   0.  16.  12.   2.   8.]
+ [ 24.   0.   0.   5.   8.   3.   2.]
+ [  3.   0.   2.   0.  15.  16.   7.]]
+
+
+
+Step: 17600, Images Trained: 1760000, Batch loss: 1.588509, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  37.   0.   5.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   1.   4.   7.   0.   5.]
+ [  5.   5.   0.   1.   8.   6.  18.]
+ [ 30.   1.   1.   2.   3.   4.   2.]
+ [ 17.   0.   4.   3.   7.   4.   8.]]
+
+
+
+Step: 17700, Images Trained: 1770000, Batch loss: 1.548833, Training accuracy: 0.403 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   1.   1.]
+ [  0.  33.   0.   0.   7.   0.   2.]
+ [  1.   9.   0.   0.  13.   3.  17.]
+ [ 23.   1.   1.   0.   6.   5.   7.]
+ [  6.   1.   0.   0.  10.   9.  17.]]
+
+
+
+Step: 17800, Images Trained: 1780000, Batch loss: 1.571738, Training accuracy: 0.390 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [ 41.   0.   0.   0.   0.   0.   1.]
+ [  1.  28.   0.   0.   5.   1.   8.]
+ [  2.  12.   0.   0.   9.   5.  15.]
+ [ 20.   2.   0.   0.   1.   5.  15.]
+ [  7.   2.   1.   0.   2.  12.  19.]]
+
+
+
+Step: 17900, Images Trained: 1790000, Batch loss: 1.575377, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   1.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  26.   0.   1.   6.   3.   6.]
+ [  6.   5.   0.   3.  12.   4.  13.]
+ [ 25.   2.   2.   0.   5.   2.   7.]
+ [  5.   0.   3.   0.   6.   8.  21.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 18000, Images Trained: 1800000, Batch loss: 1.536816, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 40.   0.   2.   0.   0.   1.   0.]
+ [  0.  34.   0.   0.   6.   1.   1.]
+ [  1.  18.   0.   0.   7.   7.  10.]
+ [ 24.   4.   0.   0.   6.   4.   5.]
+ [  4.   7.   0.   0.   6.  12.  14.]]
+
+
+
+Step: 18100, Images Trained: 1810000, Batch loss: 1.620181, Training accuracy: 0.297 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   9.   0.  31.   2.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   7.   0.  14.  10.   2.   9.]
+ [  8.   0.   0.   7.   9.   7.  11.]
+ [ 29.   0.   2.   1.   3.   4.   4.]
+ [ 22.   0.   2.   1.   2.   6.  10.]]
+
+
+
+Step: 18200, Images Trained: 1820000, Batch loss: 1.537380, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   1.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  22.   0.  15.   3.   1.   2.]
+ [  1.   3.   0.  17.  10.   5.   6.]
+ [ 24.   0.   0.   4.   4.  11.   0.]
+ [  2.   0.   2.   9.  11.  18.   1.]]
+
+
+
+Step: 18300, Images Trained: 1830000, Batch loss: 1.654526, Training accuracy: 0.303 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   6.   0.  28.   9.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  3.   6.   0.  15.  10.   4.   5.]
+ [  9.   0.   0.   2.  21.   9.   2.]
+ [ 40.   0.   1.   0.   1.   1.   0.]
+ [ 29.   0.   0.   0.   2.   7.   5.]]
+
+
+
+Step: 18400, Images Trained: 1840000, Batch loss: 1.570276, Training accuracy: 0.350 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  30.   0.   0.   7.   0.   5.]
+ [  9.  15.   0.   1.   4.   1.  13.]
+ [ 30.   0.   1.   0.   1.   3.   8.]
+ [ 11.   1.   1.   3.   6.   8.  12.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 18500, Images Trained: 1850000, Batch loss: 1.545379, Training accuracy: 0.363 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  21.   0.  22.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  21.   0.  13.   7.   1.   1.]
+ [  2.   2.   2.  13.  15.   5.   3.]
+ [ 20.   0.   0.   3.   7.   7.   6.]
+ [  4.   0.   1.   3.  16.   9.  10.]]
+
+
+
+Step: 18600, Images Trained: 1860000, Batch loss: 1.543308, Training accuracy: 0.380 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 40.   0.   2.   0.   0.   0.   0.]
+ [  0.  28.   0.   5.   7.   3.   0.]
+ [  3.  13.   0.   6.  10.  11.   0.]
+ [ 16.   5.   2.   1.   7.  12.   0.]
+ [  7.   2.   3.   0.   7.  24.   0.]]
+
+
+
+Step: 18700, Images Trained: 1870000, Batch loss: 1.564278, Training accuracy: 0.353 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  31.   0.  10.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  25.   0.   4.  11.   3.   0.]
+ [  5.   0.   0.   7.  19.   8.   4.]
+ [ 23.   0.   0.   1.  11.   8.   0.]
+ [  7.   0.   3.   1.  10.  21.   1.]]
+
+
+
+Step: 18800, Images Trained: 1880000, Batch loss: 1.590058, Training accuracy: 0.320 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  26.   0.   0.   6.   9.   0.]
+ [  7.  14.   0.   0.   6.  16.   0.]
+ [ 31.   4.   0.   0.   3.   5.   0.]
+ [ 22.   0.   2.   0.   7.  12.   0.]]
+
+
+
+Step: 18900, Images Trained: 1890000, Batch loss: 1.559760, Training accuracy: 0.423 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  21.   0.   0.  15.   6.   0.]
+ [  3.   6.   0.   0.  26.   6.   2.]
+ [ 20.   4.   0.   0.   7.  11.   1.]
+ [  7.   0.   0.   0.  12.  20.   4.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 19000, Images Trained: 1900000, Batch loss: 1.578684, Training accuracy: 0.363 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  36.   0.   5.   2.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  20.   0.   7.   8.   1.   7.]
+ [  5.   2.   1.  10.  13.   7.   4.]
+ [ 29.   2.   0.   2.   3.   4.   3.]
+ [  8.   0.   3.   0.  13.  13.   6.]]
+
+
+
+Step: 19100, Images Trained: 1910000, Batch loss: 1.544103, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   2.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  27.   0.  14.   1.   1.   0.]
+ [  6.   5.   0.  21.   0.   3.   8.]
+ [ 19.   1.   0.   6.   0.  10.   7.]
+ [  6.   0.   2.  10.   2.  15.   8.]]
+
+
+
+Step: 19200, Images Trained: 1920000, Batch loss: 1.550652, Training accuracy: 0.403 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  32.   0.  10.   1.   0.   0.]
+ [ 38.   0.   1.   0.   0.   3.   1.]
+ [  0.  19.   0.  11.   5.   0.   8.]
+ [  4.   1.   1.  17.   6.   2.  12.]
+ [ 22.   0.   1.   4.   2.   6.   7.]
+ [  4.   0.   1.   7.   3.   6.  22.]]
+
+
+
+Step: 19300, Images Trained: 1930000, Batch loss: 1.621763, Training accuracy: 0.367 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  4.  20.   1.   0.  10.   6.   2.]
+ [  6.   5.   2.   0.  17.  12.   1.]
+ [ 31.   1.   0.   0.   2.   8.   0.]
+ [ 26.   0.   2.   0.   5.  10.   0.]]
+
+
+
+Step: 19400, Images Trained: 1940000, Batch loss: 1.527582, Training accuracy: 0.427 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   1.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  24.   0.   9.   9.   1.   0.]
+ [  1.   9.   1.   4.  18.   3.   7.]
+ [ 19.   0.   0.   1.   9.  11.   2.]
+ [  5.   0.   3.   3.  10.  16.   6.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 19500, Images Trained: 1950000, Batch loss: 1.547898, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  30.   0.   2.  11.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  27.   0.   1.  14.   0.   1.]
+ [  2.   4.   1.   0.  23.   6.   7.]
+ [ 24.   2.   1.   0.   6.   6.   4.]
+ [  8.   0.   1.   0.  13.  11.  10.]]
+
+
+
+Step: 19600, Images Trained: 1960000, Batch loss: 1.529688, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   4.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  25.   0.   8.   7.   0.   3.]
+ [  1.   5.   0.  12.   9.   5.  11.]
+ [ 19.   0.   4.   5.   6.   4.   4.]
+ [  5.   0.   2.   3.   5.   8.  20.]]
+
+
+
+Step: 19700, Images Trained: 1970000, Batch loss: 1.568137, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  33.   0.   0.  10.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  19.   0.   0.  21.   2.   1.]
+ [  3.   5.   0.   0.  23.   5.   7.]
+ [ 25.   1.   2.   0.  10.   4.   1.]
+ [  6.   0.   1.   0.  11.  15.  10.]]
+
+
+
+Step: 19800, Images Trained: 1980000, Batch loss: 1.581813, Training accuracy: 0.380 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  36.   0.   0.   6.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  19.   0.   0.  19.   2.   3.]
+ [  5.   5.   1.   0.  24.   4.   4.]
+ [ 33.   0.   0.   0.   5.   2.   3.]
+ [ 12.   0.   2.   0.   8.  12.   9.]]
+
+
+
+Step: 19900, Images Trained: 1990000, Batch loss: 1.573614, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   0.   3.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  15.   0.   0.  23.   4.   0.]
+ [  5.   5.   0.   0.  21.  12.   0.]
+ [ 22.   0.   1.   0.  12.   8.   0.]
+ [ 14.   0.   0.   0.  11.  18.   0.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 20000, Images Trained: 2000000, Batch loss: 1.571261, Training accuracy: 0.320 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  28.   0.  15.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  12.   0.  17.   4.   4.   6.]
+ [  6.   1.   0.  15.   2.   7.  12.]
+ [ 26.   0.   0.   5.   3.   2.   7.]
+ [  6.   0.   4.   4.   6.  19.   4.]]
+
+
+
+Step: 20100, Images Trained: 2010000, Batch loss: 1.679766, Training accuracy: 0.277 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  24.   0.   0.  17.   2.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  6.  17.   0.   0.  13.   1.   5.]
+ [ 17.   0.   1.   0.  11.   4.  10.]
+ [ 37.   0.   1.   0.   0.   4.   1.]
+ [ 36.   0.   2.   0.   0.   4.   1.]]
+
+
+
+Step: 20200, Images Trained: 2020000, Batch loss: 1.533385, Training accuracy: 0.397 
+Confusion Matrix:
+[[ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   0.   6.   0.   2.   9.]
+ [  2.  12.   1.   8.   0.   3.  17.]
+ [ 21.   1.   1.   8.   0.   4.   8.]
+ [  6.   1.   0.   5.   0.   6.  25.]]
+
+
+
+Step: 20300, Images Trained: 2030000, Batch loss: 1.583920, Training accuracy: 0.353 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   2.   0.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  29.   0.   3.   3.   3.   4.]
+ [  9.   6.   1.   8.   4.  10.   5.]
+ [ 30.   1.   0.   4.   0.   5.   3.]
+ [ 17.   0.   3.   0.   2.   9.  12.]]
+
+
+
+Step: 20400, Images Trained: 2040000, Batch loss: 1.614110, Training accuracy: 0.330 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   0.   4.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  17.   0.   0.   4.   5.  15.]
+ [  7.   5.   1.   0.   4.   4.  22.]
+ [ 29.   0.   1.   0.   4.   1.   8.]
+ [ 26.   0.   0.   0.   0.   4.  13.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 20500, Images Trained: 2050000, Batch loss: 1.600111, Training accuracy: 0.293 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  39.   4.   0.   0.]
+ [ 40.   0.   0.   0.   0.   3.   0.]
+ [  0.   0.   1.  19.  21.   2.   0.]
+ [ 13.   0.   1.   3.  24.   2.   0.]
+ [ 31.   0.   1.   0.   8.   3.   0.]
+ [ 20.   0.   1.   0.  12.  10.   0.]]
+
+
+
+Step: 20600, Images Trained: 2060000, Batch loss: 1.580281, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  24.   0.  19.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   7.   2.  16.  13.   2.   2.]
+ [  5.   0.   0.   6.  14.   7.  11.]
+ [ 24.   0.   0.   4.   4.   7.   4.]
+ [ 12.   0.   2.   0.   9.   8.  12.]]
+
+
+
+Step: 20700, Images Trained: 2070000, Batch loss: 1.549660, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  22.   0.   0.  17.   1.   2.]
+ [  5.   6.   1.   0.  18.   1.  12.]
+ [ 26.   0.   0.   0.   5.   4.   7.]
+ [  8.   0.   2.   0.   9.   9.  15.]]
+
+
+
+Step: 20800, Images Trained: 2080000, Batch loss: 1.571053, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 40.   0.   0.   0.   0.   0.   2.]
+ [  1.  23.   0.   9.   5.   1.   4.]
+ [  4.   5.   2.   9.   8.   5.  10.]
+ [ 25.   0.   0.   5.   7.   0.   6.]
+ [ 10.   0.   0.   6.   5.  10.  12.]]
+
+
+
+Step: 20900, Images Trained: 2090000, Batch loss: 1.572361, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  3.  27.   0.   5.   4.   1.   2.]
+ [  3.  11.   0.   5.   7.  12.   5.]
+ [ 32.   2.   0.   1.   2.   5.   1.]
+ [ 18.   1.   2.   1.   4.   7.  10.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 21000, Images Trained: 2100000, Batch loss: 1.531802, Training accuracy: 0.403 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [ 36.   0.   1.   0.   0.   4.   2.]
+ [  0.  30.   0.   0.  10.   1.   2.]
+ [  0.  18.   2.   0.  17.   2.   4.]
+ [ 17.   4.   1.   0.  10.   5.   5.]
+ [  1.   2.   0.   0.  18.   7.  15.]]
+
+
+
+Step: 21100, Images Trained: 2110000, Batch loss: 1.534978, Training accuracy: 0.427 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   0.   2.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  1.  15.   0.   0.  26.   1.   0.]
+ [  0.   4.   1.   0.  31.   1.   6.]
+ [ 22.   1.   1.   0.  11.   2.   6.]
+ [  3.   0.   1.   0.  22.   5.  12.]]
+
+
+
+Step: 21200, Images Trained: 2120000, Batch loss: 1.529549, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  27.   0.   0.  14.   0.   2.]
+ [  2.  12.   0.   0.  23.   4.   2.]
+ [ 26.   2.   0.   0.   9.   4.   2.]
+ [  7.   0.   3.   0.  16.   7.  10.]]
+
+
+
+Step: 21300, Images Trained: 2130000, Batch loss: 1.524307, Training accuracy: 0.357 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   1.   0.   0.   0.]
+ [ 40.   0.   0.   0.   0.   3.   0.]
+ [  0.  30.   0.   8.   3.   2.   0.]
+ [  3.  18.   0.   7.   3.   5.   7.]
+ [ 22.   3.   1.   7.   2.   5.   2.]
+ [  4.   3.   1.   4.   7.  18.   6.]]
+
+
+
+Step: 21400, Images Trained: 2140000, Batch loss: 1.554663, Training accuracy: 0.427 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   0.   2.   0.   0.]
+ [ 41.   0.   1.   0.   0.   0.   1.]
+ [  1.  20.   0.   0.  19.   0.   3.]
+ [  3.   4.   1.   0.  27.   3.   5.]
+ [ 20.   2.   2.   0.  13.   4.   2.]
+ [  9.   0.   0.   0.  17.   4.  13.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 21500, Images Trained: 2150000, Batch loss: 1.572839, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   4.   1.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  15.   0.   4.  21.   2.   1.]
+ [  7.   2.   1.   1.  25.   7.   0.]
+ [ 33.   0.   0.   0.   8.   2.   0.]
+ [ 15.   0.   1.   0.  10.  16.   1.]]
+
+
+
+Step: 21600, Images Trained: 2160000, Batch loss: 1.536114, Training accuracy: 0.397 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   5.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  13.   0.  21.   0.   0.   9.]
+ [  2.   3.   0.  16.   0.   7.  14.]
+ [ 23.   0.   0.   6.   0.   2.  12.]
+ [  9.   0.   0.  10.   0.   9.  15.]]
+
+
+
+Step: 21700, Images Trained: 2170000, Batch loss: 1.532888, Training accuracy: 0.397 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   2.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  23.   0.  13.   4.   1.   2.]
+ [  5.   3.   1.  10.  11.   5.   8.]
+ [ 28.   1.   0.   2.   8.   3.   1.]
+ [  6.   0.   2.   5.   7.  14.   8.]]
+
+
+
+Step: 21800, Images Trained: 2180000, Batch loss: 1.513896, Training accuracy: 0.403 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 37.   0.   4.   0.   0.   2.   0.]
+ [  0.  31.   0.   0.  10.   0.   2.]
+ [  0.  20.   0.   0.  19.   2.   2.]
+ [ 20.   9.   0.   0.   6.   3.   5.]
+ [  4.   7.   0.   0.  17.   4.  10.]]
+
+
+
+Step: 21900, Images Trained: 2190000, Batch loss: 1.552644, Training accuracy: 0.347 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   0.   0.  43.   0.   0.   0.]
+ [ 35.   0.   3.   0.   0.   3.   2.]
+ [  0.   0.   0.  36.   0.   0.   7.]
+ [  0.   0.   0.  25.   0.   4.  13.]
+ [ 23.   0.   1.   7.   0.   2.  10.]
+ [  1.   0.   0.  21.   0.   1.  20.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 22000, Images Trained: 2200000, Batch loss: 1.569634, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   0.   2.]
+ [  0.  18.   0.   5.   6.   3.  11.]
+ [ 10.   5.   0.   4.   6.   3.  15.]
+ [ 24.   0.   3.   2.   4.   1.   9.]
+ [ 11.   0.   3.   3.   3.   5.  18.]]
+
+
+
+Step: 22100, Images Trained: 2210000, Batch loss: 1.572004, Training accuracy: 0.367 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  17.   0.   0.  17.   3.   3.]
+ [  9.   2.   0.   0.  19.   5.   8.]
+ [ 31.   0.   0.   0.   6.   1.   5.]
+ [ 15.   0.   0.   0.  11.  13.   4.]]
+
+
+
+Step: 22200, Images Trained: 2220000, Batch loss: 1.530299, Training accuracy: 0.433 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [ 39.   0.   4.   0.   0.   0.   0.]
+ [  0.  20.   0.   0.  18.   3.   2.]
+ [  2.   5.   1.   0.  25.   1.   9.]
+ [ 20.   1.   3.   0.  10.   2.   7.]
+ [  3.   0.   0.   0.  16.   8.  15.]]
+
+
+
+Step: 22300, Images Trained: 2230000, Batch loss: 1.562126, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  16.   0.  26.   1.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.   9.   0.  30.   3.   0.   1.]
+ [  3.   1.   1.  23.  12.   1.   2.]
+ [ 27.   0.   1.   6.   1.   5.   2.]
+ [  7.   3.   2.   3.   5.  17.   6.]]
+
+
+
+Step: 22400, Images Trained: 2240000, Batch loss: 1.544737, Training accuracy: 0.400 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   4.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  24.   0.   5.  14.   0.   0.]
+ [  2.   9.   0.   1.  22.   3.   6.]
+ [ 23.   1.   0.   2.  11.   5.   1.]
+ [  9.   0.   5.   0.  15.   6.   7.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 22500, Images Trained: 2250000, Batch loss: 1.571020, Training accuracy: 0.320 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  12.   0.  29.   2.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  17.   0.  19.   4.   1.   1.]
+ [  1.   0.   3.  24.   8.   4.   3.]
+ [ 21.   0.   0.   6.   5.   6.   4.]
+ [ 15.   0.   1.   3.   3.  13.   8.]]
+
+
+
+Step: 22600, Images Trained: 2260000, Batch loss: 1.530227, Training accuracy: 0.423 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   8.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  19.   0.  21.   1.   0.   2.]
+ [  0.   1.   0.  21.  10.   4.   7.]
+ [ 20.   0.   0.  10.   0.   6.   7.]
+ [  6.   0.   0.   7.   7.  10.  13.]]
+
+
+
+Step: 22700, Images Trained: 2270000, Batch loss: 1.590303, Training accuracy: 0.317 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  24.   0.  18.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  3.  12.   0.  16.   6.   2.   4.]
+ [ 12.   2.   0.   9.   5.   9.   6.]
+ [ 26.   0.   1.   8.   3.   1.   4.]
+ [ 10.   0.   1.   2.   4.  20.   6.]]
+
+
+
+Step: 22800, Images Trained: 2280000, Batch loss: 1.558652, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  33.   0.  10.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  17.   0.  15.   5.   1.   5.]
+ [  1.   0.   1.  20.  10.   3.   7.]
+ [ 25.   1.   0.   1.   5.   4.   7.]
+ [  8.   0.   2.   5.   8.  12.   8.]]
+
+
+
+Step: 22900, Images Trained: 2290000, Batch loss: 1.541191, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  23.   0.   0.  17.   1.   2.]
+ [  4.   7.   1.   0.  18.   4.   9.]
+ [ 28.   1.   0.   0.  10.   3.   1.]
+ [  4.   0.   3.   0.  13.  17.   5.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 23000, Images Trained: 2300000, Batch loss: 1.574604, Training accuracy: 0.353 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  38.   0.   5.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   0.   6.   7.   3.   1.]
+ [ 11.   2.   0.  11.  11.   7.   0.]
+ [ 30.   0.   1.   0.   4.   8.   0.]
+ [ 24.   0.   2.   0.   7.  10.   0.]]
+
+
+
+Step: 23100, Images Trained: 2310000, Batch loss: 1.531067, Training accuracy: 0.390 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   8.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   0.   1.]
+ [  0.  15.   0.  14.  14.   0.   0.]
+ [  4.   2.   0.  13.  17.   2.   5.]
+ [ 24.   0.   0.   1.  11.   3.   4.]
+ [  6.   0.   2.   0.  12.  18.   5.]]
+
+
+
+Step: 23200, Images Trained: 2320000, Batch loss: 1.582403, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  27.   0.  15.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   6.   0.  18.   9.   2.   7.]
+ [  4.   1.   0.  12.  14.   9.   2.]
+ [ 28.   0.   0.   3.   4.   6.   2.]
+ [ 16.   0.   2.   1.  12.   9.   3.]]
+
+
+
+Step: 23300, Images Trained: 2330000, Batch loss: 1.539595, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   4.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  19.   0.  16.   4.   1.   2.]
+ [  4.   9.   1.  15.   1.   7.   6.]
+ [ 25.   3.   0.   6.   1.   5.   3.]
+ [  6.   0.   0.  13.   4.  12.   8.]]
+
+
+
+Step: 23400, Images Trained: 2340000, Batch loss: 1.582473, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  37.   0.   0.   4.   0.   1.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  16.   0.   0.   5.   2.  19.]
+ [  1.   3.   1.   0.  17.   1.  20.]
+ [ 29.   0.   0.   0.   4.   1.   9.]
+ [ 14.   0.   2.   0.   1.  12.  14.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 23500, Images Trained: 2350000, Batch loss: 1.541857, Training accuracy: 0.353 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [ 41.   0.   0.   0.   0.   1.   0.]
+ [  0.  23.   0.   3.  14.   3.   0.]
+ [  4.   8.   0.   8.  12.  11.   0.]
+ [ 23.   5.   0.   3.   5.   7.   0.]
+ [ 12.   0.   3.   0.  15.  13.   0.]]
+
+
+
+Step: 23600, Images Trained: 2360000, Batch loss: 1.562346, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  33.   0.   9.   1.   0.   0.]
+ [ 40.   0.   0.   0.   0.   2.   0.]
+ [  1.  15.   0.   6.  14.   1.   6.]
+ [  7.   1.   2.   8.  15.   5.   5.]
+ [ 26.   0.   0.   1.  10.   4.   2.]
+ [ 11.   0.   1.   0.  10.  11.  10.]]
+
+
+
+Step: 23700, Images Trained: 2370000, Batch loss: 1.536780, Training accuracy: 0.400 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  19.   0.   3.  17.   0.   2.]
+ [  7.   8.   0.   3.  18.   6.   1.]
+ [ 28.   0.   1.   2.   6.   5.   1.]
+ [  5.   0.   0.   1.  22.   7.   8.]]
+
+
+
+Step: 23800, Images Trained: 2380000, Batch loss: 1.531216, Training accuracy: 0.393 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   1.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  20.   1.   8.  12.   0.   2.]
+ [  1.   3.   2.  10.  15.   4.   8.]
+ [ 21.   2.   1.   0.   8.   3.   8.]
+ [  7.   0.   0.   3.  14.  10.   9.]]
+
+
+
+Step: 23900, Images Trained: 2390000, Batch loss: 1.524946, Training accuracy: 0.427 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  22.   0.   1.  12.   0.   7.]
+ [  1.  11.   0.   1.  14.   2.  14.]
+ [ 24.   0.   0.   2.   5.   5.   7.]
+ [  5.   0.   0.   0.   5.  11.  22.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 24000, Images Trained: 2400000, Batch loss: 1.531476, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  36.   0.   7.   0.   0.   0.]
+ [ 41.   0.   2.   0.   0.   0.   0.]
+ [  0.  16.   0.  16.   6.   2.   3.]
+ [  3.   3.   0.  18.   4.   7.   7.]
+ [ 20.   0.   0.   7.   6.   7.   3.]
+ [  6.   0.   0.   5.   5.  22.   5.]]
+
+
+
+Step: 24100, Images Trained: 2410000, Batch loss: 1.559863, Training accuracy: 0.410 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   0.   7.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  2.  18.   0.   0.  13.   0.  10.]
+ [  5.   3.   0.   0.  27.   2.   6.]
+ [ 25.   0.   1.   0.   6.   1.  10.]
+ [  6.   0.   1.   0.   8.  11.  17.]]
+
+
+
+Step: 24200, Images Trained: 2420000, Batch loss: 1.530346, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   2.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.  20.   0.  12.   4.   3.   4.]
+ [  1.   2.   1.  16.   5.   6.  12.]
+ [ 23.   0.   1.   6.   3.   7.   3.]
+ [  3.   0.   3.   3.  15.  13.   5.]]
+
+
+
+Step: 24300, Images Trained: 2430000, Batch loss: 1.520056, Training accuracy: 0.400 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 42.   0.   0.   0.   1.   0.   0.]
+ [  0.  23.   0.   0.  18.   0.   2.]
+ [  3.  13.   0.   1.  18.   5.   3.]
+ [ 22.   3.   1.   1.  10.   4.   2.]
+ [  3.   0.   0.   0.  21.   6.  13.]]
+
+
+
+Step: 24400, Images Trained: 2440000, Batch loss: 1.530734, Training accuracy: 0.370 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  24.   0.   0.   6.   2.   9.]
+ [  1.  10.   0.   2.  16.   3.  11.]
+ [ 23.   0.   0.   0.   3.   8.   9.]
+ [ 15.   0.   1.   0.  10.  14.   3.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 24500, Images Trained: 2450000, Batch loss: 1.506019, Training accuracy: 0.363 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  28.   0.  14.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  0.  12.   0.  25.   5.   0.   1.]
+ [  0.   2.   1.  28.   7.   2.   3.]
+ [ 27.   0.   0.   6.   5.   1.   4.]
+ [  1.   0.   0.  13.  15.   9.   5.]]
+
+
+
+Step: 24600, Images Trained: 2460000, Batch loss: 1.535554, Training accuracy: 0.403 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 42.   0.   0.   0.   1.   0.   0.]
+ [  1.  18.   0.   0.  19.   0.   4.]
+ [  2.   7.   0.   0.  25.   6.   3.]
+ [ 23.   1.   3.   0.   9.   5.   2.]
+ [  6.   0.   1.   0.  19.  12.   5.]]
+
+
+
+Step: 24700, Images Trained: 2470000, Batch loss: 1.502269, Training accuracy: 0.420 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   0.   9.   4.   0.   3.]
+ [  2.   8.   0.  11.  16.   2.   4.]
+ [ 26.   1.   1.   4.   6.   3.   2.]
+ [  8.   0.   0.   3.  11.   9.  12.]]
+
+
+
+Step: 24800, Images Trained: 2480000, Batch loss: 1.519243, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   4.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  13.   0.  11.  14.   1.   2.]
+ [  1.   2.   0.  20.  13.   1.   6.]
+ [ 19.   0.   1.   5.   8.   6.   4.]
+ [  4.   0.   1.   7.   9.  19.   3.]]
+
+
+
+Step: 24900, Images Trained: 2490000, Batch loss: 1.534700, Training accuracy: 0.363 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  22.   0.   0.  14.   1.   6.]
+ [  2.  14.   1.   0.  13.   1.  12.]
+ [ 30.   0.   0.   0.   4.   1.   7.]
+ [  8.   1.   0.   0.  10.  13.  11.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 25000, Images Trained: 2500000, Batch loss: 1.546194, Training accuracy: 0.373 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  31.   0.   0.  12.   0.   0.]
+ [ 41.   0.   0.   0.   0.   0.   1.]
+ [  1.  14.   0.   0.  23.   1.   4.]
+ [  2.   1.   0.   0.  31.   3.   6.]
+ [ 28.   0.   0.   0.   6.   3.   6.]
+ [ 11.   0.   0.   0.  20.   8.   4.]]
+
+
+
+Step: 25100, Images Trained: 2510000, Batch loss: 1.607296, Training accuracy: 0.327 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  36.   0.   4.   0.   0.   3.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  4.  13.   0.   2.   4.   7.  13.]
+ [  5.   4.   0.   2.   2.  10.  20.]
+ [ 32.   0.   1.   0.   0.   1.   9.]
+ [ 13.   0.   8.   0.   0.   7.  14.]]
+
+
+
+Step: 25200, Images Trained: 2520000, Batch loss: 1.549126, Training accuracy: 0.393 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   0.   1.]
+ [  1.  23.   0.   0.  10.   5.   4.]
+ [  4.   5.   0.   0.  25.   4.   5.]
+ [ 30.   0.   0.   0.   7.   3.   3.]
+ [ 20.   0.   0.   0.   6.  13.   4.]]
+
+
+
+Step: 25300, Images Trained: 2530000, Batch loss: 1.539713, Training accuracy: 0.383 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   2.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  19.   0.   6.   0.   1.  17.]
+ [  2.   4.   0.  10.   0.   4.  22.]
+ [ 27.   0.   0.   3.   0.   2.  11.]
+ [  6.   0.   4.   4.   0.   6.  23.]]
+
+
+
+Step: 25400, Images Trained: 2540000, Batch loss: 1.527082, Training accuracy: 0.403 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  33.   0.   8.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  12.   0.  12.  13.   0.   5.]
+ [  3.   0.   0.  12.  19.   2.   7.]
+ [ 27.   0.   1.   1.   7.   3.   4.]
+ [  5.   0.   0.   2.  10.  15.  11.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 25500, Images Trained: 2550000, Batch loss: 1.554388, Training accuracy: 0.350 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   2.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  19.   0.   8.   7.   6.   3.]
+ [  6.   3.   0.  10.   6.  13.   5.]
+ [ 31.   0.   0.   1.   1.   7.   3.]
+ [  9.   0.   0.   1.  10.  22.   1.]]
+
+
+
+Step: 25600, Images Trained: 2560000, Batch loss: 1.526872, Training accuracy: 0.397 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   3.   0.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  13.   0.  23.   0.   1.   6.]
+ [  4.   1.   1.  30.   0.   2.   5.]
+ [ 30.   0.   0.   5.   0.   2.   6.]
+ [  7.   0.   2.  12.   0.  10.  12.]]
+
+
+
+Step: 25700, Images Trained: 2570000, Batch loss: 1.521374, Training accuracy: 0.390 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  20.   0.   0.  17.   3.   1.]
+ [  6.   9.   0.   0.  24.   2.   2.]
+ [ 30.   1.   1.   0.   9.   2.   0.]
+ [  4.   0.   0.   0.  22.  11.   6.]]
+
+
+
+Step: 25800, Images Trained: 2580000, Batch loss: 1.594142, Training accuracy: 0.340 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  32.   0.   0.   8.   0.   2.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  13.   0.   0.  15.   5.  10.]
+ [  6.   1.   0.   0.  15.   4.  17.]
+ [ 33.   0.   0.   0.   3.   2.   5.]
+ [ 22.   0.   0.   0.   1.  10.  10.]]
+
+
+
+Step: 25900, Images Trained: 2590000, Batch loss: 1.544526, Training accuracy: 0.410 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  40.   0.   0.   3.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  18.   0.   0.  17.   2.   6.]
+ [  2.   1.   0.   0.  24.   0.  15.]
+ [ 22.   0.   1.   0.  11.   4.   5.]
+ [  9.   0.   3.   0.  12.   7.  12.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 26000, Images Trained: 2600000, Batch loss: 1.558277, Training accuracy: 0.380 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   0.  12.   5.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   5.   0.   9.  19.   5.   5.]
+ [  3.   1.   1.   2.  22.   7.   7.]
+ [ 28.   0.   1.   0.   5.   7.   2.]
+ [ 10.   0.   0.   0.  11.  14.   8.]]
+
+
+
+Step: 26100, Images Trained: 2610000, Batch loss: 1.489346, Training accuracy: 0.387 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  26.   0.  16.   0.   1.   0.]
+ [  1.   8.   0.  19.   4.   4.   6.]
+ [ 30.   0.   0.   9.   0.   1.   3.]
+ [  5.   1.   0.  17.   3.   9.   8.]]
+
+
+
+Step: 26200, Images Trained: 2620000, Batch loss: 1.524180, Training accuracy: 0.407 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  43.   0.   0.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   0.   1.]
+ [  0.  23.   0.  15.   1.   0.   4.]
+ [  4.   7.   0.  15.   1.   3.  12.]
+ [ 36.   0.   0.   3.   0.   1.   3.]
+ [  9.   0.   0.   4.   3.   8.  19.]]
+
+
+
+Step: 26300, Images Trained: 2630000, Batch loss: 1.487123, Training accuracy: 0.417 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  26.   0.   0.  15.   0.   1.]
+ [  3.   6.   0.   0.  30.   3.   1.]
+ [ 22.   0.   0.   0.  10.   9.   2.]
+ [  1.   0.   0.   0.  22.  19.   1.]]
+
+
+
+Step: 26400, Images Trained: 2640000, Batch loss: 1.523683, Training accuracy: 0.467 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  31.   0.  11.   1.   0.   0.]
+ [ 41.   0.   1.   0.   0.   1.   0.]
+ [  1.   6.   0.  21.  13.   0.   1.]
+ [  3.   0.   0.   9.  24.   3.   4.]
+ [ 25.   0.   1.   2.   5.   7.   3.]
+ [  3.   0.   0.   0.  17.  10.  13.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 26500, Images Trained: 2650000, Batch loss: 1.614858, Training accuracy: 0.327 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  31.   0.   8.   4.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  4.  12.   0.   7.   5.   7.   7.]
+ [ 11.   1.   0.   3.  14.   6.   8.]
+ [ 35.   0.   0.   1.   2.   2.   3.]
+ [ 24.   0.   0.   0.   6.  12.   1.]]
+
+
+
+Step: 26600, Images Trained: 2660000, Batch loss: 1.525639, Training accuracy: 0.430 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  39.   0.   3.   0.   0.   0.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  0.  17.   0.  24.   0.   0.   2.]
+ [  1.   4.   0.  22.   0.   3.  13.]
+ [ 21.   0.   0.   9.   1.   5.   7.]
+ [  4.   0.   0.  13.   0.   8.  18.]]
+
+
+
+Step: 26700, Images Trained: 2670000, Batch loss: 1.515827, Training accuracy: 0.423 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.   9.   0.   0.  29.   0.   4.]
+ [  3.  10.   0.   0.  26.   1.   3.]
+ [ 29.   0.   0.   0.   4.   4.   6.]
+ [ 10.   0.   0.   0.  14.   6.  13.]]
+
+
+
+Step: 26800, Images Trained: 2680000, Batch loss: 1.602821, Training accuracy: 0.350 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  35.   0.   0.   8.   0.   0.]
+ [ 41.   0.   0.   0.   0.   2.   0.]
+ [  5.  10.   0.   0.  15.   7.   6.]
+ [  8.   1.   0.   0.  13.  11.  10.]
+ [ 36.   0.   1.   0.   2.   2.   1.]
+ [ 17.   0.   1.   0.   2.  11.  12.]]
+
+
+
+Step: 26900, Images Trained: 2690000, Batch loss: 1.525246, Training accuracy: 0.393 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   2.   0.   0.]
+ [ 41.   0.   0.   0.   0.   1.   0.]
+ [  0.  21.   0.   0.  18.   0.   4.]
+ [  7.   8.   0.   0.  21.   3.   4.]
+ [ 25.   0.   0.   0.  11.   5.   2.]
+ [  3.   0.   0.   0.  19.  13.   8.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 27000, Images Trained: 2700000, Batch loss: 1.502687, Training accuracy: 0.420 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   2.   0.   0.   0.]
+ [ 39.   0.   0.   0.   0.   1.   3.]
+ [  0.  17.   0.  26.   0.   0.   0.]
+ [  0.   3.   0.  33.   0.   2.   5.]
+ [ 22.   2.   1.   7.   0.   7.   4.]
+ [  1.   0.   1.  28.   0.   3.   9.]]
+
+
+
+Step: 27100, Images Trained: 2710000, Batch loss: 1.544350, Training accuracy: 0.377 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  27.   0.   0.  16.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.   4.   0.   0.  37.   0.   2.]
+ [  4.   0.   0.   0.  30.   5.   4.]
+ [ 24.   0.   0.   0.  13.   4.   2.]
+ [  9.   0.   0.   0.  13.  11.   9.]]
+
+
+
+Step: 27200, Images Trained: 2720000, Batch loss: 1.519159, Training accuracy: 0.437 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  33.   0.  10.   0.   0.   0.]
+ [ 41.   0.   0.   0.   0.   0.   1.]
+ [  0.   9.   0.  30.   0.   1.   3.]
+ [  4.   0.   1.  33.   1.   0.   4.]
+ [ 23.   0.   0.   8.   1.   6.   5.]
+ [  6.   0.   0.  13.   0.   6.  18.]]
+
+
+
+Step: 27300, Images Trained: 2730000, Batch loss: 1.542121, Training accuracy: 0.390 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   0.   1.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [  1.  21.   0.   0.  13.   1.   7.]
+ [  7.   3.   0.   0.  16.   7.  10.]
+ [ 28.   1.   0.   0.   4.   3.   6.]
+ [  8.   0.   0.   0.  12.  10.  13.]]
+
+
+
+Step: 27400, Images Trained: 2740000, Batch loss: 1.508662, Training accuracy: 0.410 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  42.   0.   1.   0.   0.   0.]
+ [ 42.   0.   1.   0.   0.   0.   0.]
+ [  0.  18.   0.  13.   0.   2.   9.]
+ [  3.   7.   0.  19.   0.   4.  10.]
+ [ 26.   0.   0.   6.   0.   2.   9.]
+ [  5.   1.   0.  11.   0.   4.  22.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-7
+Step: 27500, Images Trained: 2750000, Batch loss: 1.704773, Training accuracy: 0.227 
+Confusion Matrix:
+[[ 42.   0.   0.   0.   0.   0.   0.]
+ [  0.  12.   1.  20.  10.   0.   0.]
+ [ 43.   0.   0.   0.   0.   0.   0.]
+ [ 14.   2.   0.   4.  15.   4.   4.]
+ [ 27.   0.   1.   0.   5.   4.   6.]
+ [ 38.   0.   0.   0.   0.   4.   1.]
+ [ 36.   0.   1.   0.   0.   5.   1.]]
+
+
+
+Step: 27600, Images Trained: 2760000, Batch loss: 1.601601, Training accuracy: 0.357 
+Confusion Matrix:
+[[ 43.   0.   0.   0.   0.   0.   0.]
+ [  0.  41.   0.   0.   0.   0.   2.]
+ [ 42.   0.   0.   0.   0.   1.   0.]
+ [  1.  15.   0.   9.   3.   5.  10.]
+ [ 16.   3.   0.  10.   0.   5.   8.]
+ [ 33.   0.   1.   0.   2.   3.   4.]
+ [ 22.   0.   0.   

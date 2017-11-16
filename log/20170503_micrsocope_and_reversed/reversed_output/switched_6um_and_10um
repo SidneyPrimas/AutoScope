@@ -1,0 +1,1392 @@
+###### HEADER START ###### 
+
+Log file: ./log/log_2017-06-28_06:54:39
+Graph: 2 Convolutional Layers with 2 Convolutions at 3x3
+Equal Images Per Class: (True)
+Filter Model (Loaded), Saved at: ./data/particle_model_filters_2times2Layers
+FC Layer Model (Not Loaded), Saved at: ./data/particle_model_fc_layers-4
+Number of Classes: 4
+Image Dimension: 52x52
+Training Set Size: 2444
+Validation Set Size: 276
+*** Directory Map ***
+{'10um-clump': 1,
+ '10um-other': 3,
+ '10um-particle': 1,
+ '6um-clump': 0,
+ '6um-other': 3,
+ '6um-particle': 0,
+ 'baf3-clump': 2,
+ 'baf3-other': 3,
+ 'baf3-particle': 2}
+*** Images Per Class ***
+{0: 1047, 1: 818, 2: 726, 3: 129}
+
+###### HEADER END ###### 
+
+
+
+Restored Filters from: ./data/saved_models/201612_class_models/download_in_201612/particle_model_filters_2times2Layers_from_154_v1
+Step: 1, Images Trained: 50, Batch loss: 10.802032, Training accuracy: 0.200 
+Confusion Matrix:
+[[  8.   3.   5.   9.]
+ [  6.   5.   5.   9.]
+ [  6.   2.   3.  14.]
+ [ 20.   0.   1.   4.]]
+
+
+
+Step: 3, Images Trained: 150, Batch loss: 7.964468, Training accuracy: 0.350 
+Confusion Matrix:
+[[  3.  13.   2.   7.]
+ [  7.   9.   5.   4.]
+ [  3.   2.  20.   0.]
+ [ 20.   1.   1.   3.]]
+
+
+
+Step: 5, Images Trained: 250, Batch loss: 6.045256, Training accuracy: 0.520 
+Confusion Matrix:
+[[  9.  15.   0.   1.]
+ [  6.  16.   3.   0.]
+ [  1.   7.  17.   0.]
+ [  5.   9.   1.  10.]]
+
+
+
+Step: 7, Images Trained: 350, Batch loss: 3.659923, Training accuracy: 0.610 
+Confusion Matrix:
+[[ 11.  12.   2.   0.]
+ [ 12.  13.   0.   0.]
+ [  0.   2.  23.   0.]
+ [  3.   8.   0.  14.]]
+
+
+
+Step: 9, Images Trained: 450, Batch loss: 3.053450, Training accuracy: 0.610 
+Confusion Matrix:
+[[ 12.  11.   0.   2.]
+ [ 11.  14.   0.   0.]
+ [  1.   1.  22.   1.]
+ [  5.   5.   2.  13.]]
+
+
+
+Step: 11, Images Trained: 550, Batch loss: 3.976297, Training accuracy: 0.550 
+Confusion Matrix:
+[[ 10.   8.   0.   7.]
+ [ 16.   5.   1.   3.]
+ [  1.   0.  23.   1.]
+ [  3.   5.   0.  17.]]
+
+
+
+Step: 13, Images Trained: 650, Batch loss: 4.207452, Training accuracy: 0.580 
+Confusion Matrix:
+[[ 11.   3.   2.   9.]
+ [ 17.   5.   1.   2.]
+ [  1.   0.  22.   2.]
+ [  5.   0.   0.  20.]]
+
+
+
+Step: 15, Images Trained: 750, Batch loss: 4.063162, Training accuracy: 0.550 
+Confusion Matrix:
+[[  7.  12.   2.   4.]
+ [ 13.   8.   1.   3.]
+ [  2.   0.  20.   3.]
+ [  2.   3.   0.  20.]]
+
+
+
+Step: 17, Images Trained: 850, Batch loss: 3.858510, Training accuracy: 0.560 
+Confusion Matrix:
+[[ 10.   8.   0.   7.]
+ [ 14.   6.   0.   5.]
+ [  2.   0.  23.   0.]
+ [  2.   6.   0.  17.]]
+
+
+
+Step: 19, Images Trained: 950, Batch loss: 4.409380, Training accuracy: 0.630 
+Confusion Matrix:
+[[  9.  14.   0.   2.]
+ [ 18.   7.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  1.   2.   0.  22.]]
+
+
+
+Step: 21, Images Trained: 1050, Batch loss: 3.475194, Training accuracy: 0.640 
+Confusion Matrix:
+[[  8.  14.   1.   2.]
+ [ 14.  11.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  4.   1.   0.  20.]]
+
+
+
+Step: 23, Images Trained: 1150, Batch loss: 3.069183, Training accuracy: 0.630 
+Confusion Matrix:
+[[  9.  12.   2.   2.]
+ [ 14.  11.   0.   0.]
+ [  2.   1.  22.   0.]
+ [  2.   2.   0.  21.]]
+
+
+
+Step: 25, Images Trained: 1250, Batch loss: 4.632307, Training accuracy: 0.590 
+Confusion Matrix:
+[[  7.  16.   0.   2.]
+ [ 16.   9.   0.   0.]
+ [  1.   1.  23.   0.]
+ [  1.   4.   0.  20.]]
+
+
+
+Step: 27, Images Trained: 1350, Batch loss: 4.315967, Training accuracy: 0.580 
+Confusion Matrix:
+[[  5.  17.   1.   2.]
+ [ 17.   8.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  3.   2.   0.  20.]]
+
+
+
+Step: 29, Images Trained: 1450, Batch loss: 3.906979, Training accuracy: 0.600 
+Confusion Matrix:
+[[  8.  16.   0.   1.]
+ [ 17.   7.   0.   1.]
+ [  1.   0.  24.   0.]
+ [  3.   1.   0.  21.]]
+
+
+
+Step: 31, Images Trained: 1550, Batch loss: 3.912540, Training accuracy: 0.600 
+Confusion Matrix:
+[[ 13.  10.   0.   2.]
+ [ 19.   6.   0.   0.]
+ [  1.   0.  23.   1.]
+ [  3.   4.   0.  18.]]
+
+
+
+Step: 33, Images Trained: 1650, Batch loss: 3.215837, Training accuracy: 0.650 
+Confusion Matrix:
+[[ 13.  12.   0.   0.]
+ [ 16.   9.   0.   0.]
+ [  1.   0.  23.   1.]
+ [  2.   3.   0.  20.]]
+
+
+
+Step: 35, Images Trained: 1750, Batch loss: 3.540312, Training accuracy: 0.700 
+Confusion Matrix:
+[[ 14.  10.   0.   1.]
+ [ 18.   7.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   1.   0.  24.]]
+
+
+
+Step: 37, Images Trained: 1850, Batch loss: 3.524479, Training accuracy: 0.680 
+Confusion Matrix:
+[[ 13.  12.   0.   0.]
+ [ 19.   6.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 39, Images Trained: 1950, Batch loss: 3.799575, Training accuracy: 0.620 
+Confusion Matrix:
+[[ 16.   8.   0.   1.]
+ [ 18.   5.   0.   2.]
+ [  2.   0.  22.   1.]
+ [  4.   2.   0.  19.]]
+
+
+
+Step: 41, Images Trained: 2050, Batch loss: 4.194735, Training accuracy: 0.640 
+Confusion Matrix:
+[[ 13.  11.   0.   1.]
+ [ 19.   6.   0.   0.]
+ [  1.   0.  23.   1.]
+ [  2.   1.   0.  22.]]
+
+
+
+Step: 43, Images Trained: 2150, Batch loss: 3.207835, Training accuracy: 0.640 
+Confusion Matrix:
+[[  6.  19.   0.   0.]
+ [ 16.   9.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   1.   0.  24.]]
+
+
+
+Step: 45, Images Trained: 2250, Batch loss: 3.863203, Training accuracy: 0.600 
+Confusion Matrix:
+[[  5.  20.   0.   0.]
+ [ 17.   7.   0.   1.]
+ [  0.   0.  23.   2.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 47, Images Trained: 2350, Batch loss: 4.209511, Training accuracy: 0.580 
+Confusion Matrix:
+[[  2.  21.   0.   2.]
+ [ 14.  11.   0.   0.]
+ [  0.   1.  23.   1.]
+ [  0.   3.   0.  22.]]
+
+
+
+Step: 49, Images Trained: 2450, Batch loss: 3.724538, Training accuracy: 0.580 
+Confusion Matrix:
+[[  4.  17.   0.   4.]
+ [ 16.   9.   0.   0.]
+ [  0.   0.  22.   3.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 51, Images Trained: 2550, Batch loss: 4.640574, Training accuracy: 0.600 
+Confusion Matrix:
+[[  0.  24.   0.   1.]
+ [ 13.  12.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 53, Images Trained: 2650, Batch loss: 3.737527, Training accuracy: 0.590 
+Confusion Matrix:
+[[  4.  20.   0.   1.]
+ [ 14.  10.   0.   1.]
+ [  0.   2.  22.   1.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 55, Images Trained: 2750, Batch loss: 4.126668, Training accuracy: 0.620 
+Confusion Matrix:
+[[  3.  20.   0.   2.]
+ [ 13.  12.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   3.   0.  22.]]
+
+
+
+Step: 57, Images Trained: 2850, Batch loss: 3.392988, Training accuracy: 0.620 
+Confusion Matrix:
+[[  4.  17.   0.   4.]
+ [ 12.  12.   0.   1.]
+ [  0.   2.  22.   1.]
+ [  0.   1.   0.  24.]]
+
+
+
+Step: 59, Images Trained: 2950, Batch loss: 4.388583, Training accuracy: 0.590 
+Confusion Matrix:
+[[  7.  16.   0.   2.]
+ [ 20.   5.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 61, Images Trained: 3050, Batch loss: 3.698367, Training accuracy: 0.610 
+Confusion Matrix:
+[[  9.  14.   0.   2.]
+ [ 22.   3.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 63, Images Trained: 3150, Batch loss: 3.495174, Training accuracy: 0.650 
+Confusion Matrix:
+[[ 12.  10.   0.   3.]
+ [ 17.   6.   0.   2.]
+ [  1.   0.  22.   2.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 65, Images Trained: 3250, Batch loss: 4.459898, Training accuracy: 0.670 
+Confusion Matrix:
+[[ 13.  10.   0.   2.]
+ [ 20.   5.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 67, Images Trained: 3350, Batch loss: 4.627370, Training accuracy: 0.600 
+Confusion Matrix:
+[[ 10.  11.   0.   4.]
+ [ 23.   2.   0.   0.]
+ [  2.   0.  23.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 69, Images Trained: 3450, Batch loss: 4.073984, Training accuracy: 0.600 
+Confusion Matrix:
+[[ 11.  12.   0.   2.]
+ [ 21.   2.   0.   2.]
+ [  1.   0.  22.   2.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 71, Images Trained: 3550, Batch loss: 4.225033, Training accuracy: 0.550 
+Confusion Matrix:
+[[  7.  13.   0.   5.]
+ [ 23.   2.   0.   0.]
+ [  0.   1.  21.   3.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 73, Images Trained: 3650, Batch loss: 3.670353, Training accuracy: 0.590 
+Confusion Matrix:
+[[  5.  15.   0.   5.]
+ [ 18.   7.   0.   0.]
+ [  0.   1.  22.   2.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 75, Images Trained: 3750, Batch loss: 4.534751, Training accuracy: 0.560 
+Confusion Matrix:
+[[  4.  14.   0.   7.]
+ [ 20.   4.   0.   1.]
+ [  0.   1.  23.   1.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 77, Images Trained: 3850, Batch loss: 3.658218, Training accuracy: 0.630 
+Confusion Matrix:
+[[  8.  12.   0.   5.]
+ [ 18.   5.   0.   2.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 79, Images Trained: 3950, Batch loss: 3.699136, Training accuracy: 0.580 
+Confusion Matrix:
+[[  8.  13.   0.   4.]
+ [ 22.   3.   0.   0.]
+ [  1.   0.  22.   2.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 81, Images Trained: 4050, Batch loss: 2.488050, Training accuracy: 0.710 
+Confusion Matrix:
+[[ 14.  10.   0.   1.]
+ [ 18.   7.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 83, Images Trained: 4150, Batch loss: 4.581772, Training accuracy: 0.600 
+Confusion Matrix:
+[[ 12.  13.   0.   0.]
+ [ 24.   1.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 85, Images Trained: 4250, Batch loss: 3.497710, Training accuracy: 0.630 
+Confusion Matrix:
+[[ 11.  13.   0.   1.]
+ [ 21.   4.   0.   0.]
+ [  1.   1.  23.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 87, Images Trained: 4350, Batch loss: 3.275880, Training accuracy: 0.590 
+Confusion Matrix:
+[[  7.  16.   0.   2.]
+ [ 21.   4.   0.   0.]
+ [  1.   1.  23.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 89, Images Trained: 4450, Batch loss: 3.493965, Training accuracy: 0.600 
+Confusion Matrix:
+[[  6.  18.   0.   1.]
+ [ 18.   7.   0.   0.]
+ [  0.   3.  22.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 91, Images Trained: 4550, Batch loss: 4.301004, Training accuracy: 0.530 
+Confusion Matrix:
+[[  5.  16.   0.   4.]
+ [ 24.   1.   0.   0.]
+ [  0.   0.  22.   3.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 93, Images Trained: 4650, Batch loss: 3.792852, Training accuracy: 0.580 
+Confusion Matrix:
+[[  7.  13.   0.   5.]
+ [ 23.   2.   0.   0.]
+ [  0.   0.  24.   1.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 95, Images Trained: 4750, Batch loss: 4.273626, Training accuracy: 0.570 
+Confusion Matrix:
+[[  6.  17.   0.   2.]
+ [ 21.   3.   0.   1.]
+ [  0.   0.  23.   2.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 97, Images Trained: 4850, Batch loss: 4.669075, Training accuracy: 0.580 
+Confusion Matrix:
+[[  8.  13.   0.   4.]
+ [ 22.   3.   0.   0.]
+ [  0.   2.  22.   1.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 99, Images Trained: 4950, Batch loss: 3.534420, Training accuracy: 0.620 
+Confusion Matrix:
+[[  7.  16.   0.   2.]
+ [ 20.   5.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters_2times2Layers
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-4
+Step: 101, Images Trained: 5050, Batch loss: 3.299226, Training accuracy: 0.630 
+Confusion Matrix:
+[[ 10.  12.   0.   3.]
+ [ 20.   4.   0.   1.]
+ [  1.   0.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 103, Images Trained: 5150, Batch loss: 4.175055, Training accuracy: 0.590 
+Confusion Matrix:
+[[  7.  14.   0.   4.]
+ [ 23.   2.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 105, Images Trained: 5250, Batch loss: 5.304386, Training accuracy: 0.570 
+Confusion Matrix:
+[[  6.  16.   0.   3.]
+ [ 24.   1.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 107, Images Trained: 5350, Batch loss: 3.442362, Training accuracy: 0.590 
+Confusion Matrix:
+[[  8.  14.   0.   3.]
+ [ 22.   3.   0.   0.]
+ [  0.   2.  23.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 109, Images Trained: 5450, Batch loss: 3.901641, Training accuracy: 0.590 
+Confusion Matrix:
+[[  8.  13.   0.   4.]
+ [ 23.   1.   1.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 111, Images Trained: 5550, Batch loss: 4.346377, Training accuracy: 0.590 
+Confusion Matrix:
+[[  5.  16.   0.   4.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 113, Images Trained: 5650, Batch loss: 5.195071, Training accuracy: 0.520 
+Confusion Matrix:
+[[  4.  15.   0.   6.]
+ [ 25.   0.   0.   0.]
+ [  0.   0.  23.   2.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 115, Images Trained: 5750, Batch loss: 3.605353, Training accuracy: 0.630 
+Confusion Matrix:
+[[  9.  14.   0.   2.]
+ [ 20.   5.   0.   0.]
+ [  0.   0.  24.   1.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 117, Images Trained: 5850, Batch loss: 3.841376, Training accuracy: 0.550 
+Confusion Matrix:
+[[  6.  15.   0.   4.]
+ [ 23.   2.   0.   0.]
+ [  0.   0.  22.   3.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 119, Images Trained: 5950, Batch loss: 3.918806, Training accuracy: 0.600 
+Confusion Matrix:
+[[  8.  13.   0.   4.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  23.   2.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 121, Images Trained: 6050, Batch loss: 5.259190, Training accuracy: 0.520 
+Confusion Matrix:
+[[  3.  16.   0.   6.]
+ [ 23.   0.   0.   2.]
+ [  0.   0.  24.   1.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 123, Images Trained: 6150, Batch loss: 4.310035, Training accuracy: 0.550 
+Confusion Matrix:
+[[  3.  15.   0.   7.]
+ [ 22.   2.   0.   1.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 125, Images Trained: 6250, Batch loss: 4.326141, Training accuracy: 0.540 
+Confusion Matrix:
+[[  1.  18.   0.   6.]
+ [ 20.   3.   0.   2.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 127, Images Trained: 6350, Batch loss: 4.866599, Training accuracy: 0.560 
+Confusion Matrix:
+[[  3.  19.   0.   3.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 129, Images Trained: 6450, Batch loss: 3.537141, Training accuracy: 0.640 
+Confusion Matrix:
+[[ 10.  12.   0.   3.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 131, Images Trained: 6550, Batch loss: 4.479992, Training accuracy: 0.570 
+Confusion Matrix:
+[[  3.  17.   0.   5.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 133, Images Trained: 6650, Batch loss: 3.554465, Training accuracy: 0.590 
+Confusion Matrix:
+[[  5.  17.   0.   3.]
+ [ 19.   4.   0.   2.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 135, Images Trained: 6750, Batch loss: 3.073335, Training accuracy: 0.600 
+Confusion Matrix:
+[[  8.  17.   0.   0.]
+ [ 20.   5.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 137, Images Trained: 6850, Batch loss: 3.040582, Training accuracy: 0.660 
+Confusion Matrix:
+[[ 11.  13.   0.   1.]
+ [ 20.   5.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 139, Images Trained: 6950, Batch loss: 3.422776, Training accuracy: 0.590 
+Confusion Matrix:
+[[  5.  17.   0.   3.]
+ [ 18.   7.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 141, Images Trained: 7050, Batch loss: 2.686698, Training accuracy: 0.600 
+Confusion Matrix:
+[[  6.  17.   0.   2.]
+ [ 19.   6.   0.   0.]
+ [  0.   0.  24.   1.]
+ [  0.   1.   0.  24.]]
+
+
+
+Step: 143, Images Trained: 7150, Batch loss: 3.347214, Training accuracy: 0.580 
+Confusion Matrix:
+[[  8.  16.   0.   1.]
+ [ 21.   3.   0.   1.]
+ [  0.   0.  24.   1.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 145, Images Trained: 7250, Batch loss: 2.941768, Training accuracy: 0.600 
+Confusion Matrix:
+[[  9.  13.   0.   3.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  24.   1.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 147, Images Trained: 7350, Batch loss: 3.350770, Training accuracy: 0.570 
+Confusion Matrix:
+[[  7.  18.   0.   0.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  23.   2.]
+ [  0.   1.   0.  24.]]
+
+
+
+Step: 149, Images Trained: 7450, Batch loss: 3.604300, Training accuracy: 0.590 
+Confusion Matrix:
+[[ 10.  15.   0.   0.]
+ [ 22.   2.   0.   1.]
+ [  0.   1.  24.   0.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 151, Images Trained: 7550, Batch loss: 3.577731, Training accuracy: 0.600 
+Confusion Matrix:
+[[ 10.  14.   0.   1.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  24.   1.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 153, Images Trained: 7650, Batch loss: 3.516705, Training accuracy: 0.610 
+Confusion Matrix:
+[[  5.  18.   0.   2.]
+ [ 18.   7.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 155, Images Trained: 7750, Batch loss: 4.183644, Training accuracy: 0.580 
+Confusion Matrix:
+[[  4.  19.   0.   2.]
+ [ 20.   4.   0.   1.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 157, Images Trained: 7850, Batch loss: 3.277251, Training accuracy: 0.630 
+Confusion Matrix:
+[[ 11.  14.   0.   0.]
+ [ 22.   3.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 159, Images Trained: 7950, Batch loss: 3.493331, Training accuracy: 0.560 
+Confusion Matrix:
+[[  3.  17.   0.   5.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 161, Images Trained: 8050, Batch loss: 4.466881, Training accuracy: 0.580 
+Confusion Matrix:
+[[  6.  15.   0.   4.]
+ [ 23.   2.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 163, Images Trained: 8150, Batch loss: 3.975043, Training accuracy: 0.640 
+Confusion Matrix:
+[[ 12.   7.   0.   6.]
+ [ 23.   2.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 165, Images Trained: 8250, Batch loss: 4.494637, Training accuracy: 0.630 
+Confusion Matrix:
+[[  9.  14.   0.   2.]
+ [ 20.   4.   0.   1.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 167, Images Trained: 8350, Batch loss: 3.459074, Training accuracy: 0.610 
+Confusion Matrix:
+[[ 13.  12.   0.   0.]
+ [ 21.   4.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  5.   0.   0.  20.]]
+
+
+
+Step: 169, Images Trained: 8450, Batch loss: 3.435446, Training accuracy: 0.590 
+Confusion Matrix:
+[[  8.  15.   0.   2.]
+ [ 22.   3.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 171, Images Trained: 8550, Batch loss: 3.542585, Training accuracy: 0.590 
+Confusion Matrix:
+[[  6.  17.   0.   2.]
+ [ 17.   8.   0.   0.]
+ [  1.   2.  22.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 173, Images Trained: 8650, Batch loss: 3.835618, Training accuracy: 0.640 
+Confusion Matrix:
+[[ 10.  13.   0.   2.]
+ [ 18.   7.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   3.   0.  22.]]
+
+
+
+Step: 175, Images Trained: 8750, Batch loss: 3.631266, Training accuracy: 0.580 
+Confusion Matrix:
+[[  8.  16.   0.   1.]
+ [ 22.   3.   0.   0.]
+ [  0.   1.  23.   1.]
+ [  0.   1.   0.  24.]]
+
+
+
+Step: 177, Images Trained: 8850, Batch loss: 3.384073, Training accuracy: 0.620 
+Confusion Matrix:
+[[  9.  15.   0.   1.]
+ [ 19.   6.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 179, Images Trained: 8950, Batch loss: 3.994148, Training accuracy: 0.580 
+Confusion Matrix:
+[[  4.  20.   0.   1.]
+ [ 19.   4.   0.   2.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 181, Images Trained: 9050, Batch loss: 3.686402, Training accuracy: 0.560 
+Confusion Matrix:
+[[  5.  19.   0.   1.]
+ [ 20.   4.   0.   1.]
+ [  2.   0.  23.   0.]
+ [  0.   1.   0.  24.]]
+
+
+
+Step: 183, Images Trained: 9150, Batch loss: 4.440756, Training accuracy: 0.600 
+Confusion Matrix:
+[[  8.  15.   0.   2.]
+ [ 20.   4.   0.   1.]
+ [  2.   0.  23.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 185, Images Trained: 9250, Batch loss: 4.055987, Training accuracy: 0.580 
+Confusion Matrix:
+[[  7.  16.   0.   2.]
+ [ 22.   3.   0.   0.]
+ [  2.   0.  23.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 187, Images Trained: 9350, Batch loss: 2.968014, Training accuracy: 0.640 
+Confusion Matrix:
+[[  9.  16.   0.   0.]
+ [ 20.   5.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 189, Images Trained: 9450, Batch loss: 4.107318, Training accuracy: 0.580 
+Confusion Matrix:
+[[ 10.  13.   0.   2.]
+ [ 24.   0.   0.   1.]
+ [  1.   0.  24.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 191, Images Trained: 9550, Batch loss: 4.444855, Training accuracy: 0.570 
+Confusion Matrix:
+[[  6.  19.   0.   0.]
+ [ 23.   2.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 193, Images Trained: 9650, Batch loss: 3.842909, Training accuracy: 0.600 
+Confusion Matrix:
+[[  8.  16.   0.   1.]
+ [ 20.   5.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 195, Images Trained: 9750, Batch loss: 4.241192, Training accuracy: 0.550 
+Confusion Matrix:
+[[  4.  17.   0.   4.]
+ [ 21.   4.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  0.   2.   0.  23.]]
+
+
+
+Step: 197, Images Trained: 9850, Batch loss: 3.703140, Training accuracy: 0.550 
+Confusion Matrix:
+[[  3.  22.   0.   0.]
+ [ 19.   6.   0.   0.]
+ [  0.   2.  22.   1.]
+ [  0.   1.   0.  24.]]
+
+
+
+Step: 199, Images Trained: 9950, Batch loss: 3.569256, Training accuracy: 0.580 
+Confusion Matrix:
+[[  5.  18.   0.   2.]
+ [ 18.   7.   0.   0.]
+ [  1.   1.  23.   0.]
+ [  0.   2.   0.  23.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters_2times2Layers
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-4
+Step: 201, Images Trained: 10050, Batch loss: 3.622136, Training accuracy: 0.620 
+Confusion Matrix:
+[[  7.  17.   0.   1.]
+ [ 19.   6.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 203, Images Trained: 10150, Batch loss: 3.487888, Training accuracy: 0.610 
+Confusion Matrix:
+[[  6.  17.   0.   2.]
+ [ 20.   5.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 205, Images Trained: 10250, Batch loss: 3.653922, Training accuracy: 0.550 
+Confusion Matrix:
+[[  3.  20.   0.   2.]
+ [ 21.   3.   0.   1.]
+ [  1.   0.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 207, Images Trained: 10350, Batch loss: 3.551739, Training accuracy: 0.590 
+Confusion Matrix:
+[[  8.  16.   0.   1.]
+ [ 22.   2.   0.   1.]
+ [  1.   0.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 209, Images Trained: 10450, Batch loss: 4.484892, Training accuracy: 0.550 
+Confusion Matrix:
+[[  7.  17.   0.   1.]
+ [ 24.   1.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 211, Images Trained: 10550, Batch loss: 4.026744, Training accuracy: 0.560 
+Confusion Matrix:
+[[  5.  19.   0.   1.]
+ [ 21.   3.   0.   1.]
+ [  0.   0.  25.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 213, Images Trained: 10650, Batch loss: 3.504603, Training accuracy: 0.670 
+Confusion Matrix:
+[[ 16.   8.   0.   1.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 215, Images Trained: 10750, Batch loss: 4.452425, Training accuracy: 0.550 
+Confusion Matrix:
+[[  5.  18.   0.   2.]
+ [ 23.   2.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 217, Images Trained: 10850, Batch loss: 4.126454, Training accuracy: 0.630 
+Confusion Matrix:
+[[ 12.  12.   0.   1.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 219, Images Trained: 10950, Batch loss: 3.703783, Training accuracy: 0.640 
+Confusion Matrix:
+[[ 11.  11.   0.   3.]
+ [ 20.   5.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 221, Images Trained: 11050, Batch loss: 4.291565, Training accuracy: 0.560 
+Confusion Matrix:
+[[  5.  18.   0.   2.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 223, Images Trained: 11150, Batch loss: 3.195553, Training accuracy: 0.650 
+Confusion Matrix:
+[[  9.  15.   0.   1.]
+ [ 19.   6.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 225, Images Trained: 11250, Batch loss: 3.890211, Training accuracy: 0.550 
+Confusion Matrix:
+[[  7.  17.   0.   1.]
+ [ 23.   2.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 227, Images Trained: 11350, Batch loss: 3.625517, Training accuracy: 0.650 
+Confusion Matrix:
+[[ 10.  14.   0.   1.]
+ [ 19.   6.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 229, Images Trained: 11450, Batch loss: 3.997793, Training accuracy: 0.570 
+Confusion Matrix:
+[[ 10.  15.   0.   0.]
+ [ 22.   3.   0.   0.]
+ [  0.   1.  22.   2.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 231, Images Trained: 11550, Batch loss: 3.889731, Training accuracy: 0.590 
+Confusion Matrix:
+[[  7.  16.   0.   2.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 233, Images Trained: 11650, Batch loss: 4.600095, Training accuracy: 0.560 
+Confusion Matrix:
+[[  6.  17.   0.   2.]
+ [ 22.   3.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 235, Images Trained: 11750, Batch loss: 3.453302, Training accuracy: 0.630 
+Confusion Matrix:
+[[  5.  19.   0.   1.]
+ [ 16.   9.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 237, Images Trained: 11850, Batch loss: 3.190605, Training accuracy: 0.630 
+Confusion Matrix:
+[[  9.  16.   0.   0.]
+ [ 18.   7.   0.   0.]
+ [  0.   2.  22.   1.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 239, Images Trained: 11950, Batch loss: 3.797833, Training accuracy: 0.600 
+Confusion Matrix:
+[[  5.  20.   0.   0.]
+ [ 20.   5.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 241, Images Trained: 12050, Batch loss: 4.503284, Training accuracy: 0.540 
+Confusion Matrix:
+[[  3.  21.   0.   1.]
+ [ 23.   2.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 243, Images Trained: 12150, Batch loss: 3.848577, Training accuracy: 0.580 
+Confusion Matrix:
+[[  2.  22.   0.   1.]
+ [ 16.   9.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   3.   0.  22.]]
+
+
+
+Step: 245, Images Trained: 12250, Batch loss: 4.455393, Training accuracy: 0.540 
+Confusion Matrix:
+[[  3.  21.   0.   1.]
+ [ 22.   3.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 247, Images Trained: 12350, Batch loss: 4.448775, Training accuracy: 0.500 
+Confusion Matrix:
+[[  1.  24.   0.   0.]
+ [ 22.   3.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 249, Images Trained: 12450, Batch loss: 4.352833, Training accuracy: 0.570 
+Confusion Matrix:
+[[  7.  17.   0.   1.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 251, Images Trained: 12550, Batch loss: 4.989383, Training accuracy: 0.500 
+Confusion Matrix:
+[[  3.  21.   0.   1.]
+ [ 23.   2.   0.   0.]
+ [  1.   1.  23.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 253, Images Trained: 12650, Batch loss: 4.363446, Training accuracy: 0.580 
+Confusion Matrix:
+[[  8.  17.   0.   0.]
+ [ 22.   3.   0.   0.]
+ [  0.   1.  24.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 255, Images Trained: 12750, Batch loss: 4.954754, Training accuracy: 0.600 
+Confusion Matrix:
+[[  9.  16.   0.   0.]
+ [ 22.   1.   0.   2.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 257, Images Trained: 12850, Batch loss: 4.907668, Training accuracy: 0.560 
+Confusion Matrix:
+[[  9.  15.   0.   1.]
+ [ 24.   1.   0.   0.]
+ [  0.   0.  23.   2.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 259, Images Trained: 12950, Batch loss: 4.248298, Training accuracy: 0.600 
+Confusion Matrix:
+[[  8.  17.   0.   0.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 261, Images Trained: 13050, Batch loss: 4.293845, Training accuracy: 0.600 
+Confusion Matrix:
+[[ 13.  12.   0.   0.]
+ [ 23.   2.   0.   0.]
+ [  0.   1.  23.   1.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 263, Images Trained: 13150, Batch loss: 4.071324, Training accuracy: 0.610 
+Confusion Matrix:
+[[  9.  14.   0.   2.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 265, Images Trained: 13250, Batch loss: 3.272971, Training accuracy: 0.650 
+Confusion Matrix:
+[[ 12.  13.   0.   0.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 267, Images Trained: 13350, Batch loss: 3.916349, Training accuracy: 0.600 
+Confusion Matrix:
+[[ 10.  14.   0.   1.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  4.   0.   0.  21.]]
+
+
+
+Step: 269, Images Trained: 13450, Batch loss: 4.172375, Training accuracy: 0.580 
+Confusion Matrix:
+[[  8.  16.   0.   1.]
+ [ 24.   1.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 271, Images Trained: 13550, Batch loss: 5.047954, Training accuracy: 0.570 
+Confusion Matrix:
+[[ 10.  15.   0.   0.]
+ [ 24.   1.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 273, Images Trained: 13650, Batch loss: 4.247681, Training accuracy: 0.540 
+Confusion Matrix:
+[[  9.  16.   0.   0.]
+ [ 24.   0.   0.   1.]
+ [  0.   1.  24.   0.]
+ [  4.   0.   0.  21.]]
+
+
+
+Step: 275, Images Trained: 13750, Batch loss: 4.094519, Training accuracy: 0.600 
+Confusion Matrix:
+[[ 10.  14.   0.   1.]
+ [ 21.   3.   0.   1.]
+ [  1.   0.  24.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 277, Images Trained: 13850, Batch loss: 3.945354, Training accuracy: 0.650 
+Confusion Matrix:
+[[ 13.  11.   0.   1.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 279, Images Trained: 13950, Batch loss: 3.871013, Training accuracy: 0.560 
+Confusion Matrix:
+[[  9.  14.   0.   2.]
+ [ 24.   1.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 281, Images Trained: 14050, Batch loss: 3.742192, Training accuracy: 0.580 
+Confusion Matrix:
+[[  8.  15.   0.   2.]
+ [ 21.   4.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 283, Images Trained: 14150, Batch loss: 4.649726, Training accuracy: 0.540 
+Confusion Matrix:
+[[  7.  18.   0.   0.]
+ [ 24.   1.   0.   0.]
+ [  1.   0.  24.   0.]
+ [  3.   0.   0.  22.]]
+
+
+
+Step: 285, Images Trained: 14250, Batch loss: 3.936056, Training accuracy: 0.560 
+Confusion Matrix:
+[[  7.  18.   0.   0.]
+ [ 23.   2.   0.   0.]
+ [  0.   2.  23.   0.]
+ [  1.   0.   0.  24.]]
+
+
+
+Step: 287, Images Trained: 14350, Batch loss: 3.470172, Training accuracy: 0.620 
+Confusion Matrix:
+[[ 10.  14.   0.   1.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 289, Images Trained: 14450, Batch loss: 3.796536, Training accuracy: 0.590 
+Confusion Matrix:
+[[ 10.  14.   0.   1.]
+ [ 21.   4.   0.   0.]
+ [  0.   0.  22.   3.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 291, Images Trained: 14550, Batch loss: 3.886106, Training accuracy: 0.550 
+Confusion Matrix:
+[[  4.  20.   0.   1.]
+ [ 24.   1.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 293, Images Trained: 14650, Batch loss: 3.956664, Training accuracy: 0.620 
+Confusion Matrix:
+[[ 10.  15.   0.   0.]
+ [ 23.   2.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  0.   0.   0.  25.]]
+
+
+
+Step: 295, Images Trained: 14750, Batch loss: 3.902316, Training accuracy: 0.590 
+Confusion Matrix:
+[[  9.  16.   0.   0.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  24.   1.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 297, Images Trained: 14850, Batch loss: 3.977272, Training accuracy: 0.550 
+Confusion Matrix:
+[[  6.  18.   0.   1.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  23.   2.]
+ [  2.   0.   0.  23.]]
+
+
+
+Step: 299, Images Trained: 14950, Batch loss: 4.136642, Training accuracy: 0.560 
+Confusion Matrix:
+[[  9.  16.   0.   0.]
+ [ 23.   1.   0.   1.]
+ [  0.   0.  25.   0.]
+ [  4.   0.   0.  21.]]
+
+
+
+Fitler Models saved in file: ./data/particle_model_filters_2times2Layers
+Fully Connected Models saved in file: ./data/particle_model_fc_layers-4
+Step: 301, Images Trained: 15050, Batch loss: 3.983081, Training accuracy: 0.610 
+Confusion Matrix:
+[[  9.  15.   0.   1.]
+ [ 22.   3.   0.   0.]
+ [  0.   0.  25.   0.]
+ [  1.   0.   0.  24.]]
+
