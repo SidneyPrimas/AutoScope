@@ -29,19 +29,22 @@ im_output = im_original.copy()
 im_orignal_max_px = int(np.amax(im_original))
 im_orignal_min_px = int(np.amin(im_original))
 target_dim = 52
-min_particle_size = 15
-mask_path = "./data/20170425/reference/illumination_mask.jpg"
+min_particle_size = 50
+use_mask = True
+mask_path = "./data/20171027/reference/illumination_mask.jpg"
 
 
 # Implement Illumination Compensation (Demonstration)
-im_mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
-# Convert illumination mask into floating point format (to allow for compensation)
-im_mask = im_mask * 1.0
-# Compenstate with illumination mask. Still preserves floating point format. 
-im_compensated = np.divide(im_original, im_mask)
-# cv2.convertScaleAbs(src[, dst[, alpha[, beta]]]) -> dst
-# Converts matrix to an 8-bit data type after scaling by alpha. 
-im_compensated = cv2.convertScaleAbs(im_compensated, alpha = (255.0/np.amax(im_compensated)))
+im_compensated = im_original
+if use_mask: 
+	im_mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+	# Convert illumination mask into floating point format (to allow for compensation)
+	im_mask = im_mask * 1.0
+	# Compenstate with illumination mask. Still preserves floating point format. 
+	im_compensated = np.divide(im_original, im_mask)
+	# cv2.convertScaleAbs(src[, dst[, alpha[, beta]]]) -> dst
+	# Converts matrix to an 8-bit data type after scaling by alpha. 
+	im_compensated = cv2.convertScaleAbs(im_compensated, alpha = (255.0/np.amax(im_compensated)))
 
 # Rescale pixel intensities to have a max value of 255. 
 #im_original = cv2.convertScaleAbs(im_original, alpha = (255.0/np.amax(im_original)))
@@ -67,7 +70,7 @@ im_compensated = cv2.convertScaleAbs(im_compensated, alpha = (255.0/np.amax(im_c
 # We chose: Small blocksize to capture narrow transition at edge of particle (without having a huge boundary transition). And, not to get confused with multiple particles in block.
 # We chose: Small C so that we have sufficient contrast to definitely get the particle pixels. 
 # Mean (size: 5, C: 5) vs. Guassian (size: 9 since weighted, C: 5): Guassian gives slightly better edge detection since particle around the edge are weighted more heavily. 
-im_thresh = cv2.adaptiveThreshold(im_compensated, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 5, 5)
+im_thresh = cv2.adaptiveThreshold(im_compensated, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 25, 6)
 # 6um + 10um: 5,5
 
 
@@ -81,7 +84,8 @@ im_thresh = cv2.adaptiveThreshold(im_compensated, 255, cv2.ADAPTIVE_THRESH_MEAN_
 # Reason: Go from sparse, closely connected pixels to more complete particles. 
 # Reason: Do this with small structures so that only background pixels in the sparse clusters are turned to foreground (and not random noise pixels)
 struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2,2))
-im_morph = cv2.morphologyEx(im_thresh, cv2.MORPH_CLOSE, struct_element, iterations = 3)
+im_morph = cv2.morphologyEx(im_thresh, cv2.MORPH_CLOSE, struct_element, iterations = 1)
+
 # Reason: Once the particles are more 'whole', use a larger element to close up larger partic
 #struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5,5))
 #im_morph = cv2.morphologyEx(im_morph, cv2.MORPH_CLOSE, struct_element, iterations = 1)
@@ -106,10 +110,10 @@ im_morph = cv2.morphologyEx(im_thresh, cv2.MORPH_CLOSE, struct_element, iteratio
 # Python: cv2.distanceTransform(src, distanceType, maskSize[, dst]) -> dst
 # Note: In order to get the Euclidian distance, we use the cv2.DIST_L2 (which assigns costs to each distance shift). 
 # Note: We use a 3x3 kernel shift to calculate distance. 
-dist_transform = cv2.distanceTransform(im_morph, cv2.DIST_L2, 3)
+#dist_transform = cv2.distanceTransform(im_morph, cv2.DIST_L2, 3)
 # Note, we use 30% of the max distnace as the reference for the threshold.
 # Note: Use Thresh_binary directly, since we already used inverted thresh previously 
-_, dist_trans_output = cv2.threshold(dist_transform, 0.3*dist_transform.max(), 255, cv2.THRESH_BINARY)
+#_, dist_trans_output = cv2.threshold(dist_transform, 0.3*dist_transform.max(), 255, cv2.THRESH_BINARY)
 
 # Filter markers based on each marker property. 
 # Note: Connectivity indicates how continous 'connected' is defined. If a pixel is not connected on 8 sides, then we do not count it as part of the component. 
@@ -124,22 +128,22 @@ im_components = im_morph.copy()
 
 # Description: Loop over each marker. Based on stats, decide to eliminate or include marker. 
 for index in range(base_num_labels):
-	# The first label is the background (zero label). We always ignore it. . 
+	# The first label is the background (zero label). We always ignore it. 
 	if index == 0:
 		continue
 
-	# Area: If any connected component has an area less than 6 pixels, turn it into a background (black)
+	# Area: If any connected component has an area less than x pixels, turn it into a background (black)
 	if base_stats[index][4] <= min_particle_size:
 		im_components[base_markers == index] = 0
 
 
 # Notes: After the obvious components have been removed, the rest of the components are consolidated by closing the particles. 
 struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
-im_components_consolidate = cv2.morphologyEx(im_components, cv2.MORPH_CLOSE, struct_element, iterations = 5)
+im_components_consolidate = cv2.morphologyEx(im_components, cv2.MORPH_CLOSE, struct_element, iterations = 1)
 
 # Finding particles (individual and clumps of particles) to crop. Dilate so clumps merge. 
 struct_element = np.ones((3,3),np.uint8)
-im_components_consolidate = cv2.dilate(im_components_consolidate, struct_element, iterations=5)
+im_components_consolidate = cv2.dilate(im_components_consolidate, struct_element, iterations=2)
 
 # Create marker mask
 # Note: Connectivity indicates how continous 'connected' is defined. If a pixel is not connected on 8 sides, then we do not count it as part of the component. 
@@ -213,10 +217,10 @@ plt.title("Morpholocial")
 imgplot = plt.imshow(im_morph, cmap='gray', interpolation='nearest')
 plt.axis('off')
 
-fig = plt.figure()
-plt.title("Distance Transform")
-imgplot = plt.imshow(dist_transform, interpolation='nearest')
-plt.axis('off')
+# fig = plt.figure()
+# plt.title("Distance Transform")
+# imgplot = plt.imshow(dist_transform, interpolation='nearest')
+# plt.axis('off')
 
 fig = plt.figure()
 plt.title("After Component Analysis")
@@ -228,10 +232,10 @@ plt.title("After Dilating")
 imgplot = plt.imshow(im_components_consolidate, cmap='gray', interpolation='nearest')
 plt.axis('off')
 
-fig = plt.figure()
-plt.title("Markers")
-imgplot = plt.imshow(im_markers, interpolation='nearest')
-plt.axis('off')
+# fig = plt.figure()
+# plt.title("Markers")
+# imgplot = plt.imshow(im_markers, interpolation='nearest')
+# plt.axis('off')
 
 fig = plt.figure()
 plt.title("Final Output")

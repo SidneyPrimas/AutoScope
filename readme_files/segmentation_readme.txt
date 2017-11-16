@@ -24,7 +24,6 @@ Convention:
 
 ToDo: 
 + Create 'File Meta Data Summary': The file should include 1) file locations, 2) and meta-data used to do segmentation. 
-+ Update wiki with experiments and approach summary. 
 + Get states from connectedComponents() functions. Use the stats to eliminate components that are obviously not cells. 
 + In the future: Do more detailed component analysis on all the identified components. In fact, think about doing an Independent Component Analysis or Principle Component Analysis. 
 + Look into Image Denoising: http://opencv-python-tutroals.readthedocs.io/en/latest/py_tutorials/py_photo/py_non_local_means/py_non_local_means.html

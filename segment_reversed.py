@@ -116,8 +116,8 @@ def segmentReversed_Baf3(inputImage_path, outputFolder, target_dim, classes):
 def segmentReversed_Micro(inputImage, outputFolder, target_dim, classes):
 
 	# Configuration
-	min_particle_size = 15
-	mask_path = "./data/20170425/reference/illumination_mask.jpg"
+	min_particle_size = 3 
+	mask_path = "./data/20171027/reference/illumination_mask.jpg"
 
 	# Important parameters
 	start = inputImage.rfind("/")
@@ -150,7 +150,7 @@ def segmentReversed_Micro(inputImage, outputFolder, target_dim, classes):
 	# We chose: Small blocksize to capture narrow transition at edge of particle (without having a huge boundary transition). And, not to get confused with multiple particles in block.
 	# We chose: Small C so that we have sufficient contrast to definitely get the particle pixels. 
 	# Mean (size: 5, C: 5) vs. Guassian (size: 9 since weighted, C: 5): Guassian gives slightly better edge detection since particle around the edge are weighted more heavily. 
-	im_thresh = cv2.adaptiveThreshold(im_compensated, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 5, 5)
+	im_thresh = cv2.adaptiveThreshold(im_compensated, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 5, 4)
 
 
 	### Noise Removal ### => After Thresholding: Use morpholocial transformation (different functions) for the noise removal. 
@@ -163,7 +163,7 @@ def segmentReversed_Micro(inputImage, outputFolder, target_dim, classes):
 	# Reason: Go from sparse, closely connected pixels to more complete particles. 
 	# Reason: Do this with small structures so that only background pixels in the sparse clusters are turned to foreground (and not random noise pixels)
 	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2,2))
-	im_morph = cv2.morphologyEx(im_thresh, cv2.MORPH_CLOSE, struct_element, iterations = 3)
+	im_morph = cv2.morphologyEx(im_thresh, cv2.MORPH_CLOSE, struct_element, iterations = 1)
 	# Copy im_morph (so that we can preserve both for graphing)
 	im_components = im_morph.copy()
 
@@ -193,7 +193,7 @@ def segmentReversed_Micro(inputImage, outputFolder, target_dim, classes):
 
 	### Notes: After the obvious components have been removed, the rest of the components are consolidated by closing the particles. 
 	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
-	im_components_consolidate = cv2.morphologyEx(im_components, cv2.MORPH_CLOSE, struct_element, iterations = 5)
+	im_components_consolidate = cv2.morphologyEx(im_components, cv2.MORPH_CLOSE, struct_element, iterations = 1)
 
 	### Particles + clumps that are close to each other should only be included in a single segmented image. 
 	# Essentially, we are including individual and clumps of particles in a single crop. Dilate so clumps/particles merge. 
@@ -258,7 +258,7 @@ def segmentReversed_Micro(inputImage, outputFolder, target_dim, classes):
 		plt.axis('off')
 		plt.title(classes)
 		# Zoom into correct area of image
-		plt.axis([x1-target_dim*2,x2+target_dim*2,y1-target_dim*2,y2+target_dim*2])
+		plt.axis([x1-target_dim*4,x2+target_dim*4,y1-target_dim*4,y2+target_dim*4])
 
 
 		plt.show(block=False)

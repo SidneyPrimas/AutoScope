@@ -18,7 +18,7 @@ import cv2
 
 # Reversed Lens
 target_file = "./data/20170425/reversed_lens/10um/1.bmp"
-target_file = "./data/20170425/reversed_lens/baf3/t_2.bmp"
+target_file = "./data/20170704/diffuser_illumination/diffuser_toLens_LEDDistance_42p5mm_Intensity_15mA.bmp"
 # Microscope
 #target_file = "./data/20170425/microscope/10um/10um_final/Image1.tif"
 #target_file = "./data/20170425/microscope/BAF3/baf3_final/Image1.tif"

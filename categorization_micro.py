@@ -1,5 +1,5 @@
 """
-    File name: micro_categorization.py
+    File name: categorization_micro.py
     Author: Sidney Primas
     Date created: 05/03/2017
     Python Version: 2.7

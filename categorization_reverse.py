@@ -1,5 +1,5 @@
 """
-    File name: reverse_categorization.py
+    File name: categorization_reverse.py
     Author: Sidney Primas
     Date created: 06/27/2017
     Python Version: 2.7
@@ -22,15 +22,15 @@ import segment_reversed
 # Configuration
 target_dim = 52
 baf3_categorization = False
-source_directory = "./data/20170425/reversed_lens/10um/"
-output_directory = "./data/20170425/reversed_lens/10um/segmented/"
+source_directory = "./data/20171027/wbc/selected3/"
+output_directory = "./data/20171027/wbc/segmented3/"
 
 # Key_Press : Folder Name of class
 classes = {
-	"1": "10um-particle", 
-	"2": "10um-clump",
-	"0": "10um-other", 
-	"5": "10um-discard"
+	"1": "wbc-particle", 
+	"2": "wbc-clump",
+	"0": "wbc-other", 
+	"5": "wbc-discard"
 }
 
 # Make Output Folder
