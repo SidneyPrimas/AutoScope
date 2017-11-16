@@ -1,1 +1,3 @@
-env/
+/env
+/data
+/20171030_resolution_exp/data

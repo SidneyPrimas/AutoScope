@@ -18,8 +18,8 @@ import matplotlib.patches as patches
 m = 1.0 # Used to estimate the angular intensity distribution 
 # Datasheet only provides luminous flux (total power emitted by LED)
 lum_flux = 45e-3 # Typyical Flux (in W). Depends on current. 
-surface_size =20e-3
-led_height = 20e-3 # use 15mm
+surface_size =30e-3
+led_height = 23e-3 # use 15mm
 roi_size = 10e-3
 
 # Calculate Max Luminious Intensity for Lambertian
