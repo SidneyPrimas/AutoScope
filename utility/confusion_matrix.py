@@ -13,8 +13,8 @@ import sys
 import confusion_utility
 
 # Import homebrew functions
-base_directory = "./log/201612_final_project/"
-log_name = "log_6lcassesOther_2by2C-Layers_imagesPerClass_newImages_122"
+base_directory = "./log/20171027_reversed_output/"
+log_name = "20171027_irl_wbc_rbc_10um_v2"
 sys.path.append(base_directory)
 import config 
 

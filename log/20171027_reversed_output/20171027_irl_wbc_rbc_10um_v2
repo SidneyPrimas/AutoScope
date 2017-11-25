@@ -5655,11 +5655,3 @@ Confusion Matrix:
  [  8.  45.   1.   8.]
  [  0.   2.  56.   4.]
  [  3.   5.   0.  55.]]
-
-
-
-Step: 11981, Images Trained: 1198100, Batch loss: 2.267388, Training accuracy: 0.812 
-Confusion Matrix:
-[[ 43.  10.   0.   9.]
- [ 10.  44.   2.   6.]
- [  0.   0.  59.   
