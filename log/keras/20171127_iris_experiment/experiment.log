@@ -11,8 +11,8 @@ input_weights_file: ./model_storage/vgg16_weights_tf_dim_ordering_tf_kernels_not
 log_dir: ./log/keras/20171127_iris_experiment/
 log_file_name: experiment.log
 log_name: TF_logger
-logger: <logging.Logger object at 0x11d7cdfd0>
-optimizer: <tensorflow.python.keras._impl.keras.optimizers.Adam object at 0x11d7ae050>
+logger: <logging.Logger object at 0x11a1fafd0>
+optimizer: <tensorflow.python.keras._impl.keras.optimizers.Adam object at 0x11a1db050>
 original_data_dir: ./data/IRIS_data/IrisDB_base/
 output_model_file: ./model_storage/v2_classification/IRIS/20171126_vgg16_customTF_dev.h5
 root_dir: ./data/IRIS_data/keras_directory/20171127_input_data/
@@ -83,4 +83,4 @@ Total params: 15,246,150
 Trainable params: 531,462
 Non-trainable params: 14,714,688
 _________________________________________________________________
-{'val_categorical_accuracy': [0.125], 'loss': [13.497678756713867], 'val_loss': [13.159696578979492], 'val_acc': [0.125], 'categorical_accuracy': [0.09375], 'acc': [0.09375]}
+{'val_categorical_accuracy': [0.375], 'loss': [5.9916582107543945], 'val_loss': [5.2041568756103516], 'val_acc': [0.375], 'categorical_accuracy': [0.390625], 'acc': [0.390625]}

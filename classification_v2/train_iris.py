@@ -55,7 +55,7 @@ model.save(config.output_model_file)
 
 # Output results
 config.logger.info(history_tl.history)
-CNN_functions.plot_training(history_tl)
+#CNN_functions.plot_training(history_tl)
 
 # TODO: Create better logging function. 
 CNN_functions.save_history_to_file(history_tl.history, config.log_dir + "history_output.json")
