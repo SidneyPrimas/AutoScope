@@ -36,7 +36,7 @@ for directory in directory_list:
 	os.mkdir(source_data_directory + "Validation/" + directory_name)
 	os.mkdir(source_data_directory + "Training/" + directory_name)
 
-	# Get all the  images int he directory
+	# Get all the  images in the directory
 	image_list = glob(directory + "/*.jpg")
 	validation_size = math.ceil(len(image_list)*validation_percent)
 

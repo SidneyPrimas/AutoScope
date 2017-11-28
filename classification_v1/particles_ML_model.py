@@ -37,22 +37,22 @@ VISUALIZE_FILTERS = False
 ## Create a global debug statement to enable all debug print statements
 
 directory_map = {
-    "IRIS-BACT": 0,         #0
-    "IRIS-RBC": 1,          #1
-    "IRIS-SPRM": 3,         #3
-    "IRIS-WBC": 2,          #2
-    "IRIS-CLUMP-WBCC": 2,   #2
-    "IRIS-CLUMP-YSTS": 3,   #3
-    "IRIS-CRYST-CAOX": 3,   #3
-    "IRIS-CRYST-CAPH": 3,   #3
-    "IRIS-CRYST-TPO4": 3,   #3
-    "IRIS-CRYST-URIC": 3,   #3
-    "IRIS-HYAL": 3,         #3
-    "IRIS-NHYAL-CELL": 3,   #3
-    "IRIS-NHYAL-GRAN": 3,   #3
-    "IRIS-NSQEP-REEP": 3,   #3
-    "IRIS-NSQEP-TREP": 3,   #3
-    "IRIS-SQEP": 3,         #3
+    "IRIS-BACT": 0,
+    "IRIS-RBC": 1,
+    "IRIS-SPRM": 3,
+    "IRIS-WBC": 2,
+    "IRIS-CLUMP-WBCC": 2,
+    "IRIS-CLUMP-YSTS": 3,
+    "IRIS-CRYST-CAOX": 3,
+    "IRIS-CRYST-CAPH": 3,
+    "IRIS-CRYST-TPO4": 3,
+    "IRIS-CRYST-URIC": 3,
+    "IRIS-HYAL": 3,
+    "IRIS-NHYAL-CELL": 3,
+    "IRIS-NHYAL-GRAN": 3,
+    "IRIS-NSQEP-REEP": 3,
+    "IRIS-NSQEP-TREP": 3,
+    "IRIS-SQEP": 3,
 }
 
 
@@ -312,11 +312,6 @@ def log_confusion_matrix(y_truth, y_pred, params):
 
 	print >> params.log, "Confusion Matrix:"
 	print >> params.log, confusion 
-
-	# Debug
-	# print >> params.log, "Results:"
-	# print >> params.log, truth_class
-	# print >> params.log, pred_class
 	print >> params.log, "\n\n"
 
 # Print log header, summarizing this model. 

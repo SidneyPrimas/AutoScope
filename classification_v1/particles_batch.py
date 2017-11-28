@@ -197,13 +197,6 @@ class ParticleSet(object):
 			labels[order[count], :]= temp_labels
 			
 
-			#TODO: Debug
-			# print "Debugging: %d"%(self._samples_completed)
-			# print "File_Name: %s"%(file_name)
-			# print "Current Class: %d"%(class_num)
-			# print temp_labels
-			# print "\n"
-
 			# Increment sample tracking by 1
 			self._samples_completed += 1
 
