@@ -13,8 +13,8 @@ import sys
 import confusion_utility
 
 # Import homebrew functions
-base_directory = "./log/20171027_reversed_output/"
-log_name = "20171027_irl_wbc_rbc_10um_v2"
+base_directory = "./class_particles/data/log/20171202_irisClassification/"
+log_name = "log_20171202_15-28-10.log"
 sys.path.append(base_directory)
 import config 
 

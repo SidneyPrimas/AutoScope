@@ -14,7 +14,7 @@ import re
 import sys
 
 # Import homebrew functions
-sys.path.append("./log/20170503_micrsocope_and_reversed/")
+sys.path.append("./class_particles/data/log/20171202_irisClassification/")
 import config 
 
 ### Execution Notes ####

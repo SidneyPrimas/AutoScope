@@ -10,3 +10,4 @@ Programming Notes:
 + model.input/model.output: Get the input and output layer of a model. Output is the final layer. Input is usually the input layer. 
 + model.get_config() or layer.get_config(): Gets the setup configuration of the model or layers. 
 + model.plot_model(): Plots the model, and outputs as image. 
++ Generators in Keras: flow_from_directory and flow() return generator objects. Generator objects are iterable objects that generate a result when we call next() on these objects. Generators can either be 1) a function that yields results every time next() is called on the function or 2) an object that is iterable through next, and generates results in real time. In Keras, we can use either approach (with flow_from_directory using the object approach). Generators allow for real-time data loading, instead of preloading the data. 

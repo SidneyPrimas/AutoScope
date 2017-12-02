@@ -17,8 +17,8 @@ import sys
 import confusion_utility
 
 # Import homebrew functions
-base_directory = "./log/20170503_micrsocope_and_reversed/"
-log_name = "microscope_output/particles_clumps_other2"
+base_directory = "./class_particles/data/log/20171202_irisClassification/"
+log_name = "log_20171202_15-38-07.log"
 sys.path.append(base_directory)
 import config 
 

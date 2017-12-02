@@ -1,8 +1,12 @@
 /env
-/data
+/data_storage
 /data_output
 /archive
 /demo
 /security
 /log/20171002_reversed_output/20171030_log_slowTraining
 /model_storage
+/class_imagenet/data
+/class_particles/data
+/class_trasnferLearning/data
+/classification_v1/data
