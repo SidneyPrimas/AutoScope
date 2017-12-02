@@ -1,4 +1,5 @@
 # With an Ubuntu Image on EC2
+# On 20171202, used Ubuntu Server 16.04 LTS (HVM), SSD Volume Type - ami-82f4dae7
 
 # Update apt-get
 sudo apt-get update
@@ -20,18 +21,22 @@ sudo apt-get install unzip
 # Unzip the data folder
 unzip ./2016_11_27_IrisDB.zip
 
-# Install Pip
+# Install Pip (for Python 2.7)
 sudo apt-get install python-pip python-dev
 # Depending on implementation, install tk (for python GUIs)
+# Since many of my script might import these packages, install for consistency. 
 sudo apt-get install python-tk
 
 # Install numpy and matplotlib (and other packages, depending on implementation)
 pip install numpy
 pip install matplotlib
-pip install scipy
+pip install scipy (might need to use: pip --no-cache-dir install scipy)
 pip install Pillow
 
 # Setup TF (Python 2.7 on Ubuntu with only CPUs)
+# Simple Installation
+pip install tensorflow # for Python 2.7 on Ubuntu with only CPUs
+# Binary Installation
 export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp27-none-linux_x86_64.whl
 sudo pip install --upgrade $TF_BINARY_URL
 

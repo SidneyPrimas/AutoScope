@@ -11,10 +11,10 @@ from tensorflow.python.keras.utils import plot_model
 # import from local libraries
 from IrisData import IrisData
 import CNN_functions
-#from model_factory_particles import VGG16_with_custom_FC_average as createModel
+from model_factory_particles import VGG16_with_custom_FC_average as createModel
 #from model_factory_particles import VGG16_with_custom_FC_flatten as createModel
 #from model_factory_particles import VGG16_bottom3_layers_custom_FC_average as createModel
-from model_factory_particles import VGG16_bottom3_layers_custom_FC_flatten as createModel
+#from model_factory_particles import VGG16_bottom3_layers_custom_FC_flatten as createModel
 from Iris_config import IrisConfig_Base
 
 
@@ -37,8 +37,8 @@ model = createModel(input_shape = config.image_shape, base_weights = config.imag
 CNN_functions.load_model(model, config.custom_weight_file_input, config)
 
 
-#data.transfer_learn_train(model)
-data.fine_tune_train(model)
+data.transfer_learn_train(model)
+#data.fine_tune_train(model)
 #data.train_entire_model(model)
 
 
