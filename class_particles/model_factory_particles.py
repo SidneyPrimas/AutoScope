@@ -170,6 +170,61 @@ def VGG16_bottom3_layers_custom_FC_average(input_shape, base_weights, classes):
 	return output_model
 
 
+def VGG16_bottom2_layers_custom_FC_average(input_shape, base_weights, classes): 
+	"""
+	Keras model with the first 2layers of VGG16. Always preload the base_weights. 
+	"""
+	img_input = Input(shape=input_shape)
+
+	# Block 1
+	# When using Conv2D as first layer, need to correctly connect the layer to input with input_shape argument. 
+	x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv1')(img_input)
+	x = Conv2D(64, (3, 3), activation='relu', padding='same', name='block1_conv2')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(x)
+	f1 = x
+
+	# Block 2
+	x = Conv2D(128, (3, 3), activation='relu', padding='same', name='block2_conv1')(x)
+	x = Conv2D(128, (3, 3), activation='relu', padding='same', name='block2_conv2')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block2_pool')(x)
+	f2 = x
+
+	# Block 3
+	x = Conv2D(256, (3, 3), activation='relu', padding='same', name='block3_conv1')(x)
+	x = Conv2D(256, (3, 3), activation='relu', padding='same', name='block3_conv2')(x)
+	x = Conv2D(256, (3, 3), activation='relu', padding='same', name='block3_conv3')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block3_pool')(x)
+	f3 = x
+
+	# Block 4
+	x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block4_conv1')(x)
+	x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block4_conv2')(x)
+	x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block4_conv3')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block4_pool')(x)
+	f4 = x
+
+	# Block 5
+	x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv1')(x)
+	x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv2')(x)
+	x = Conv2D(512, (3, 3), activation='relu', padding='same', name='block5_conv3')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block5_pool')(x)
+	f5 = x
+
+	# Custom fully connected layer
+	x = GlobalAveragePooling2D(name='flatten')(f2)
+	x = Dense(1024, activation='relu', name='fc1')(x)
+	predictions = Dense(classes, activation='softmax', name='predictions')(x)
+
+
+	# Load imagenet weights
+	vgg  = Model(inputs=img_input, outputs = f5, name = "VGG16_decapitated")
+	vgg.load_weights(base_weights)
+
+
+	output_model = Model(inputs=img_input, outputs = predictions, name = "VGG16_bottom2_layers_custom_FC_average")
+	return output_model
+
+
 def VGG16_original(input_shape, base_weights = None, include_top = True): 
 	"""
 	VGG16: Standard VGG16 model. Pre-populated this with trained weights to make the model usable for my use case. Return either original VGG16 or decapitated VGG16. 

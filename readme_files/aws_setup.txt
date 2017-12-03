@@ -49,3 +49,8 @@ scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-120-151.
 
 # Getting models from EC2
 scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-180-230.us-east-2.compute.amazonaws.com:particle_recognition/data/particle_model_filters ./6classes_basicGraph_imagesPerClass_imagesPerClass_particle_model_filters 
+
+# Run the Python script (dont' need if I send nothing out to the terminal)
+# nohup ensures that you can exit the session and python will still run in the background. 
+# stderr and stdout is put into terminal_output.log. Needs to be deleted later as well. 
+nohup python ./class_particles/train_iris.py > ./class_particles/data/terminal_output.log &

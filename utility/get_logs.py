@@ -12,7 +12,7 @@ import sys
 
 
 # Import homebrew functions
-base_directory = "./log/20171027_reversed_output/"
+base_directory = "class_particles/data/log/20171202_irisClassification/"
 sys.path.append(base_directory)
 import config 
 
@@ -23,7 +23,7 @@ import config
 
 command = "scp -i "
 security_key = "./security/sprimas_admin_key-pari_us-east-2.pem"
-source_file = "particle_recognition/log/*" # Assume that the AWS server only has a single log. 
+source_file = "./particle_recognition/" + base_directory +"*" # Assume that the AWS server only has a single log. 
 
 
 ### Get logs from AWS servers ###

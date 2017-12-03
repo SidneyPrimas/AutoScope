@@ -10,3 +10,4 @@
 /class_particles/data
 /class_transferLearning/data
 /classification_v1/data
+*.pyc
