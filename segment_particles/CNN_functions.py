@@ -5,6 +5,7 @@ from datetime import datetime
 import logging
 import json
 import os
+import cv2
 
 from tensorflow.python.keras._impl.keras import backend as K
 
@@ -23,6 +24,7 @@ def print_configurations(config):
 	for attribute in local_class_attriubutes: 
 		# Since attribute is a string, need to use exec to execute function. 
 		exec('config.logger.info("%s: %s"%(attribute, config.' + attribute +'))')
+	config.logger.info("Image Data Ordering: %s", K.image_data_format())
 	config.logger.info("###### CONFIGURATION ###### \n\n")
 		 
 
@@ -54,27 +56,18 @@ def freeze_lower_layers(model, layer_name):
 	"""
 	train_this_layer = False
 	for layer in model.layers: 
+		print layer.name
 		layer.trainable = train_this_layer
 
 		# Train layers above layer_name
 		if layer.name == layer_name: 
 			train_this_layer = True
 
-def get_confusion_matrix(all_truth, all_pred): 
-	'Caculate a confusion matrix given the predicted labels and the ground truth labels. '
-
-	classes = all_truth.shape[1] # Get total classes
-	truth_class = np.argmax(all_truth, axis=1)
-	pred_class = np.argmax(all_pred, axis=1) 
-	confusion = np.zeros((classes, classes), dtype=float)
-	for num, truth_cl in enumerate(truth_class): 
-		confusion[truth_cl, pred_class[num]] += 1
-	return confusion
-
 def get_accuracy(all_truth, all_pred):
 	'Return the accuracy given the predicted labels and the ground truth labels. '
-	correct_prediction = np.equal(np.argmax(all_truth, axis=1), np.argmax(all_pred, axis=1))
+	correct_prediction = np.equal(np.argmax(all_truth, axis=2), np.argmax(all_pred, axis=2))
 	accuracy = np.mean(correct_prediction.astype(np.float))
+
 	return accuracy
 
 def load_model(model, path, config):
@@ -90,12 +83,33 @@ def load_model(model, path, config):
 
 
 def save_model(model, path, config):
-
 	if path is  None: 
 		return 
 
 	model.save(path)
 	config.logger.info("Save Model to %s", path)
+
+def save_categorical_aray_as_image(img_array, path, config):
+	img_labeled = np.argmax(img_array, axis=1) # Convert from categorical format to label format. 
+	img = np.reshape(img_labeled, config.target_size)
+	img = img*255 # Convert from class_label to greyscale color. 
+	cv2.imwrite(path, img ) # use cv2 since data is BGR and a numpy array
+
+
+# Possible future function. 
+"""
+def crop( o1 , o2 , i  ):
+Description: Crops o1 (the upsampled image) or o2 (the featue map carried over from the encoding layers) depending on the larger image. This implementation allows for different size input images. 
+Problem: The image is not cropped from the center. Instead, it's cropped starting from the top left corner. 
+Args: 
+o1: Image to crop (usually the upsampled image)
+o2: Image used as a reference (usually the feature map from the encoding layers. )
+i: Input layer
+Returns: 
+The cropped o1 and o2 images. 
+
+"""
+
 
 
 

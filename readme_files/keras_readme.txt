@@ -1,7 +1,8 @@
 Application Notes: 
 + Layers (and the underlying datastructures) are created when when call the layer functions. When models use these layers, the data structures are the same for all models using those base layers. So, as we create different model names for hose base layers with Model(), we are just creating different ways to reference those base layers.
 + Use PIL insead of cv2 since keras is dependent on PIL. This makes sure that the formatting is consistent with keras functions. 
-+ Configuration parameters: We can get any configuration parameters for model and layer class with model.name, etc. 
++ Configuration parameters: We can get any configuration parameters for model and layer class with model.name, etc.
++ VGG assumes a BGR format. However, Keras uses PIL to initially load images, and thus often used a RGB format. Be careful with going back and forth between thes formats.  
 
 
 

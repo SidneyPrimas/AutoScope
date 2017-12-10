@@ -21,7 +21,7 @@ im = cv2.imread('./data/random_datasets/cat_dog_data/pred_dir/95.jpg')
 im = cv2.resize(im, (224, 224)).astype(np.float32)
 
 im[:,:,0] -= 103.939
-im[:,:,1] -= 116.779
+im[:,:,1] -= 116.779 
 im[:,:,2] -= 123.68
 
 im = np.expand_dims(im, axis=0)

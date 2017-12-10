@@ -10,7 +10,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import argparse
-import urllib
 from PIL import Image
 
 #Import keras libraries
@@ -57,7 +56,7 @@ def predict(model, img, target_size, top_n=3):
 	x = np.expand_dims(img, axis=0).astype('float32')
 	# Data normalization step that zero centers the image data using mean channel values (across entire imagenet dataset). 
 	# Data normalization done to normalize input features. Each channel then centered around a 0-mean. 
-	# vgg16, resnet, and vgg19 have same preprocess function. 
+	# vgg16, resnet, and vgg19 have same preprocess function. (assumes PIL input)
 	x = preprocess_input(x, data_format = 'channels_last')
 	# Used to predict image outputs without training or validation. 
 	# Returns the final prediction tensor (after softmax) with the probabilites of 1k classes. 
@@ -93,27 +92,14 @@ def plot_preds(image, preds):
 	plt.tight_layout()
 	plt.show()
 
-def url_to_image(url):
-	"""
-	Args: 
-	url: input image url
-	Returns: Image as a numpy array 
-	"""
-
-	resp = urllib.urlopen(url)
-	image = np.asarray(bytearray(resp.read()), dtype="uint8")
-	image = cv2.imdecode(image, cv2.IMREAD_COLOR)
- 
-	return image
 
 
 if __name__=="__main__":
 	a = argparse.ArgumentParser()
 	a.add_argument("--image", help="path to image")
-	a.add_argument("--image_url", help="url to image")
 	args = a.parse_args()
 
-if args.image is None and args.image_url is None:
+if args.image is None:
 	a.print_help()
 	sys.exit(1)
 
@@ -130,9 +116,3 @@ if args.image is not None:
 	preds = predict(model, img, target_size)
 	plot_preds(img, preds)
 
-if args.image_url is not None:
-	print "Image Location: %s"%(args.image_url)
-	img = url_to_image(args.image_url)
-	img=cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-	preds = predict(model, img, target_size)
-	plot_preds(img, preds)

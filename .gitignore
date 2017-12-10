@@ -11,3 +11,5 @@
 /class_transferLearning/data
 /classification_v1/data
 *.pyc
+/segment_street
+/segment_particles/data
