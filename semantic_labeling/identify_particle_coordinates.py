@@ -1,80 +1,52 @@
-"""
-    File name: identify_baf3_coordinates.py
-    Author: Sidney Primas
-    Date created: 06/28/2017
-    Python Version: 2.7
-    Description: Identify baf3 coordinates using mouse cursor. Currently, we are not able to do automated segmentation of BAF3 cells.
-"""
-
-
 # Base packages 
 import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 import json 
-
-# Import OpenCV
+import os
 import cv2
-# Argparse: For command line python arguments
-import argparse
-
-# Configurable Variables
-step_size = 500 
-mask_path = "./data/20170425/reference/illumination_mask.jpg"
-
-def main():
+from glob import glob
 
 
-	### Construct the argument parse and parse the arguments
-	# Obtain the BAF3 Image
-	# -i: Path to image
-	ap = argparse.ArgumentParser()
-	ap.add_argument("-i", "--image", required=True, help="path to input image")
-	args = vars(ap.parse_args())
-	image_path = args["image"]
+# Configuration Variables
+TARGET_FILE = "./data/20171027/10um/selected1/.bmp"
+STEP_SIZE = 700
 
-	### Load Image: Ensure image is in grayscale. 
-	im_original = cv2.imread(args["image"], cv2.IMREAD_GRAYSCALE)
+# image_paths = glob(TARGET_DIR + "*")	
+# for target_file in image_paths: 
+# if os.path.isdir(target_file): continue
 
+def main(): 
 
-	### Preprocess the Image: Including compensation for illumination 
-	### Implement Illumination Compensation
-	im_mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
-	# Convert illumination mask into floating point format (to allow for compensation)
-	im_mask = im_mask * 1.0
-	# Compenstate with illumination mask. Still preserves floating point format. 
-	im_compensated = np.divide(im_original, im_mask)
-	# cv2.convertScaleAbs(src[, dst[, alpha[, beta]]]) -> dst
-	# Converts matrix to an 8-bit data type after scaling by alpha. 
-	im_compensated = cv2.convertScaleAbs(im_compensated, alpha = (255.0/np.amax(im_compensated)))
+	im_original = cv2.imread(TARGET_FILE, cv2.IMREAD_COLOR)
+	im_original = cv2.cvtColor(im_original, cv2.COLOR_BGR2RGB)
 
-
-	### Plot image on which we can perform cursoe selection of particles
-	# Subplot returns both a figure and axes. 
-	zoomFig, zoomAx = plt.subplots()
-	plt.title("Reversed Lens BAF3 Image")
-	# Attach the image produced by imshow to zoomAx (axis). imgplot is an AxisImage object. 
-	imgplot_axis = zoomAx.imshow(im_compensated, cmap='gray', interpolation='nearest')
+	### Plot image on which we can perform cursor selection of particles
+	zoomFig, zoomAx = plt.subplots() # Subplot returns both a figure and axes. 
+	# Attach the image created by imshow to zoomAx (axis). imgplot is an AxisImage object. 
+	imgplot_axis = zoomAx.imshow(im_original, interpolation='nearest')
+	plt.title("Reversed Lens Image")
 	plt.axis('off')
 
-	### Create ZoomCrop object. Object used to control plot of im_original
-	zoom_crop = ZoomCrop(step_size, im_compensated, zoomAx, image_path)
-	# On the ZoomCrop object, connect listeners for computer input. 
-	zoom_crop.connect(zoomFig)
+	### Create ParticleLocation object. Object used to control plot of im_original
+	particle_locations = ParticleLocation(STEP_SIZE, im_original, zoomAx, TARGET_FILE)
+	# On the ParticleLocation object, connect listeners for computer input. 
+	particle_locations.connect(zoomFig)
 
 	### Initialize image to first zoom tile (starting at 0,0)
-	zoomAx.set_xlim(0, step_size)
-	# Flip y-axis so image presented in expected format(not sure why this is needed) 
-	zoomAx.set_ylim(step_size, 0)
-	# Code runs within ZoomCrop based on interrupts. However, this main program doesn't complete until plot closed. 
+	zoomAx.set_xlim(0, STEP_SIZE)
+	# Flip y-axis so image presented in same format MacOS preview program. 
+	zoomAx.set_ylim(STEP_SIZE, 0)
+	# Interact with image through ParticleLocation based on interrupts. 
+	# The main() program doesn't complete until plot closed. 
 	plt.show()
 
 	# Once the plot has been closed, disconnect the keypress listeners. 
-	zoom_crop.disconnect(zoomFig)
+	particle_locations.disconnect(zoomFig)
 
 
 # Description: Class to interactively manage the image in active_axis. 
-class ZoomCrop:
+class ParticleLocation:
 	def __init__(self, step_size, img, active_axis, image_path):
 		self.x_ref = 0
 		self.y_ref = 0
@@ -86,11 +58,12 @@ class ZoomCrop:
 
 		### Creat Log (Append data, and flush to file)
 		fileName_start = image_path.rfind("/")
-		input_file_name = image_path[fileName_start+1:-4]
-		input_dir_path = image_path[:fileName_start+1]
-		log_file_name = (input_dir_path + "coordinates/" + input_file_name + "_coordinates.json")
-		# Create read/write file that is line buffered (indicated by 1)
-		self.log = open(log_file_name,  'w+', 1)
+		coordinates_file_name = image_path[fileName_start+1:-4]
+		coordinates_dir_path = image_path[:fileName_start+1] + "coordinates/"
+		if not os.path.exists(coordinates_dir_path):
+			os.makedirs(coordinates_dir_path)
+		coordinates_file_path = (coordinates_dir_path + coordinates_file_name + "_coordinates.json")
+		self.log = open(coordinates_file_path,  'w+', 1) # Create read/write file that is line buffered (indicated by 1)
 
 	# Connect to all the events we need
 	def connect(self, fig):
@@ -181,12 +154,13 @@ class ZoomCrop:
 		fig.canvas.mpl_disconnect(self.cid_key)
 
 		# Print out coordinates
+		print self.particle_list
 		json.dump(self.particle_list, self.log)
 
 		# Close figures and log
 		self.log.close()
 
 
-# Command Line Sugar: Calls the main function when file executed from command-line
+
 if __name__ == "__main__":
     main()
