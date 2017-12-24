@@ -36,6 +36,7 @@ def FCN8_32px_factor(input_shape, base_weights, classes):
 	assert input_shape[1]%32 == 0
 	assert K.image_data_format() == 'channels_last'
 
+
 	img_input = Input(shape=input_shape)
 
 	### Econding Convolutional Layers (from VGG16) ###

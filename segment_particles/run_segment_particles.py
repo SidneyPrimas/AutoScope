@@ -15,8 +15,8 @@ from model_FCN8 import FCN8_32px_factor as createModel
 from SegmentParticles_config import SegmentParticles_Config
 
 # User inputs (apply to any directories)
-custom_val_images_path = "./segment_particles/data/image_data/20171218_classes_entireImage/train_images/"
-custom_val_annotations_path = "./segment_particles/data/image_data/20171218_classes_entireImage/train_annotations/"
+custom_val_images_path = "./segment_particles/data/image_data/20171218_binary_crop/post_training/images/"
+custom_val_annotations_path = "./segment_particles/data/image_data/20171218_binary_crop/post_training/annotations/"
 
 
 # Instantiates configuration for training/validation
@@ -29,7 +29,8 @@ CNN_functions.validate_config(config)
 data = SegmentParticlesData(config)
 
 # Create necessary data generators
-data.init_validation_generator(custom_val_images_path, custom_val_annotations_path)
+val_generator = self._get_data_generator(custom_val_images_path, custom_val_annotations_path)
+
 
 # Print configuration
 CNN_functions.print_configurations(config) # Print config summary to log file
@@ -43,5 +44,8 @@ model = createModel(input_shape = config.image_shape, base_weights = config.imag
 CNN_functions.load_model(model, config.weight_file_input, config)
 
 # Validate or Predict
-data.validate_epoch(model, get_particle_accuracy = True)
+data.validate_epoch(
+	model = model, 
+	val_generator = val_generator,
+	get_particle_accuracy = True)
 

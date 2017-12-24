@@ -26,8 +26,8 @@ CNN_functions.validate_config(config)
 data = SegmentParticlesData(config)
 
 # Create necessary data generators
-data.init_training_generator(config.train_images_dir, config.train_annotations_dir)
-data.init_validation_generator(config.val_images_dir, config.val_annotations_dir)
+train_generator = self._get_data_generator(config.train_images_dir, config.train_annotations_dir) 
+val_generator = self._get_data_generator(config.val_images_dir, config.val_annotations_dir)
 
 # Print configuration
 CNN_functions.print_configurations(config) # Print config summary to log file
@@ -41,5 +41,8 @@ model = createModel(input_shape = config.image_shape, base_weights = config.imag
 CNN_functions.load_model(model, config.weight_file_input, config)
 
 # Train
-data.train_entire_model(model)
+data.train_entire_model(
+	model = model, 
+	train_generator = train_generator, 
+	val_generator = val_generator)
 

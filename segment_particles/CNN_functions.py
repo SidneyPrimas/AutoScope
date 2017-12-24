@@ -29,12 +29,12 @@ def print_configurations(config):
 	config.logger.info("###### CONFIGURATION ###### \n\n")
 		 
 
-def get_data_config(log_path):
+def get_json_log(log_path):
 	log = open(log_path, 'r')
-	data_config = json.load(log)
+	json_struct = json.load(log)
 	log.close()
 
-	return data_config
+	return json_struct
 
 def validate_config(config):
 	assert(config.nclasses == config.data_config["nclasses"]) # Check that the data creation nclasses is the same as the model nclasses. 
@@ -83,7 +83,7 @@ def get_pixel_accuracy_perBatch(all_truth, all_pred):
 	return pixel_accuracy
 
 
-def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, img_num):
+def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, base_output_path):
 	"""
 	Returns the systems accuracy in identifying the location of a particle.
 	Does not look at a each pixel. Instead, determines if a particle has been more broadly identified by the model. 
@@ -180,7 +180,7 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, im
 
 		
 	# Print results
-	config.logger.info("\nParticle Detection Accuracy for: Img_num %d", img_num)
+	config.logger.info("\nParticle Detection Accuracy for: %s", base_output_path)
 	config.logger.info("Total particles in ground truth set: %d", total_ground_truth_particles)
 	config.logger.info("Percent of ground truth particles detected: %f", intersection_of_pred_and_truth/float(total_ground_truth_particles))
 	config.logger.info("Intersection between prediction and ground truth sets: %d", intersection_of_pred_and_truth)
@@ -191,8 +191,8 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, im
 
 	# Debug: Save images with indicators. 
 	if (config.debug):
-		cv2.imwrite(config.output_img_dir + str(img_num) + "_truth.jpg", truth_output)
-		cv2.imwrite(config.output_img_dir + str(img_num) + "_pred.jpg", pred_output)
+		cv2.imwrite(base_output_path + "_truth.jpg", truth_output)
+		cv2.imwrite(base_output_path + "_pred.jpg", pred_output)
 
 def nearest_centroid(centroid, array_of_centroids):
 	"""

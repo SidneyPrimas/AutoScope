@@ -27,29 +27,6 @@ class SegmentParticlesData(object):
 		self.train_count = 0 
 		self.image_train_count = 0 
 
-		# Define data generators. Need to be initialized directly by the user. 
-		# Note: Not auto-initialized since all generators not always needed. 
-		self.train_generator = None
-		self.val_generator = None
-
-
-	def init_training_generator(self, image_dir_path, annotations_dir_path): 
-
-		#  If not already, initialize batches per epoch. 
-		if (self.config.batches_per_epoch_train == None):
-			self.config.batches_per_epoch_train = self._get_batches_per_epoch(image_dir_path, self.config.batch_size)
-		self.config.logger.info("Batches per Epoch for Training: %d",(self.config.batches_per_epoch_train))
-
-		self.train_generator = self._get_data_generator(image_dir_path, annotations_dir_path) 
-
-
-	def init_validation_generator(self, image_dir_path, annotations_dir_path):
-		# If not already, initialize batches per epoch. 
-		if (self.config.batches_per_epoch_val == None):
-			self.config.batches_per_epoch_val = self._get_batches_per_epoch(image_dir_path, self.config.batch_size)
-		self.config.logger.info("Batches per Epoch for Validation: %d",(self.config.batches_per_epoch_val))
-
-		self.val_generator = self._get_data_generator(image_dir_path, annotations_dir_path)
 
 	def _get_batches_per_epoch(self, directory, batch_size):
 		"""
@@ -235,15 +212,15 @@ class SegmentParticlesData(object):
 		return output_labels
 
 
-	def _save_validation_images(self, original_img, truth_array, pred_array, img_num):
+	def _save_validation_images(self, original_img, truth_array, pred_array, base_output_path):
 		# orgingal
-		path = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) + "_original.jpg"
+		path = base_output_path + "_original.jpg"
 		cv2.imwrite(path, original_img )
 		# truth
-		path = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) + "_truth.jpg"
+		path = base_output_path + "_truth.jpg"
 		CNN_functions.save_categorical_aray_as_image(truth_array, path, self.config)
 		# prediction 
-		path = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) + "_prediction.jpg"
+		path = base_output_path + "_prediction.jpg"
 		CNN_functions.save_categorical_aray_as_image(pred_array, path, self.config)
 
 
@@ -255,7 +232,44 @@ class SegmentParticlesData(object):
 		self.config.logger.info("###### DATA ######  \n\n")
 
 
-	def validate_epoch(self, model, get_particle_accuracy = False): 
+	def validate_image(self, model, image_path, annotations_path):
+		""" 
+		Validates the accuracy on a single image. 
+		Args
+		model: The model used to predict image segmentation
+		image_path: string pointing directly to the original image on the disk. 
+		annotations_path: string pointing to the annotated image on the disk
+		Returns
+		label_pred[0]: The predicted segmentation of size (height*width, nclassses). Array with categorical output. 
+		label_truth_tensor[0]: The actual segmentation of size (height*width, nclassses). Array with categorical output. 
+		"""
+
+
+		# Get and preprocess label/image
+		img_input = self._get_image_from_dir(image_path, new_size = self.config.target_size)
+		label_input = self._get_annotation_from_dir(annotations_path, new_size = self.config.target_size)
+		
+		# Convert label/image to correctly shaped tensor
+		img_tensor = np.expand_dims(img_input, axis=0) # Turn single image into tensor (which is what the model expects)
+		label_shape = (self.config.target_size[0]*self.config.target_size[1] , self.config.nclasses)
+		label_truth = np.reshape(label_input, label_shape)
+		label_truth_tensor = np.expand_dims(label_truth, axis=0) 
+
+		# Get model predictions. 
+		label_pred = model.predict(img_tensor)
+
+
+		# Calculate and output optimization accuracy results
+		pixel_wise_accuracy_perBatch = CNN_functions.get_pixel_accuracy_perBatch(label_truth_tensor, label_pred)
+		self.config.logger.info("Validation Results")
+		self.config.logger.info("Validation accuracy: %1.3f" %(pixel_wise_accuracy_perBatch))
+		self.config.logger.info("\n\n")
+
+		return label_pred[0], label_truth_tensor[0]
+
+
+
+	def validate_epoch(self, model, val_generator, get_particle_accuracy = False): 
 		""" 
 		Validates model for a single epoch. Provides average results across the entire epoch. 
 		"""
@@ -266,7 +280,7 @@ class SegmentParticlesData(object):
 
 		# Validate across multiple batches
 		for _ in range(self.config.batches_per_epoch_val):
-			img_input, label_truth =  next(self.val_generator)
+			img_input, label_truth =  next(val_generator)
 			label_pred = model.predict_on_batch(img_input)
 			
 			# Append to overall metrics
@@ -290,26 +304,28 @@ class SegmentParticlesData(object):
 
 				# Determine particle_accuracy
 				if (get_particle_accuracy): 
+					base_save_path = self.config.output_img_dir + str(img_num)
 					CNN_functions.get_foreground_accuracy_perImage(
 						truth_array = all_truth[img_num], 
 						pred_array = all_pred[img_num], 
 						config = self.config, 
 						radius = self.config.detection_radius,
-						img_num = img_num)
+						base_output_path = base_save_path)
 
 				# Save validation images, including original, ground truth and predictions. 
+				base_save_path = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) 
 				self._save_validation_images(
 					original_img= img_input[img_num,:,:],
 					truth_array= label_truth[img_num,:], 
 					pred_array= label_pred[img_num,:], 
-					img_num= img_num)
+					base_output_path= base_save_path)
 
 		# Output results
 		self.config.logger.info("Validation Results")
 		self.config.logger.info("Validation accuracy: %1.3f" %(pixel_wise_accuracy_perBatch))
 		self.config.logger.info("\n\n")
 
-	def train_epoch(self, model, in_house = True):
+	def train_epoch(self, model, train_generator, in_house = True):
 		""" 
 		Trains model for a single epoch. Provides average results across the entire epoch. 
 		"""
@@ -323,7 +339,7 @@ class SegmentParticlesData(object):
 			loss_all = []
 			accuracy_all = []
 			for batch in range(self.config.batches_per_epoch_train):
-				img_input, label_truth =  next(self.train_generator)
+				img_input, label_truth =  next(train_generator)
 				metric_output = model.train_on_batch(img_input, label_truth)
 				# Update per batch tracking variables
 				self.train_count += 1
@@ -338,7 +354,7 @@ class SegmentParticlesData(object):
 		# Use keras-built in training
 		else: 
 			history = model.fit_generator(
-				self.train_generator, # Produces training data for a single batch. 
+				train_generator, # Produces training data for a single batch. 
 				epochs = 1, # Only train a single epoch 
 				steps_per_epoch=  self.config.batches_per_epoch_train # The total batches processes to complete an epoch. steps_per_epoch = total_images/batch_size
 			)
@@ -354,7 +370,7 @@ class SegmentParticlesData(object):
 		self.config.logger.info("Step: %d, Images Trained: %d, Batch loss: %2.6f, Training accuracy: %1.3f" %(self.train_count, self.image_train_count, loss, accuracy))
 
 
-	def train_entire_model(self, model): 
+	def train_entire_model(self, model, train_generator, val_generator,): 
 		# Compiles model
 		# Note: categorical_crossentropy requires prediction/truth data to be in categorical format. 
 		model.compile(optimizer=self.config.optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
@@ -362,19 +378,20 @@ class SegmentParticlesData(object):
 
 		while True:
 			self.config.logger.info("######   Entire Model Training  ######")
-			self.train(model)
+			self.train(model, train_generator, val_generator,)
 			CNN_functions.save_model(model, self.config.weight_file_output + str(self.image_train_count) + ".h5", self.config) # Save
 
 
-	def train(self, model): 
+	def train(self, model, train_generator, val_generator,): 
 
 		for epoch in range(self.config.num_epochs): 
 
 			# Training for single epoch
-			self.train_epoch(model, in_house = False)
+			self.train_epoch(model, train_generator, in_house = False)
+
 
 			# Validation for single epoch
-			self.validate_epoch(model)
+			self.validate_epoch(model, val_generator,)
 
 
 
