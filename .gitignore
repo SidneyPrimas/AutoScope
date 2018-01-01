@@ -7,7 +7,7 @@
 /model_storage
 /classify_imagenet/data
 /classify_particles_tf/data
-/classify_partiles_keras/data
+/classify_particles_keras/data
 /classify_transferLearning/data
 *.pyc
 /segment_street

@@ -14,7 +14,7 @@ import re
 import sys
 
 # Import homebrew functions
-sys.path.append("./class_particles/data/log/20171202_irisClassification/")
+sys.path.append("./segment_particles/data/CICS_experiment/log/end_to_end_test/")
 import config 
 
 ### Execution Notes ####

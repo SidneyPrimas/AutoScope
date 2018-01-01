@@ -17,8 +17,8 @@ import sys
 import confusion_utility
 
 # Import homebrew functions
-base_directory = "./class_particles/data/log/20171202_irisClassification/"
-log_name = "log_20171202_15-38-07.log"
+base_directory = "./segment_particles/data/CICS_experiment/log/end_to_end_test/"
+log_name = "classification2.log"
 sys.path.append(base_directory)
 import config 
 
