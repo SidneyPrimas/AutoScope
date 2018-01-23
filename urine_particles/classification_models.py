@@ -9,7 +9,6 @@ from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Input, Dense, F
 
 def base_model(input_shape, base_weights, classes): 
 	"""
-	VGG16: 
 	Configuration: data_format => channel_last
 	Args: 
 	input_shape: shape of image, including the channel. 

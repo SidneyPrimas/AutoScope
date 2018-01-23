@@ -14,7 +14,7 @@ import re
 import sys
 
 # Import homebrew functions
-sys.path.append("./segment_particles/data/CICS_experiment/log/end_to_end_test/")
+sys.path.append("./classify_particles_tf/data/log/20171026_CICS_resampling/size_52px/")
 import config 
 
 ### Execution Notes ####
@@ -58,7 +58,7 @@ for file_name in config.logs['file_name']:
 	total_images = map(int, total_images)
 	all_total_images.append(total_images)
 	accuracy = PD.Series(map(float, accuracy))
-	accuracy = accuracy.rolling(window=3,center=False).mean() # Rolling Average (use built in pandas function)
+	accuracy = accuracy.rolling(window=50,center=False).mean() # Rolling Average (use built in pandas function)
 	all_accuracy.append(accuracy)
 	batch_loss = map(float, batch_loss)
 	all_batch_loss.append(batch_loss)

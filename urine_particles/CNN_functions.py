@@ -87,6 +87,15 @@ def get_pixel_accuracy_perBatch(all_truth, all_pred):
 
 	return pixel_accuracy
 
+
+def get_pixel_accuracy_perImage(img_truth, img_pred):
+	'Return the accuracy given the predicted labels and the ground truth labels for a single image.'
+	correct_prediction = np.equal(np.argmax(img_truth, axis=1), np.argmax(img_pred, axis=1))
+	pixel_accuracy = np.mean(correct_prediction.astype(np.float))
+
+	return pixel_accuracy
+
+
 def get_confusion_matrix(all_truth, all_pred): 
 	'Caculate a confusion matrix given the predicted labels and the ground truth labels. '
 
@@ -204,7 +213,10 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	# Print results
 	config.logger.info("\nParticle Detection Accuracy for: %s", base_output_path)
 	config.logger.info("Total particles in ground truth set: %d", total_ground_truth_particles)
-	config.logger.info("Percent of ground truth particles detected: %f", intersection_of_pred_and_truth/float(total_ground_truth_particles))
+	if (total_ground_truth_particles> 0):
+		config.logger.info("Percent of ground truth particles detected: %f", intersection_of_pred_and_truth/float(total_ground_truth_particles))
+	else: 
+		config.logger.info("Percent of ground truth particles detected: invalid")
 	config.logger.info("Intersection between prediction and ground truth sets: %d", intersection_of_pred_and_truth)
 	config.logger.info("Only ground truth set: %d", only_truth_particles)
 	config.logger.info("Only prediction set: %d", only_pred_particles)

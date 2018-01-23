@@ -79,7 +79,7 @@ def split_data(input_dir, output_dir, move_proportion):
 		count = len(images_list)
 		val_count = int(math.ceil(count * move_proportion))
 
-		assert(count >= 2) # Need at least two images to split into validation foler. 
+		assert(count >= 2) # Need at least two images in order to allow split into validation foler. 
 
 		# Move each image to output directory (up to val_count)
 		for i in range(val_count):

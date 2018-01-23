@@ -12,3 +12,5 @@ Possible To Dos:
 + Reconfigure class assignments within config: Currently, I configure the class assignments when I create the training data. However, at times, it's convenient to re-configure those classes during training. To do this, I need to create a data structure that maps the old classes to the new classes. 
 + Fixing poor accuracy with semantic segmentation (per-pixel classification): When using semantic segmentation with the real-time cropping approach, we get good segmentation results and poor classification results. This is probably to over-fitting on the training data, where we get great segmentation and classification results. Possible solutions to solve this are: 1) trying pre-cropping and 2) trying rotations (other data augmentation approaches) with real-time cropping. 
 
+Implementation Notes: 
++ The RGB values from the imagenet dataset used for VGG16 is: Blue => 103.939, Green => 116.779, Red => 123.68

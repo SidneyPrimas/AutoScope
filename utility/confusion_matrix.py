@@ -13,13 +13,13 @@ import sys
 import confusion_utility
 
 # Import homebrew functions
-base_directory = "./segment_particles/data/CICS_experiment/log/end_to_end_test/"
-log_name = "classification1.log"
+base_directory = "./classify_particles_tf/data/log/20171026_CICS_resampling/size_52px/"
+log_name = "CICS_resample_base_1p36um_52px_v2"
 sys.path.append(base_directory)
 import config 
 
 log_path = base_directory + log_name
-total_input = 20
+total_input = 1000
 
 cnf_matrix = confusion_utility.get_confusion_matrix(log_path, total_input, config.logs['num_of_classes'])
 

@@ -15,15 +15,15 @@ from segmentation_models import FCN8_32px_factor as createModel
 from SegmentParticles_config import SegmentParticles_Config
 
 # User inputs (apply to any directories)
-custom_val_images_path = "./segment_particles/data/image_data/20171218_binary_crop/post_training/images/"
-custom_val_annotations_path = "./segment_particles/data/image_data/20171218_binary_crop/post_training/annotations/"
+custom_val_images_path = "./urine_particles/data/clinical_experiment/image_data/20180120_trial1/segmentation/post_training/images/"
+custom_val_annotations_path = "./urine_particles/data/clinical_experiment/image_data/20180120_trial1/segmentation/post_training/annotations/"
 
 
 # Instantiates configuration for training/validation
 config = SegmentParticles_Config()
 
 # Configuration sanity check
-CNN_functions.validate_config(config)
+CNN_functions.validate_segmentation_config(config)
 
 # Instantiate training/validation data
 data = SegmentParticlesData(config)
@@ -48,4 +48,5 @@ data.validate_epoch(
 	model = model, 
 	val_generator = val_generator,
 	get_particle_accuracy = True)
+
 

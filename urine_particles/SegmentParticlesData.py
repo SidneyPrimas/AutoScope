@@ -80,6 +80,7 @@ class SegmentParticlesData(object):
 			yield np.array(x_input), np.array(y_target)
 
 	def _get_batch_of_crops(self, images_iterator, annotations_iterator):
+		"""Gets batches of images/annotations for real time cropping."""
 
 		images_list = []
 		annotations_list = []
@@ -174,10 +175,10 @@ class SegmentParticlesData(object):
 		# Zero center images based on imagenet 
 		# 'RGB'->'BGR' (PIL provided RGB input)
 		x = x[..., ::-1]
-		# Zero-center by mean pixel (based on VGG16 means)
-		x[..., 0] -= 103.939 # Blue
-		x[..., 1] -= 116.779 # Green 
-		x[..., 2] -= 123.68 # Red
+		# Zero-center by mean pixel (calculated from dataset)
+		x[..., 0] -= 90.61598179  # Blue
+		x[..., 1] -= 129.97525112 # Green 
+		x[..., 2] -= 103.00621832 # Red
 
 		return x
 
@@ -299,21 +300,26 @@ class SegmentParticlesData(object):
 		if (self.config.debug): 
 			random_img_list = range(self.config.batch_size)
 			random.shuffle(random_img_list) # Determine which images from the batch to process
-			for i in range(self.config.batch_size): 
+			for i in range(2): 
 				img_num =  random_img_list.pop() # removes the last item
 
+				file_prefix = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) + "_"
 				# Determine particle_accuracy
 				if (get_particle_accuracy): 
-					base_save_path = self.config.output_img_dir + str(img_num)
+					base_save_path = file_prefix + "particle"
 					CNN_functions.get_foreground_accuracy_perImage(
-						truth_array = all_truth[img_num], 
-						pred_array = all_pred[img_num], 
+						truth_array = label_truth[img_num,:], 
+						pred_array = label_pred[img_num,:], 
 						config = self.config, 
 						radius = self.config.detection_radius,
 						base_output_path = base_save_path)
 
 				# Save validation images, including original, ground truth and predictions. 
-				base_save_path = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) 
+				base_save_path = file_prefix + "pixel"
+				pixel_wise_accuracy_perImage = CNN_functions.get_pixel_accuracy_perImage(label_truth[img_num,:], label_pred[img_num,:])
+				# Output results
+				self.config.logger.info("Output Image: %s"%(base_save_path))
+				self.config.logger.info("Pixel Accuracy: %1.8f"%(pixel_wise_accuracy_perImage))
 				self._save_validation_images(
 					original_img= img_input[img_num,:,:],
 					truth_array= label_truth[img_num,:], 
@@ -322,7 +328,7 @@ class SegmentParticlesData(object):
 
 		# Output results
 		self.config.logger.info("Validation Results")
-		self.config.logger.info("Validation accuracy: %1.3f" %(pixel_wise_accuracy_perBatch))
+		self.config.logger.info("Validation accuracy: %1.8f" %(pixel_wise_accuracy_perBatch))
 		self.config.logger.info("\n\n")
 
 	def train_epoch(self, model, train_generator, in_house = True):

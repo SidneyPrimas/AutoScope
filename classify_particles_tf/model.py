@@ -89,6 +89,7 @@ class ParticleDetectionModel(object):
 	def build_loss_system(self, prediction, truth, weights=None):
 
 		# Created a weighted loss function
+		# ToDo: Use uses sparse
 		if weights == None:
 			cross_entropy_loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=truth, logits=prediction))
 			

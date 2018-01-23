@@ -36,9 +36,11 @@ def get_confusion_matrix(log_path, total_input, class_size):
 				all_cnf_matrices.append(cnf_matrix)
 				input_count = input_count + 1
 				# Once we have the total matrices, break from collection the confusion matrices
-				if (input_count >= total_input): break
+				if (input_count >= total_input): 
+					print input_count
+					break
 
-		cnf_matrix = np.average(all_cnf_matrices, axis=0) 
+		cnf_matrix = np.sum(all_cnf_matrices, axis=0) 
 
 
 	return cnf_matrix

@@ -20,14 +20,11 @@ Implementation Notes:
 + Take original images and coordinate logs from raw_image_data folder, label the images, and place them into an output training folder with the appropriate folder structure. 
 + Original images in training folder are linked to their corresponding images in the raw_data folder. Do not change/remove raw data. 
 
-TODO: 
-+ Auto-seperate data into training and validation folders. 
-+ Seperate out common utility functions. 
 """
 
 """ User Updated Configuration Parameters"""
-input_dir_root = './urine_particles/data/CICS_experiment/raw_image_data/'
-output_dir_root = './urine_particles/data/CICS_experiment/image_data/20171230_binary_entireImage/'  
+input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
+output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180120_training/'  
 segmentation_folder_name = 'segmentation/'
 
 indicator_radius = 15
