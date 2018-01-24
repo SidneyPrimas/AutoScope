@@ -12,8 +12,9 @@ import sys
 
 
 # Import homebrew functions
-base_directory = "class_particles/data/log/20171202_irisClassification/"
-sys.path.append(base_directory)
+config_directory = "./urine_particles/data/clinical_experiment/log/20180120_training/cloud_files/"
+base_cloud_directory = "./urine_particles/data/clinical_experiment/log/20180120_training/"
+sys.path.append(config_directory)
 import config 
 
 ### Execution Directions ###
@@ -23,7 +24,7 @@ import config
 
 command = "scp -i "
 security_key = "./security/sprimas_admin_key-pari_us-east-2.pem"
-source_file = "./particle_recognition/" + base_directory +"*" # Assume that the AWS server only has a single log. 
+source_file = "./particle_recognition/" + base_cloud_directory +"*" # Assume that the AWS server only has a single log. 
 
 
 ### Get logs from AWS servers ###
@@ -31,4 +32,4 @@ for i, server in enumerate(config.logs['url']):
 	EC2_address = server
 	dest_file_name = config.logs['file_name'][i]
 
-	os.system(command + security_key + " " + EC2_address + ":" + source_file + " " + base_directory + dest_file_name)
+	os.system(command + security_key + " " + EC2_address + ":" + source_file + " " + config_directory + dest_file_name)

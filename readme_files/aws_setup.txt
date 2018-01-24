@@ -53,4 +53,4 @@ scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-180-230.
 # Run the Python script (dont' need if I send nothing out to the terminal)
 # nohup ensures that you can exit the session and python will still run in the background. 
 # stderr and stdout is put into terminal_output.log. Needs to be deleted later as well. 
-nohup python ./class_particles/train_iris.py > ./class_particles/data/terminal_output.log &
+nohup python ./urine_particles/train_classification_particles.py > ./urine_particles/data/clinical_experiment/terminal_output.log  &

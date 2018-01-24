@@ -306,7 +306,7 @@ class SegmentParticlesData(object):
 		if (self.config.debug): 
 			random_img_list = range(self.config.batch_size)
 			random.shuffle(random_img_list) # Determine which images from the batch to process
-			for i in range(1): 
+			for i in range(2): 
 				img_num =  random_img_list.pop() # removes the last item
 
 				file_prefix = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) + "_"
@@ -404,7 +404,7 @@ class SegmentParticlesData(object):
 			count +=1
 			self.config.logger.info("######   Entire Model Training  ######")
 			self.train(model, train_generator, val_generator,)
-			CNN_functions.save_model(model, self.config.weight_file_output + str(self.image_train_count%3) + ".h5", self.config) # Save
+			CNN_functions.save_model(model, self.config.weight_file_output + str(self.image_train_count%1) + ".h5", self.config) # Save
 
 
 
