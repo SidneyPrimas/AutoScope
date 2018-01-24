@@ -7,23 +7,28 @@ from tensorflow.python.keras.optimizers import SGD, RMSprop, Adadelta, Adam
 import CNN_functions
 
 """"
+Execution Notes: 
++ RGB vs. Grayscale: 
+++ To switch between RGB and grayscale: 1) adjust self.channels, 2) adjust self.color, 3) adjust normalization in preprocessing function.
+
 Implementation Notes: 
-+ target_size and fullscale_target_size need to have symmetrical dimensions. If they are not symmetrical, need to remove my PIL usage (where the shape is defined differently than cv2).
++ Batch Size: 
+++ Due to the Keras implementation of flow_from_directory, the returned batch size varies at times. Keep this in mind when analyzing results.
 """
 
 # Configuration for foreground/background segmentation
 class ClassifyParticles_Config():
 	def __init__(self):
 		# Core Configurations: Manually updated by user. Always needed. 
-		self.project_folder = "20171230_binary_entireImage/"
-		self.root_data_dir =  "./urine_particles/data/CICS_experiment/"
-		self.weight_file_input_name = None #Set to 'None' to disable.
+		self.project_folder = "20180120_training/"
+		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
+		self.weight_file_input_name = None #"classify_weights_3_final_Norm.h5" #Set to 'None' to disable.
 		self.weight_file_output_name = "classify_weights_" # Set to 'None' to disable. 
-		self.target_size = (52, 52) # (height, wdith)
-		self.batch_size = 25 
-		self.num_epochs = 5  # Print validation results after each epoch. Save model after num_epochs.
-		self.batches_per_epoch_train = 10 # Batches for each training session. If None, set so that every image is trained. 
-		self.batches_per_epoch_val = 4 # Batches for each validation session. If None, set so that every image is trained. 
+		self.target_size = (64, 64) # TF assumes (height, wdith) format
+		self.batch_size = 64 
+		self.num_epochs = 10  # Print validation results after each epoch. Save model after num_epochs.
+		self.batches_per_epoch_train = 30 # Batches for each training session. If None, set so that every image is trained. 
+		self.batches_per_epoch_val = 7 # Batches for each validation session. If None, set so that every image is trained. 
 		self.nclasses = 4
 
 		# Secondary Configurations: Manually updated by user. Sometimes needed. 
@@ -32,6 +37,7 @@ class ClassifyParticles_Config():
 		self.imagenet_weights_file = "./model_storage/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5" # Always needed! 
 		self.save_aug_data_to_dir = False
 		self.channels = 3
+		self.color = 'rgb' # Select 'rgb' or 'grayscale'. Remember to adjust normalization script in preprocessing function. 
 		
 
 		# Auto Configurations: Can be auto-calculated. 
@@ -47,7 +53,7 @@ class ClassifyParticles_Config():
 
 		# Create and configure logger. 
 		self.log_name = "TF_logger"
-		self.log_file_name = "classification2.log" #If None, then name based on datetime.
+		self.log_file_name = "classification.log" #If None, then name based on datetime.
 		self.logger = CNN_functions.create_logger(self.log_dir, self.log_file_name, self.log_name)
 
 

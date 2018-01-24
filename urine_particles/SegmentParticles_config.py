@@ -13,10 +13,14 @@ Execution Notes:
 ++ The fullscale_target_size is only used to change the proportions of the original image (which is sometimes needed so that images are resampled in the same way as during training). 
 ++ By setting fullscale_target_size to none, the image dimensions are not changed at all, leading to no resampling. 
 ++ When real-time cropping is enabled, target-size sets the crop size, not the resampling size. This is important! 
++ Target Size: 
+++ When not doing real-time cropping, the target_size determine the dimensions that the input image will be resized to. 
+++ target_size needs to be evenly divided by 32 in order to work with the model.
++ RAM Constraint
+++ During execution (if running locally), the system can get RAM constrained. If that's the case, shut down other running programs, especially Chrome. 
 
 
 Implementation Notes: 
-+ target_size and fullscale_target_size need to have symmetrical dimensions (x,x). If they are not symmetrical, need to remove my PIL usage (where the shape is defined differently than cv2).
 """
 
 # Configuration for foreground/background segmentation
@@ -25,14 +29,14 @@ class SegmentParticles_Config():
 		# Core Configurations: Manually updated by user. Always needed. 
 		self.project_folder = "20180120_training/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name = None #"20171208_vgg16_customTL_dev_11400_allCategories_selected.h5" #Set to 'None' to disable.
+		self.weight_file_input_name =  "20180123_segmentation_weights_final_v1.h5" #Set to 'None' to disable.
 		self.weight_file_output_name = "segmentation_weights_" # Set to 'None' to disable. 
 		self.generate_images_with_cropping = True
-		self.fullscale_target_size = None #(640, 640) # (height, wdith)
-		self.target_size = (480, 480) # (128, 128) for  crops or (640, 640) for entire image
+		self.fullscale_target_size = None # (height, width) for numpy
+		self.target_size = (480,480) # (480, 480) for  crops or (2464,3264) for entire image at 8MPX
 		self.batch_size = 32
-		self.num_epochs = 1 # Print validation results after each epoch. Save model after num_epochs.
-		self.batches_per_epoch_train = 12 # Batches for each training session.
+		self.num_epochs = 5 # Print validation results after each epoch. Save model after num_epochs.
+		self.batches_per_epoch_train = 20 # Batches for each training session.
 		self.batches_per_epoch_val = 1 # Batches for each validation session. 
 		self.nclasses = 2
 
@@ -44,7 +48,7 @@ class SegmentParticles_Config():
 		self.channels = 3
 		self.input_folders = ["10um", "wbc", "rbc"]
 		self.detection_radius = 40 # The proximity that a predicted particle needs to be to a ground truth particle for it to be detected/classified. (needs to be adjusted based on target_size)
-
+		self.bgr_means = [90.61598179, 129.97525112, 103.00621832] # VGG is [103.939, 116.779, 123.68]  
 
 
 		# Auto Configurations: Can be auto-calculated. 

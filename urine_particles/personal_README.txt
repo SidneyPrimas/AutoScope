@@ -14,3 +14,12 @@ Possible To Dos:
 
 Implementation Notes: 
 + The RGB values from the imagenet dataset used for VGG16 is: Blue => 103.939, Green => 116.779, Red => 123.68
++ Per-Image Normalization: Per-channel vs entire image normalization
+++ If I normalize across the entire image, I preserve mean differences in color across the channel, which might provide more information. 
+++ If I nomralize per channel, the image becomes a greyscale-like image, with color differences very muted. 
++ Use samplewise_center or featurewise_center at your own risk!: investigate first 
+++Instead, implement this directly in the preprocessing fuction.
+++ First, it's not sure if they work as expected. Second, we might need to use the .fit function to calculate appropriate parameters. 
++ Normalization Notes: 
+++ If per-image mean normalization is used, there is no need to use batch or dataset mean normalization. 
+++ If dataset normalization is used, there is **much** less of a reason to use batch normalization. 

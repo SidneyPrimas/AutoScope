@@ -15,8 +15,8 @@ from segmentation_models import FCN8_32px_factor as createModel
 from SegmentParticles_config import SegmentParticles_Config
 
 # User inputs (apply to any directories)
-custom_val_images_path = "./urine_particles/data/clinical_experiment/image_data/20180120_trial1/segmentation/post_training/images/"
-custom_val_annotations_path = "./urine_particles/data/clinical_experiment/image_data/20180120_trial1/segmentation/post_training/annotations/"
+custom_val_images_path = "./urine_particles/data/clinical_experiment/image_data/20180120_training/segmentation/val_images/"
+custom_val_annotations_path = "./urine_particles/data/clinical_experiment/image_data/20180120_training/segmentation/val_annotations/"
 
 
 # Instantiates configuration for training/validation

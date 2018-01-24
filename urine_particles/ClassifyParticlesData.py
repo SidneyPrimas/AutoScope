@@ -77,9 +77,10 @@ class ClassifyParticlesData(object):
 		return cnt
 
 
-	@staticmethod
+	@staticmethod # Indicates that preprocess_image is a static method (syntactic sugar)
 	def preprocess_image(x):
 		"""
+		Description assuming color image.
 		Pre-trained VGG16 models expect BGR, so need to return BGR format. Zero centers each pixel.
 		Args
 		x: A RGB image as a numpy tensor (since keras loads through a PIL format)
@@ -87,13 +88,23 @@ class ClassifyParticlesData(object):
 		x: A BGR image as a numpy tensor (since VGG assumes BGR formated for pre-loaded weights)
 		"""
 
+		# COLOR IMPLEMENTATION 
 		# Zero center images based on imagenet 
-		# 'RGB'->'BGR' (PIL provided RGB input)
+		# 'RGB'->'BGR' (PIL provided RGB input but need BGR for VGG16 pretrained model)
 		x = x[..., ::-1]
-		# Zero-center by mean pixel (based on VGG16 means)
-		x[..., 0] -= 103.939 # Blue
-		x[..., 1] -= 116.779 # Green
-		x[..., 2] -= 123.68 # Red
+		# Zero-center by mean pixel of entire dataset (calculated from dataset)
+		x[..., 0] -= 90.61598179  # Blue
+		x[..., 1] -= 129.97525112 # Green 
+		x[..., 2] -= 103.00621832 # Red
+
+		# GRAYSCALE IMPLEMENTATION
+		# Zero-center by mean pixel of of this image (calculated from this image)
+		# Implementation Note: 
+		## The goal is to remove illumination notes
+		## Since we normalize across each color channel, we remove average color differences, providing a more greyscale-like image as a result
+		# x[..., 0] -= np.median(x[..., 0]) # Blue
+		# x[..., 1] -= np.median(x[..., 1]) # Green 
+		# x[..., 2] -= np.median(x[..., 2]) # Red
 
 		return x
 
@@ -109,7 +120,7 @@ class ClassifyParticlesData(object):
 		augmented_data_dir = None
 		if (save_to_dir_bool):
 			datestring = datetime.strftime(datetime.now(), '%Y%m%d_%H-%M-%S')
-			augmented_data_dir = (self.config.root_dir + 'augmented_data_' + datestring)
+			augmented_data_dir = (self.config.root_data_dir + "image_data/" + self.config.project_folder + 'augmented_data_' + datestring)
 			os.mkdir(augmented_data_dir)
 
 	
@@ -117,8 +128,8 @@ class ClassifyParticlesData(object):
 		train_datagen =  ImageDataGenerator(
 			preprocessing_function=self.preprocess_image, # Preprocess function applied to each image before any other transformation. Applies normalization.
 			rotation_range=45,  
-			#width_shift_range=0.1,
-			#height_shift_range=0.1,
+			width_shift_range=0.07,
+			height_shift_range=0.07,
 			#shear_range=0.1,
 			#zoom_range=0.2,
 			horizontal_flip=True, 
@@ -132,7 +143,7 @@ class ClassifyParticlesData(object):
 			target_size = self.config.target_size,
 			batch_size = self.config.batch_size,
 			shuffle = True, # default
-			color_mode = "rgb", # Important: We upconverted the original grayscale images to RGB. 
+			color_mode = self.config.color, # Important: We upconverted the original grayscale images to RGB. 
 			save_to_dir = augmented_data_dir, 
 			save_prefix = "augmented_"
 		)
@@ -157,7 +168,7 @@ class ClassifyParticlesData(object):
 			target_size = self.config.target_size,
 			batch_size = self.config.batch_size,
 			shuffle = True, # default
-			color_mode = "rgb" # Important: We upconverted the original grayscale images to RGB. 
+			color_mode = self.config.color # Important: We upconverted the original grayscale images to RGB. 
 		)
 
 		return validation_generator
@@ -200,10 +211,9 @@ class ClassifyParticlesData(object):
 		accuracy =CNN_functions.get_classification_accuracy_perBatch(all_truth, all_pred)
 		confusion = CNN_functions.get_confusion_matrix(all_truth, all_pred)
 
-
 		# Output results
 		self.config.logger.info("Validation Results")
-		self.config.logger.info("Training accuracy: %1.3f" %(accuracy))
+		self.config.logger.info("Validation accuracy: %1.3f" %(accuracy))
 		self.config.logger.info("Map Class Name to Class Number: %s", val_generator.class_indices)
 		self.config.logger.info("Confusion Matrix:")
 		self.config.logger.info(confusion)

@@ -27,7 +27,7 @@ input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
 output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180120_training/'  
 segmentation_folder_name = 'segmentation/'
 
-indicator_radius = 15
+indicator_radius = 20 # Moved from 15 to 20px because moved from 5MPx to 8MPx (scaled radius based on linear increase of width)
 crop_images_flag = False
 validation_proportion = 0.2
 

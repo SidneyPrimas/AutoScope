@@ -121,6 +121,7 @@ class SegmentParticlesData(object):
 			assert(image.shape[0] == label.shape[0])
 			assert(image.shape[1] == label.shape[1])
 
+
 			max_height_selection = image.shape[0] - self.config.target_size[0] - 1
 			max_width_selection = image.shape[1]  - self.config.target_size[1] - 1
 
@@ -164,11 +165,15 @@ class SegmentParticlesData(object):
 		"""
 		Loads and resizes image. Zero centers each pixel. Converts to 32-float BGR dataset. 
 		"""
-		img = PIL.Image.open(image_path) # Use PIL since in correct RGB format. And, Keras relies on PIL. 
+		# Use PIL since in correct RGB format. And, Keras relies on PIL. 
+		img = PIL.Image.open(image_path) 
 
-		# Assumed format: (height, width, dimension) 
-		if new_size and (img.size != new_size):
-			img = img.resize(new_size, resample = PIL.Image.ANTIALIAS) #PIL implementation: Use antialias to not alias while downsampling. 
+		# TODO: Used PIL since VGG16 pretrained network used PIL. Not necessary, and can be changed to numpy implementation. 
+		if new_size:
+			# PIL loads image as (width, height). My configuration is (height, width)
+			new_size_PIL = new_size[::-1] # Move from numpy convention to PIL convention
+			if (img.size != new_size_PIL):
+				img = img.resize(new_size_PIL, resample = PIL.Image.ANTIALIAS) #PIL implementation: Use antialias to not alias while downsampling. 
 		
 		x = image_keras.img_to_array(img) # convert to numpy array (as float 32)
 
@@ -176,13 +181,11 @@ class SegmentParticlesData(object):
 		# 'RGB'->'BGR' (PIL provided RGB input)
 		x = x[..., ::-1]
 		# Zero-center by mean pixel (calculated from dataset)
-		x[..., 0] -= 90.61598179  # Blue
-		x[..., 1] -= 129.97525112 # Green 
-		x[..., 2] -= 103.00621832 # Red
+		x[..., 0] -= self.config.bgr_means[0]  # Blue
+		x[..., 1] -= self.config.bgr_means[1] # Green 
+		x[..., 2] -= self.config.bgr_means[2] # Red
 
 		return x
-
-
 
 
 	def _get_annotation_from_dir(self, annotation_path, new_size=None):
@@ -191,11 +194,14 @@ class SegmentParticlesData(object):
 		"""
 		img = PIL.Image.open(annotation_path)  # Use PIL since in correct RGB format. And, Keras relies on PIL.
 
-		# Assumed format: (height, width, dimension) 
-		# Note: in pil, size gives the shape of the image. 
-		if new_size and (img.size != new_size):
-			#PIL implementation: NEAREST since do not want to blend classes through interpolation. 
-			img = img.resize(new_size, resample = PIL.Image.NEAREST) 
+		# TODO: Used PIL since VGG16 pretrained network used PIL. Not necessary, and can be changed to numpy implementation. 
+		if new_size:
+			# PIL loads image as (width, height). My configuration is (height, width)
+			new_size_PIL = new_size[::-1] # Move from numpy convention to PIL convention
+			if (img.size != new_size_PIL):
+				#PIL implementation: NEAREST since do not want to blend classes through interpolation. 
+				img = img.resize(new_size_PIL, resample = PIL.Image.NEAREST) 
+
 
 		input_labels = image_keras.img_to_array(img) # convert to numpy array (as float 32)
 		input_labels = input_labels[..., ::-1] # 'RGB'->'BGR' (PIL provided RGB input)

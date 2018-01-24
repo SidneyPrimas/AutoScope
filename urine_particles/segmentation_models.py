@@ -165,8 +165,8 @@ def FCN8_32px_factor(input_shape, base_weights, classes):
 	model.outputHeight = outputHeight
 
 	# Verify assumptions
-	assert model.outputWidth == input_shape[0]
-	assert model.outputHeight == input_shape[1]
+	assert model.outputHeight == input_shape[0]
+	assert model.outputWidth == input_shape[1]
 
 
 	return model

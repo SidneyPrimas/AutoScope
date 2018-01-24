@@ -15,7 +15,6 @@ from segmentation_models import FCN8_32px_factor as createModel
 from SegmentParticles_config import SegmentParticles_Config
 
 
-
 # Instantiates configuration for training/validation
 config = SegmentParticles_Config()
 
