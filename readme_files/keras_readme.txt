@@ -3,6 +3,7 @@ Application Notes:
 + Use PIL insead of cv2 since keras is dependent on PIL. This makes sure that the formatting is consistent with keras functions. 
 + Configuration parameters: We can get any configuration parameters for model and layer class with model.name, etc.
 + VGG assumes a BGR format. However, Keras uses PIL to initially load images, and thus often used a RGB format. Be careful with going back and forth between thes formats.  
++ Note on image dimensions: If you use flow_from_directory, Keras loads your images from a directory with PIL. Thus, the format of each loades image will be (width, height). Be careful. 
 
 
 

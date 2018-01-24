@@ -14,6 +14,8 @@ Execution Notes:
 Implementation Notes: 
 + Batch Size: 
 ++ Due to the Keras implementation of flow_from_directory, the returned batch size varies at times. Keep this in mind when analyzing results.
++ Image dimensions: 
+++ TF assumes (height, width) format. However, Keras loads images with PIL, so it assumes (widht, height) format. Be careful with reconciling. 
 """
 
 # Configuration for foreground/background segmentation
@@ -22,9 +24,9 @@ class ClassifyParticles_Config():
 		# Core Configurations: Manually updated by user. Always needed. 
 		self.project_folder = "20180120_training/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name = None #"classify_weights_3_final_Norm.h5" #Set to 'None' to disable.
+		self.weight_file_input_name =  None #Set to 'None' to disable.
 		self.weight_file_output_name = "classify_weights_" # Set to 'None' to disable. 
-		self.target_size = (64, 64) # TF assumes (height, wdith) format
+		self.target_size = (64, 64) # Warning: Be careful if non-square dimensions (see above note). 
 		self.batch_size = 64 
 		self.num_epochs = 10  # Print validation results after each epoch. Save model after num_epochs.
 		self.batches_per_epoch_train = 30 # Batches for each training session. If None, set so that every image is trained. 

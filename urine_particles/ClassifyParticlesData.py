@@ -88,23 +88,31 @@ class ClassifyParticlesData(object):
 		x: A BGR image as a numpy tensor (since VGG assumes BGR formated for pre-loaded weights)
 		"""
 
-		# COLOR IMPLEMENTATION 
-		# Zero center images based on imagenet 
 		# 'RGB'->'BGR' (PIL provided RGB input but need BGR for VGG16 pretrained model)
 		x = x[..., ::-1]
+
+		# DATASET AVERAGES (average of each channel)
+		# Zero center images based on imagenet 
 		# Zero-center by mean pixel of entire dataset (calculated from dataset)
 		x[..., 0] -= 90.61598179  # Blue
 		x[..., 1] -= 129.97525112 # Green 
 		x[..., 2] -= 103.00621832 # Red
 
-		# GRAYSCALE IMPLEMENTATION
+		# PER-IMAGE NORMALIZATION (average of each channel)
 		# Zero-center by mean pixel of of this image (calculated from this image)
 		# Implementation Note: 
-		## The goal is to remove illumination notes
+		## The goal is to remove illumination 
 		## Since we normalize across each color channel, we remove average color differences, providing a more greyscale-like image as a result
 		# x[..., 0] -= np.median(x[..., 0]) # Blue
 		# x[..., 1] -= np.median(x[..., 1]) # Green 
 		# x[..., 2] -= np.median(x[..., 2]) # Red
+
+
+		# PER-IMAGE NORMALIZATION (average of image)
+		# median_intensity = np.median(x)
+		# x[..., 0] -= median_intensity# Blue
+		# x[..., 1] -= median_intensity # Green 
+		# x[..., 2] -= median_intensity # Red
 
 		return x
 

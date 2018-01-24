@@ -23,3 +23,7 @@ Implementation Notes:
 + Normalization Notes: 
 ++ If per-image mean normalization is used, there is no need to use batch or dataset mean normalization. 
 ++ If dataset normalization is used, there is **much** less of a reason to use batch normalization. 
++ Grayscale Conversion: 
+++ For the classification model, we have the option to convert from RGB to grayscale usuing flow_from_directory. This is done through PIL's convert function. 
++ Keras uses PIL: 
+++ If you use flow_from_directory, Keras loads your images from a directory with PIL. Thus, the format of each loades image will be (width, height). Be careful. 
