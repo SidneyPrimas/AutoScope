@@ -16,6 +16,7 @@ Implementation Notes:
 ++ Due to the Keras implementation of flow_from_directory, the returned batch size varies at times. Keep this in mind when analyzing results.
 + Image dimensions: 
 ++ TF assumes (height, width) format. However, Keras loads images with PIL, so it assumes (widht, height) format. Be careful with reconciling. 
+
 """
 
 # Configuration for foreground/background segmentation
