@@ -56,7 +56,7 @@ class ClassifyParticles_Config():
 
 		# Create and configure logger. 
 		self.log_name = "TF_logger"
-		self.log_file_name = None #"classification.log" #If None, then name based on datetime.
+		self.log_file_name = "classification.log" #If None, then name based on datetime.
 		self.logger = CNN_functions.create_logger(self.log_dir, self.log_file_name, self.log_name)
 
 
