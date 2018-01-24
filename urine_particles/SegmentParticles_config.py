@@ -29,7 +29,7 @@ class SegmentParticles_Config():
 		# Core Configurations: Manually updated by user. Always needed. 
 		self.project_folder = "20180120_training/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name =  "20180123_segmentation_weights_final_v1.h5" #Set to 'None' to disable.
+		self.weight_file_input_name =  "20180124_segmentation_weights_final_v2.h5" #Set to 'None' to disable.
 		self.weight_file_output_name = "segmentation_weights_" # Set to 'None' to disable. 
 		self.generate_images_with_cropping = True
 		self.fullscale_target_size = None # (height, width) for numpy
@@ -47,7 +47,7 @@ class SegmentParticles_Config():
 		self.imagenet_weights_file = "./model_storage/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5" # Always needed! 
 		self.channels = 3
 		self.input_folders = ["10um", "wbc", "rbc"]
-		self.detection_radius = 40 # The proximity that a predicted particle needs to be to a ground truth particle for it to be detected/classified. (needs to be adjusted based on target_size)
+		self.detection_radius = 30 # The proximity that a predicted particle needs to be to a ground truth particle for it to be detected/classified. (needs to be adjusted based on resampling of image)
 		self.bgr_means = [90.61598179, 129.97525112, 103.00621832] # VGG is [103.939, 116.779, 123.68]  
 
 

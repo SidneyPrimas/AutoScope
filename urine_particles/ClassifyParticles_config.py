@@ -28,8 +28,8 @@ class ClassifyParticles_Config():
 		self.weight_file_output_name = "classify_weights_" # Set to 'None' to disable. 
 		self.target_size = (64, 64) # Warning: Be careful if non-square dimensions (see above note). 
 		self.batch_size = 64 
-		self.num_epochs = 10  # Print validation results after each epoch. Save model after num_epochs.
-		self.batches_per_epoch_train = 30 # Batches for each training session. If None, set so that every image is trained. 
+		self.num_epochs = 5  # Print validation results after each epoch. Save model after num_epochs.
+		self.batches_per_epoch_train = 35 # Batches for each training session. If None, set so that every image is trained. 
 		self.batches_per_epoch_val = 7 # Batches for each validation session. If None, set so that every image is trained. 
 		self.nclasses = 4
 
@@ -55,7 +55,7 @@ class ClassifyParticles_Config():
 
 		# Create and configure logger. 
 		self.log_name = "TF_logger"
-		self.log_file_name = "classification.log" #If None, then name based on datetime.
+		self.log_file_name = None #"classification.log" #If None, then name based on datetime.
 		self.logger = CNN_functions.create_logger(self.log_dir, self.log_file_name, self.log_name)
 
 

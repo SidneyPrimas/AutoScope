@@ -26,7 +26,7 @@ CNN_functions.validate_classification_config(config)
 data = ClassifyParticlesData(config)
 
 # Create necessary data generators
-train_generator = data.create_training_generator(train_dir_path=config.train_images_dir, save_to_dir_bool=False)
+train_generator = data.create_training_generator(train_dir_path=config.train_images_dir, save_to_dir_bool=config.save_aug_data_to_dir)
 val_generator = data.create_validation_generator(val_dir_path=config.val_images_dir)
 
 # Print configuration

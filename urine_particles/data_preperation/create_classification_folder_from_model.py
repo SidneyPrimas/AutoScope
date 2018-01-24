@@ -33,6 +33,7 @@ Execution Notes:
 To Do: 
 + Need to consolidate create_classification_folder_from_labels.py and create_classification_folder_from_model.py. 
 ++ These two files are based on each other and they have A LOT of overlapping code. 
++ Figure out indication radius + detection radius => Should be the same
 """
 
 # User inputs (apply to any directories)
@@ -40,7 +41,7 @@ input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
 output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180120_training/'  
 classification_folder_name = "classification/"
 
-detection_radius = 10 # Radius (measured in pixels) that indicates the allowable distance between a predicted particle and a reference particle to be deemed accurate. Used on the orignal image
+detection_radius = 30 # Radius (measured in pixels) that indicates the allowable distance between a predicted particle and a reference particle to be deemed accurate. Used on the orignal image
 output_crop_size = 64 # The output size of the crops, measured in pixels. Used on the original image. 
 validation_proportion = 0.2 #Proportion of images placed in validation
 skip_boundary_particles = True # Skip the particles that are on the boundary of the image. 

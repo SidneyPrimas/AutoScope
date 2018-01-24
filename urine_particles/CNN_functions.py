@@ -138,10 +138,14 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	truth_reshaped = ((truth_reshaped > 0)).astype('uint8')
 	pred_reshaped = ((pred_reshaped > 0)).astype('uint8')
 
+	# Close
+	# Note: Closing removes background pixels from foreground blobs. Thus, it consolidates blobs. 
+	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
+	pred_reshaped = cv2.morphologyEx(pred_reshaped.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 1)
 	
 	# Erosions
 	# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
-	struct_element = np.ones((2,2), np.uint8)
+	struct_element = np.ones((4,4), np.uint8)
 	pred_reshaped = cv2.erode(pred_reshaped.astype('float32'), struct_element, iterations=1)
 
 	# Transform colors for visualization: color as binary images

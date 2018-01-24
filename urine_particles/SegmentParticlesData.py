@@ -306,7 +306,7 @@ class SegmentParticlesData(object):
 		if (self.config.debug): 
 			random_img_list = range(self.config.batch_size)
 			random.shuffle(random_img_list) # Determine which images from the batch to process
-			for i in range(2): 
+			for i in range(1): 
 				img_num =  random_img_list.pop() # removes the last item
 
 				file_prefix = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) + "_"
