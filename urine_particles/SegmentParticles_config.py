@@ -35,7 +35,7 @@ class SegmentParticles_Config():
 		self.fullscale_target_size = None # (height, width) for numpy
 		self.target_size = (480,480) # (480, 480) for  crops or (2464,3264) for entire image at 8MPX
 		self.batch_size = 32
-		self.num_epochs = 5 # Print validation results after each epoch. Save model after num_epochs.
+		self.num_epochs = 1 # Print validation results after each epoch. Save model after num_epochs.
 		self.batches_per_epoch_train = 20 # Batches for each training session.
 		self.batches_per_epoch_val = 1 # Batches for each validation session. 
 		self.nclasses = 2

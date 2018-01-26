@@ -22,3 +22,7 @@ ENV=`$PYTHON -c "import os; print(os.path.abspath(os.path.join(os.path.dirname(\
 # now run Python with the virtualenv set as Python's HOME
 export PYTHONHOME=$ENV
 exec $PYTHON "$@"
+
+
+# To optimize Tensorflow for your CPU, need to install a custom TF.
+Follow this tutorial: http://mortada.net/tips-for-running-tensorflow-with-gpu-support-on-aws.html

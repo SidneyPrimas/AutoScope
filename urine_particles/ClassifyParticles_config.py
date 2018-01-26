@@ -31,7 +31,7 @@ class ClassifyParticles_Config():
 		self.batch_size = 64 
 		self.num_epochs = 5  # Print validation results after each epoch. Save model after num_epochs.
 		self.batches_per_epoch_train = 35 # Batches for each training session. If None, set so that every image is trained. 
-		self.batches_per_epoch_val = 7 # Batches for each validation session. If None, set so that every image is trained. 
+		self.batches_per_epoch_val = 5 # Batches for each validation session. If None, set so that every image is trained. 
 		self.nclasses = 4
 
 		# Secondary Configurations: Manually updated by user. Sometimes needed. 

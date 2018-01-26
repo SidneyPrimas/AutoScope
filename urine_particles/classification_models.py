@@ -115,7 +115,7 @@ def base_model_bn(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda), 
 		name='block1_conv1')(img_input)
-	x = BatchNormalization(axis=-1)(x)
+	x = BatchNormalization(axis=-1)(x) # Normalizes over all axis except indicated axix (except channel axis)
 	x = Conv2D(
 		filters=32, 
 		kernel_size=(3, 3), 
@@ -172,7 +172,129 @@ def base_model_bn(input_shape, base_weights, classes, reg_lambda=0.001):
 		kernel_regularizer=l2(reg_lambda), 
 		name='predictions')(x) 
 
-	model  = Model(img_input, x, name = "base_model")
+	model  = Model(img_input, x, name = "base_bn_model")
+
+	return model
+
+def base_mode_bn_3blocks(input_shape, base_weights, classes, reg_lambda=0.001): 
+	"""
+	Note: Instead of having 2 convolutional blocks, use 3 convolutional blocks
+	Configuration: data_format => channel_last
+	Args: 
+	input_shape: shape of image, including the channel. 
+	Return: 
+	An instantiated model.
+	Notes: 
+	+ Implements layer regularization for all weights. 
+	+ Implements accurate initializations, with biases set to 0.1 to ensure neuron activation initially. 
+	+ Implements batch normalization: The original papers proposed batch normalization before the activation layer. 
+	++ However, later papers showed equally good results when put immediatley after the activation layer. 
+	"""
+	img_input = Input(shape=input_shape)
+
+	# Block 1
+	# When using Conv2D as first layer, need to correctly connect the layer to input with input_shape argument. 
+	x = Conv2D(
+		filters=32,
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block1_conv1')(img_input)
+	x = BatchNormalization(axis=-1)(x) # Normalizes over all axis except indicated axix (except channel axis)
+	x = Conv2D(
+		filters=32, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda),
+		name='block1_conv2')(x)
+	x = BatchNormalization(axis=-1)(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(x)
+	f1 = x
+
+	# Block 2
+	x = Conv2D(
+		filters=64, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block2_conv1')(x)
+	x = BatchNormalization(axis=-1)(x)
+	x = Conv2D(
+		filters=64, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block2_conv2')(x)
+	x = BatchNormalization(axis=-1)(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block2_pool')(x)
+	f2 = x
+
+	# Block 3
+	x = Conv2D(
+		filters=128, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block3_conv1')(x)
+	x = BatchNormalization(axis=-1)(x)
+	x = Conv2D(
+		filters=128, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block3_conv2')(x)
+	x = BatchNormalization(axis=-1)(x)
+	x = Conv2D(
+		filters=128, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block3_conv3')(x)
+	x = BatchNormalization(axis=-1)(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block3_pool')(x)
+	f3 = x
+
+	# Fully-connected layers (needed in order to load original VGG16 imagenet weights). 
+	x = Flatten(name='flatten')(x)
+	x = Dense(
+		units=1024, 
+		activation='relu', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1), 
+		kernel_regularizer=l2(reg_lambda), 
+		name='fc1')(x)
+	x = BatchNormalization(axis=-1)(x)
+	x = Dropout(0.5)(x) # Automatically disabled during validation
+	x = Dense(
+		units=classes, 
+		activation='softmax', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1), 
+		kernel_regularizer=l2(reg_lambda), 
+		name='predictions')(x) 
+
+	model  = Model(img_input, x, name = "base_mode_bn_3blocks")
 
 	return model
 

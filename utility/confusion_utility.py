@@ -51,7 +51,7 @@ def convert_to_np_array(confustion_list):
 	for i, row in enumerate(confustion_list):
 		# Note: The following implementation is inefficient in not elegant. 
 		# ToDo: Fix implementation
-		row = row.replace('\n', ',').replace('[ ', '[').replace('  ',",").replace(']],',']]')
+		row = row.replace('\n', ',').replace('[  ', '[').replace('.','.,').replace(']],',']]')
 		# Update the formatted row into confusion_string
 		confusion_string = confusion_string + row
 
