@@ -36,9 +36,9 @@ To Do:
 
 """ Configuration """
 # Files/Folders
-root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol2_rev1/" # Folder that contains files to be processes
-input_files = ["img1.bmp", "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp"] # Name of files to be processed. 
-output_folders = ["cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/"] # Name of the output folder. 
+root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/" # Folder that contains files to be processes
+input_files = ["img1.bmp", "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp",  "img7.bmp"] # Name of files to be processed. 
+output_folders = ["cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/"] # Name of the output folder. 
 
 output_crop_size = 64 # The output size of the crops, measured in pixels. Used on the original image. 
 indicator_radius = 32

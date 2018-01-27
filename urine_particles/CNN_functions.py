@@ -130,12 +130,12 @@ def preprocess_segmentation(img_array, target_size, apply_morphs=True):
 		# Close
 		# Note: Closing removes background pixels from foreground blobs. Thus, it consolidates blobs. 
 		struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
-		img_reshaped = cv2.morphologyEx(img_reshaped.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 1)
+		img_reshaped = cv2.morphologyEx(img_reshaped.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 2)
 		
 		# Erosions
 		# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
 		struct_element = np.ones((4,4), np.uint8)
-		img_reshaped = cv2.erode(img_reshaped.astype('float32'), struct_element, iterations=1)
+		img_reshaped = cv2.erode(img_reshaped.astype('float32'), struct_element, iterations=4)
 
 
 	return img_reshaped

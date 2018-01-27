@@ -25,11 +25,10 @@ To Do:
 
 """ Configuration """
 # Files/Folders
-root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol2_rev1/"
+root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/"
 
 class_dict =  {0:'10um', 1:'other', 2:'rbc', 3:'wbc'}
 other_index = 1
-count = 15
 
 # Instantiates configuration for training/validation
 config = ClassifyParticles_Config()
@@ -47,12 +46,16 @@ model = createModel(input_shape = config.image_shape, base_weights = config.imag
 CNN_functions.load_model(model, config.weight_file_input, config)
 
 # Predict
-all_pred = data.predict_particle_images(model, pred_generator, count=count)
+total_cropped_images = len(glob.glob(root_folder + "cropped_output/*"))
+count = total_cropped_images/data.config.batch_size + 1 # Rounds down since we are dividing ints. Add 1 to round up. 
+all_pred = data.predict_particle_images(model, pred_generator, count=count) # Due to kers convention, the last batch will only contain part of the full batch size. 
 
 image_predictions = np.argmax(all_pred, axis=1)
 prediction_summary = np.zeros((config.nclasses), dtype=float)
 for predicted_class in image_predictions: 
 	prediction_summary[predicted_class] += 1
+
+
 
 # Output results
 config.logger.info("Prediction Results")
