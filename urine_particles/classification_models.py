@@ -176,7 +176,7 @@ def base_model_bn(input_shape, base_weights, classes, reg_lambda=0.001):
 
 	return model
 
-def base_mode_bn_3blocks(input_shape, base_weights, classes, reg_lambda=0.001): 
+def base_model_bn_3blocks(input_shape, base_weights, classes, reg_lambda=0.001): 
 	"""
 	Note: Instead of having 2 convolutional blocks, use 3 convolutional blocks
 	Configuration: data_format => channel_last

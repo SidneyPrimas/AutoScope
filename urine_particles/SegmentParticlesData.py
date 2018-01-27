@@ -275,6 +275,31 @@ class SegmentParticlesData(object):
 		return label_pred[0], label_truth_tensor[0]
 
 
+	def predict_image(self, model, image_path):
+		""" 
+		Predicts the segmented output for an input image.
+		Args
+		model: The model used to predict image segmentation
+		image_path: string pointing directly to the original image on the disk. 
+		Returns
+		label_pred[0]: The predicted segmentation of size (height*width, nclassses). Array with categorical output. 
+		"""
+
+
+		# Get and preprocess label/image
+		img_input = self._get_image_from_dir(image_path, new_size = self.config.target_size)
+		
+		# Convert label/image to correctly shaped tensor
+		img_tensor = np.expand_dims(img_input, axis=0) # Turn single image into tensor (which is what the model expects)
+		label_shape = (self.config.target_size[0]*self.config.target_size[1] , self.config.nclasses)
+
+		# Get model predictions. 
+		label_pred = model.predict(img_tensor)
+
+
+		return label_pred[0]
+
+
 
 	def validate_epoch(self, model, val_generator, get_particle_accuracy = False): 
 		""" 

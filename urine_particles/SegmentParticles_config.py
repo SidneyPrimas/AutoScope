@@ -29,11 +29,11 @@ class SegmentParticles_Config():
 		# Core Configurations: Manually updated by user. Always needed. 
 		self.project_folder = "20180120_training/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name =  "20180124_segmentation_weights_final_v2.h5" #Set to 'None' to disable.
+		self.weight_file_input_name =  "20180125_base_segmentation.h5"  #Set to 'None' to disable.
 		self.weight_file_output_name = "segmentation_weights_" # Set to 'None' to disable. 
-		self.generate_images_with_cropping = True
+		self.generate_images_with_cropping = False
 		self.fullscale_target_size = None # (height, width) for numpy
-		self.target_size = (480,480) # (480, 480) for  crops or (2464,3264) for entire image at 8MPX
+		self.target_size = (2464,3264) # (480, 480) for  crops or (2464,3264) for entire image at 8MPX
 		self.batch_size = 32
 		self.num_epochs = 1 # Print validation results after each epoch. Save model after num_epochs.
 		self.batches_per_epoch_train = 20 # Batches for each training session.

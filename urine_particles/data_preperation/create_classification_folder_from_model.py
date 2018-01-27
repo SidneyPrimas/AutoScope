@@ -31,8 +31,8 @@ Execution Notes:
 + Crops are taken from images in raw_image_data, and not from the segmentation training/validation folders. 
 
 To Do: 
-+ Need to consolidate create_classification_folder_from_labels.py and create_classification_folder_from_model.py. 
-++ These two files are based on each other and they have A LOT of overlapping code. 
++ Need to consolidate create_classification_folder_from_labels.py, create_classification_folder_from_model.py and segment_urine.py
+++ These files are based on each other and they have A LOT of overlapping code. 
 + Figure out indication radius + detection radius => Should be the same
 """
 

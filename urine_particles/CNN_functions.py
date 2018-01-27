@@ -114,6 +114,34 @@ def get_classification_accuracy_perBatch(all_truth, all_pred):
 	return accuracy
 
 
+def preprocess_segmentation(img_array, target_size, apply_morphs=True):
+
+	# Convert from categorical format to label format. 
+	img_labeled = np.argmax(img_array, axis=1) 
+	# Reshape into single channel images. 
+	img_reshaped = np.reshape(img_labeled, target_size)
+
+
+	# Convert images to binary (if there are multiple classes)
+	img_reshaped = ((img_reshaped > 0)).astype('uint8')
+
+
+	if (apply_morphs):
+		# Close
+		# Note: Closing removes background pixels from foreground blobs. Thus, it consolidates blobs. 
+		struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
+		img_reshaped = cv2.morphologyEx(img_reshaped.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 1)
+		
+		# Erosions
+		# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
+		struct_element = np.ones((4,4), np.uint8)
+		img_reshaped = cv2.erode(img_reshaped.astype('float32'), struct_element, iterations=1)
+
+
+	return img_reshaped
+	
+
+
 def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, base_output_path):
 	"""
 	Returns the systems accuracy in identifying the location of a particle.
@@ -126,27 +154,9 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	+ Possible Improvement: A current issue is that ground truth and predicted particles merge into a single particle. The connectedComponentsWithStats treats these merged particles as a single particle, leading to errors both in the wrongly detected and missed detections. A solution is to look at any pixel in region of interest, instead of just looking at the centroid. 
 	+ Possible Improvement: Instead of using connectedComponentsWithStats for the ground truth, use the ground truth coordinates to seed the location of the ground truth particles. 
 	"""
-	# Convert from categorical format to label format. 
-	truth_labeled = np.argmax(truth_array, axis=1) 
-	pred_labeled = np.argmax(pred_array, axis=1) 
-	# Reshape into single channel images. 
-	truth_reshaped = np.reshape(truth_labeled, config.target_size)
-	pred_reshaped = np.reshape(pred_labeled, config.target_size)
-
-
-	# Convert images to binary (if there are multiple classes)
-	truth_reshaped = ((truth_reshaped > 0)).astype('uint8')
-	pred_reshaped = ((pred_reshaped > 0)).astype('uint8')
-
-	# Close
-	# Note: Closing removes background pixels from foreground blobs. Thus, it consolidates blobs. 
-	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
-	pred_reshaped = cv2.morphologyEx(pred_reshaped.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 1)
 	
-	# Erosions
-	# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
-	struct_element = np.ones((4,4), np.uint8)
-	pred_reshaped = cv2.erode(pred_reshaped.astype('float32'), struct_element, iterations=1)
+	truth_reshaped = preprocess_segmentation(truth_array, config.target_size, apply_morphs=False)
+	pred_reshaped= preprocess_segmentation(pred_array, config.target_size, apply_morphs=True)
 
 	# Transform colors for visualization: color as binary images
 	truth_output = get_color_image(truth_reshaped, nclasses = 2, colors = [(0,0,0), (128,128,128)])

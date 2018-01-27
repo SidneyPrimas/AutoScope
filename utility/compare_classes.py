@@ -1,7 +1,6 @@
 """
     File name: compare_classes.py
     Author: Sidney Primas
-    Date created: 11/15/2017
     Python Version: 2.7
     Description: Used to visualize data from experiments (comparing different classes within the same log). 
     To reduce variation in data, average across multiple data points in graph. 

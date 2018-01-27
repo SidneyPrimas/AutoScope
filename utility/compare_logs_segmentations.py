@@ -1,7 +1,6 @@
 """
-    File name: compare_logs.py
+    File name: compare_logs_segmentation.py
     Author: Sidney Primas
-    Date created: 11/15/2017
     Python Version: 2.7
     Description: Compare multiple logs. 
 """
@@ -15,7 +14,7 @@ import sys
 import bisect
 
 # Import homebrew functions
-sys.path.append("./urine_particles/data/clinical_experiment/log/20180120_training/classification_training/")
+sys.path.append("./urine_particles/data/clinical_experiment/log/20180120_training/segmentation_training/")
 import config 
 
 ### Execution Notes ####
@@ -24,7 +23,7 @@ import config
 
 
 """ Configuration Variables """
-averaging_window = 20
+averaging_window = 1
 plot_type = "val" # select "val" for the validation accuracy and "train" for the training accuracy
 
 
@@ -73,15 +72,17 @@ def process_log():
 			for line in f:
 				# Process summary line
 				if (line.find("Step: ") >= 0):
+					# Handle training accuracy
 					total_images.extend(re.findall("Images Trained: (\d+)", line))
 					train_accuracy.extend(re.findall("Training accuracy: (\d\.\d+)", line))
 					batch_loss.extend(re.findall("Batch loss: (\d+\.\d+)", line))
-					continue
+
 
 				
 				val_acc = re.findall("Validation accuracy: (\d\.\d+)", line)
 				if (len(val_acc) >= 0):
 					val_accuracy.extend(val_acc)
+
 
 		# Convert from Strings to Numbers (float or int). Then, append to global struct.
 		total_images = map(int, total_images)
@@ -131,7 +132,7 @@ def output_accuracy_plots(all_total_images, all_accuracy, min_image_count):
 
 		min_image_index = get_index_of_imageNum(all_total_images[n], min_image_count)
 		# Print accuracy stats. 
-		print " Res of %s: Number of Images (%d), Accuracy (%f)"%(config.logs['file_name'][n], all_total_images[n][min_image_index-1],all_accuracy[n][min_image_index-1])
+		print " Res of %s: Number of Images (%d), Accuracy (%f)"%(config.logs['file_name'][n], all_total_images[n][min_image_index],all_accuracy[n][min_image_index])
 		print "Total Images (%d), Final Accuracy (%f)"%(all_total_images[n][-1], all_accuracy[n].iloc[-1])
 
 		# Visualize the accuracy (across all data)
@@ -142,7 +143,7 @@ def output_accuracy_plots(all_total_images, all_accuracy, min_image_count):
 		plt.ylabel("Classification Accuracy (%)", fontsize="20")
 		plt.legend(loc='lower right', prop={'size':12}, frameon=False)
 		axes = fig.axes[0]
-		axes.set_ylim([0,100])
+		#axes.set_ylim([0,100])
 
 		# Visualize the accuracy (across all data)
 		fig = plt.figure(2)
@@ -152,7 +153,7 @@ def output_accuracy_plots(all_total_images, all_accuracy, min_image_count):
 		plt.ylabel("Classification Accuracy (%)", fontsize="20")
 		plt.legend(loc='lower right', prop={'size':12}, frameon=False)
 		axes = fig.axes[0]
-		axes.set_ylim([0,100])
+		#axes.set_ylim([0,100])
 
 
 	plt.show()

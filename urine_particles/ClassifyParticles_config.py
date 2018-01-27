@@ -25,7 +25,7 @@ class ClassifyParticles_Config():
 		# Core Configurations: Manually updated by user. Always needed. 
 		self.project_folder = "20180120_training/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name =  None #Set to 'None' to disable.
+		self.weight_file_input_name =  "classification_base_model_ImageNorm_grayscale.h5" #Set to 'None' to disable.
 		self.weight_file_output_name = "classify_weights_" # Set to 'None' to disable. 
 		self.target_size = (64, 64) # Warning: Be careful if non-square dimensions (see above note). 
 		self.batch_size = 64 
@@ -39,8 +39,8 @@ class ClassifyParticles_Config():
 		self.debug = 1
 		self.imagenet_weights_file = "./model_storage/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5" # Always needed! 
 		self.save_aug_data_to_dir = False
-		self.channels = 3
-		self.color = 'rgb' # Select 'rgb' or 'grayscale'. Remember to adjust normalization script in preprocessing function. 
+		self.channels = 1
+		self.color = 'grayscale' # Select 'rgb' or 'grayscale'. Remember to adjust normalization script in preprocessing function. 
 		
 
 		# Auto Configurations: Can be auto-calculated. 

@@ -94,9 +94,9 @@ class ClassifyParticlesData(object):
 		# DATASET AVERAGES (average of each channel)
 		# Zero center images based on imagenet 
 		# Zero-center by mean pixel of entire dataset (calculated from dataset)
-		x[..., 0] -= 90.61598179  # Blue
-		x[..., 1] -= 129.97525112 # Green 
-		x[..., 2] -= 103.00621832 # Red
+		# x[..., 0] -= 90.61598179  # Blue
+		# x[..., 1] -= 129.97525112 # Green 
+		# x[..., 2] -= 103.00621832 # Red
 
 		# PER-IMAGE NORMALIZATION (average of each channel)
 		# Zero-center by mean pixel of of this image (calculated from this image)
@@ -110,9 +110,14 @@ class ClassifyParticlesData(object):
 
 		# PER-IMAGE NORMALIZATION (average of image)
 		# median_intensity = np.median(x)
-		# x[..., 0] -= median_intensity# Blue
+		# x[..., 0] -= median_intensity # Blue
 		# x[..., 1] -= median_intensity # Green 
 		# x[..., 2] -= median_intensity # Red
+
+
+		# PER-IMAGE GRAYSCALE NORMALIZATION 
+		median_intensity = np.median(x)
+		x[..., 0] -= median_intensity# Blue
 
 		return x
 
@@ -151,7 +156,7 @@ class ClassifyParticlesData(object):
 			target_size = self.config.target_size,
 			batch_size = self.config.batch_size,
 			shuffle = True, # default
-			color_mode = self.config.color, # Important: We upconverted the original grayscale images to RGB. 
+			color_mode = self.config.color, 
 			save_to_dir = augmented_data_dir, 
 			save_prefix = "augmented_"
 		)
@@ -176,11 +181,29 @@ class ClassifyParticlesData(object):
 			target_size = self.config.target_size,
 			batch_size = self.config.batch_size,
 			shuffle = True, # default
-			color_mode = self.config.color # Important: We upconverted the original grayscale images to RGB. 
+			color_mode = self.config.color 
 		)
 
 		return validation_generator
 
+	def create_prediction_generator(self, pred_dir_path):
+
+		# Create image generator class for training data. 
+		test_datagen = ImageDataGenerator(
+			preprocessing_function=self.preprocess_image, # Preprocess function applied to each image before any other transformation. Applies normalization. 
+		)
+
+		# Create image generator. 
+		prediction_generator = test_datagen.flow_from_directory(
+			pred_dir_path,
+			class_mode = None, # No labels are returned (useful for predict_generator and evaluate_generator)
+			target_size = self.config.target_size,
+			batch_size = self.config.batch_size,
+			shuffle = True, # default
+			color_mode = self.config.color 
+		)
+
+		return prediction_generator
 
 
 	def print_data_summary(self): 
@@ -191,9 +214,32 @@ class ClassifyParticlesData(object):
 		self.config.logger.info("###### DATA ######  \n\n")
 
 
+	def predict_particle_images(self, model, pred_generator, count): 
+		""" 
+		Description: Predicts the class for each particle provided by a genrator, up to a certain count. 
+		"""
+
+		# Track overall label metrics
+		all_pred = None
+
+		# Validate across multiple batches
+		for _ in range(count):
+			img_input =  next(pred_generator)
+			label_pred = model.predict_on_batch(img_input)
+			
+			# Append to overall metrics
+			if all_pred is None: 
+				all_pred = label_pred
+			else: 
+				all_pred = np.append(all_pred, label_pred, axis=0)
 
 
-	def validate_epoch(self, model, val_generator, get_particle_accuracy = False): 
+		return all_pred
+
+
+
+
+	def validate_epoch(self, model, val_generator): 
 		""" 
 		Validates model for a single epoch. Provides average results across the entire epoch. 
 		"""
@@ -285,7 +331,7 @@ class ClassifyParticlesData(object):
 
 
 			# Validation for single epoch
-			self.validate_epoch(model, val_generator, get_particle_accuracy = True)
+			self.validate_epoch(model, val_generator)
 
 
 	def train_entire_model(self, model, train_generator, val_generator,): 
