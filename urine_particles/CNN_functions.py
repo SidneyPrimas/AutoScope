@@ -158,9 +158,9 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	truth_reshaped = preprocess_segmentation(truth_array, config.target_size, apply_morphs=False)
 	pred_reshaped= preprocess_segmentation(pred_array, config.target_size, apply_morphs=True)
 
-	# Transform colors for visualization: color as binary images
-	truth_output = get_color_image(truth_reshaped, nclasses = 2, colors = [(0,0,0), (128,128,128)])
-	pred_output = get_color_image(pred_reshaped, nclasses = 2, colors = [(0,0,0), (128,128,128)])
+	# Transform colors for visualization
+	truth_output = get_color_image(truth_reshaped, nclasses = config.nclasses, colors = config.colors)
+	pred_output = get_color_image(pred_reshaped, nclasses = config.nclasses, colors = config.colors)
 
 	# Input requirement: 8-bit single, channel image. Image input is binary with all non-zero pixels treated as 1s. 
 	# connected_output array: [num_labels, label_matrices, marker_stats, centroids]
@@ -181,7 +181,7 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	# Determine the intersection between the predicted particles and the ground truth particles. (GREEN)
 	for index_truth, target_centroid_truth in enumerate(truth_centroids): 
 
-		# Calculate the nearest centroid
+
 		nearest_i_pred, nearest_distance = nearest_centroid(target_centroid_truth, pred_centroids)
 
 		# Determine the ground truth particles successfully detected in the predicted set. 
@@ -249,9 +249,15 @@ def nearest_centroid(centroid, array_of_centroids):
 	array_of_centroids: Needs to be a numpy array, with same format as centroid. 
 	centroid: Tuple with x and y coordinates. 
 	"""
-	dist_2 = np.sum((array_of_centroids - centroid)**2, axis=1) # For comparison purposes, don't need to calculate actual distnace. 
-	nearest_i =  np.argmin(dist_2)
-	nearest_distance = math.sqrt(dist_2[nearest_i])
+
+	# No nearest centroids since none predicted by model. 
+	if (len(pred_centroids) == 0): 
+		nearest_i_pred = -1 
+		nearest_distance = int('inf') # guarantees that particle marked as not identified. 
+	else: 
+		dist_2 = np.sum((array_of_centroids - centroid)**2, axis=1) # For comparison purposes, don't need to calculate actual distnace. 
+		nearest_i =  np.argmin(dist_2)
+		nearest_distance = math.sqrt(dist_2[nearest_i])
 
 	return nearest_i, nearest_distance
 
