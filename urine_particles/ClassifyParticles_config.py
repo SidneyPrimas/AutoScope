@@ -41,7 +41,7 @@ class ClassifyParticles_Config():
 		self.save_aug_data_to_dir = False
 		self.channels = 1
 		self.color = 'grayscale' # Select 'rgb' or 'grayscale'. Remember to adjust normalization script in preprocessing function. 
-		
+		self.preprocess_func = "gray_imageNorm" # Options include => "gray_imageNorm", "rgb_imageNorm", "rgb_datasetNorm"
 
 		# Auto Configurations: Can be auto-calculated. 
 		self.train_images_dir = self.root_data_dir + "image_data/" + self.project_folder + "classification/training/"

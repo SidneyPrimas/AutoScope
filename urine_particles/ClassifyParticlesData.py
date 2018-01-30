@@ -10,6 +10,7 @@ from collections import defaultdict
 import random
 import itertools
 import cv2
+import shutil
 
 
 # Import keras libraries
@@ -77,15 +78,16 @@ class ClassifyParticlesData(object):
 		return cnt
 
 
+
 	@staticmethod # Indicates that preprocess_image is a static method (syntactic sugar)
-	def preprocess_image(x):
+	def preprocess_image_rgb_datasetNorm(x):
 		"""
 		Description assuming color image.
-		Pre-trained VGG16 models expect BGR, so need to return BGR format. Zero centers each pixel.
+		Pre-trained VGG16 models expect BGR, so need to return BGR format.
 		Args
 		x: A RGB image as a numpy tensor (since keras loads through a PIL format)
 		Return
-		x: A BGR image as a numpy tensor (since VGG assumes BGR formated for pre-loaded weights)
+		x: A normalized BGR image as a numpy tensor (since VGG assumes BGR formated for pre-loaded weights)
 		"""
 
 		# 'RGB'->'BGR' (PIL provided RGB input but need BGR for VGG16 pretrained model)
@@ -94,32 +96,59 @@ class ClassifyParticlesData(object):
 		# DATASET AVERAGES (average of each channel)
 		# Zero center images based on imagenet 
 		# Zero-center by mean pixel of entire dataset (calculated from dataset)
-		# x[..., 0] -= 90.61598179  # Blue
-		# x[..., 1] -= 129.97525112 # Green 
-		# x[..., 2] -= 103.00621832 # Red
+		x[..., 0] -= 90.61598179  # Blue
+		x[..., 1] -= 129.97525112 # Green 
+		x[..., 2] -= 103.00621832 # Red
 
-		# PER-IMAGE NORMALIZATION (average of each channel)
-		# Zero-center by mean pixel of of this image (calculated from this image)
-		# Implementation Note: 
-		## The goal is to remove illumination 
-		## Since we normalize across each color channel, we remove average color differences, providing a more greyscale-like image as a result
-		# x[..., 0] -= np.median(x[..., 0]) # Blue
-		# x[..., 1] -= np.median(x[..., 1]) # Green 
-		# x[..., 2] -= np.median(x[..., 2]) # Red
+		return x
 
+	@staticmethod 
+	def preprocess_image_rgb_imageNorm(x):
+		"""
+		Description assuming color image.
+		Pre-trained VGG16 models expect BGR, so need to return BGR format.
+		Args
+		x: A RGB image as a numpy tensor (since keras loads through a PIL format)
+		Return
+		x: A normalized BGR image as a numpy tensor (since VGG assumes BGR formated for pre-loaded weights)
+		"""
+
+		# 'RGB'->'BGR' (PIL provided RGB input but need BGR for VGG16 pretrained model)
+		x = x[..., ::-1]
 
 		# PER-IMAGE NORMALIZATION (average of image)
 		# median_intensity = np.median(x)
-		# x[..., 0] -= median_intensity # Blue
-		# x[..., 1] -= median_intensity # Green 
-		# x[..., 2] -= median_intensity # Red
+		x[..., 0] -= median_intensity # Blue
+		x[..., 1] -= median_intensity # Green 
+		x[..., 2] -= median_intensity # Red
 
+		return x
+
+	@staticmethod 
+	def preprocess_image_gray_imageNorm(x):
+		"""
+		Args
+		x: A grayscale image as a numpy tensor 
+		Return
+		x: A normalized grayscale image as a numpy tensor 
+		"""
 
 		# PER-IMAGE GRAYSCALE NORMALIZATION 
 		median_intensity = np.median(x)
 		x[..., 0] -= median_intensity# Blue
 
 		return x
+
+	def get_preprocess_func(self):
+
+		if (self.config.preprocess_func == "rgb_datasetNorm"):
+			return self.preprocess_image_rgb_datasetNorm
+		elif (self.config.preprocess_func == "rgb_imageNorm"):
+			return self.preprocess_image_rgb_imageNorm
+		elif (self.config.preprocess_func == "gray_imageNorm"):
+			return self.preprocess_image_gray_imageNorm
+		else:
+			raise RuntimeError("preprocess_func configuration doesn't exist. Update to existing preprocess function. ")
 
 
 	def create_training_generator(self, train_dir_path, save_to_dir_bool=False):
@@ -137,9 +166,10 @@ class ClassifyParticlesData(object):
 			os.mkdir(augmented_data_dir)
 
 	
+
 		# Create image generator class for training data. 
 		train_datagen =  ImageDataGenerator(
-			preprocessing_function=self.preprocess_image, # Preprocess function applied to each image before any other transformation. Applies normalization.
+			preprocessing_function=self.get_preprocess_func(), # Preprocess function applied to each image before any other transformation. Applies normalization.
 			rotation_range=45,  
 			width_shift_range=0.07,
 			height_shift_range=0.07,
@@ -172,7 +202,7 @@ class ClassifyParticlesData(object):
 
 		# Create image generator class for training data. 
 		test_datagen = ImageDataGenerator(
-			preprocessing_function=self.preprocess_image, # Preprocess function applied to each image before any other transformation. Applies normalization. 
+			preprocessing_function=self.get_preprocess_func(), # Preprocess function applied to each image before any other transformation. Applies normalization. 
 		)
 
 		# Create image generator. 
@@ -190,7 +220,7 @@ class ClassifyParticlesData(object):
 
 		# Create image generator class for training data. 
 		test_datagen = ImageDataGenerator(
-			preprocessing_function=self.preprocess_image, # Preprocess function applied to each image before any other transformation. Applies normalization. 
+			preprocessing_function=self.get_preprocess_func(), # Preprocess function applied to each image before any other transformation. Applies normalization. 
 		)
 
 		# Create image generator. 
@@ -214,18 +244,40 @@ class ClassifyParticlesData(object):
 		self.config.logger.info("###### DATA ######  \n\n")
 
 
-	def predict_particle_images(self, model, pred_generator, count): 
+	def predict_particle_images(self, model, pred_generator, total_batches=1, output_dir=None, labels_to_class=None): 
 		""" 
 		Description: Predicts the class for each particle provided by a genrator, up to a certain count. 
+		Args
+		model: Tensorflow model used to predict particles 
+		pred_generator: Generator that produces batches of images to be classified. Generator returned by create_prediction_generator().
+		total_images: The number of batches of images that will be processes. 
+		output_dir: Directory into which predicted images will be saved. Only save images if directory exists. 
+		labels_to_class: Dictionary structure that has labels as keys to the class names. Only include struct if want to save predictions. 
 		"""
 
 		# Track overall label metrics
 		all_pred = None
 
+		# Setup output directory
+		if (output_dir):
+			if (not labels_to_class):
+				raise RuntimeError("In order to save output images, please provide dictionary for labels_to_class argument.")
+			if (os.path.exists(output_dir)): 
+				self.delete_folder_with_confirmation(output_dir)	
+
+			os.makedirs(output_dir)
+			for label, class_name in labels_to_class.iteritems():
+				os.makedirs(output_dir + class_name)
+
+
 		# Validate across multiple batches
-		for _ in range(count):
+		for _ in range(total_batches):
 			img_input =  next(pred_generator)
 			label_pred = model.predict_on_batch(img_input)
+
+
+			self.split_batch_into_class_folders(img_input, label_pred, output_dir, labels_to_class)
+
 			
 			# Append to overall metrics
 			if all_pred is None: 
@@ -236,6 +288,27 @@ class ClassifyParticlesData(object):
 
 		return all_pred
 
+	def split_batch_into_class_folders(self, img_input, label_pred, output_dir, labels_to_class):
+		"""
+		Description: Takes a batch of images with correspoinding categorigcal/softmax predictions. Uses output_dir and labels_to_class to store outputs. 
+		Note: Seperate function to make code more readable. 
+		"""
+		for index in range(img_input.shape[0]):
+			label = np.argmax(label_pred[index])
+			datestring = datetime.strftime(datetime.now(), '%Y%m%d_%H-%M-%S-%f')
+			file_name = str("%0.04fconfidence_%s"%(label_pred[index][label], datestring))
+			img_save_path = output_dir + labels_to_class[label] + "/" + file_name + ".bmp"
+			cv2.imwrite(img_save_path, img_input[index])
+
+
+	def delete_folder_with_confirmation(self, folder_path):
+		# User confirmation before deleting folder
+		user_question = 'Delete %s: (yes/no): '%(folder_path)
+		reply = str(raw_input(user_question)).lower().strip()
+		if (reply == 'yes'):
+			shutil.rmtree(folder_path)
+		else:
+			raise RuntimeError("Output folder already exists. However, user indicate not to delete output folder.")
 
 
 

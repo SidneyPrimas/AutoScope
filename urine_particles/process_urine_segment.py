@@ -37,8 +37,8 @@ To Do:
 """ Configuration """
 # Files/Folders
 root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/" # Folder that contains files to be processes
-input_files = ["img1.bmp", "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp",  "img7.bmp"] # Name of files to be processed. 
-output_folders = ["cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/"] # Name of the output folder. 
+input_files = ["img1.bmp", "img2.bmp"]#, "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp",  "img7.bmp"] # Name of files to be processed. 
+output_folders = ["cropped_output/", "cropped_output/"]#, "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/"] # Name of the output folder. 
 
 output_crop_size = 64 # The output size of the crops, measured in pixels. Used on the original image. 
 indicator_radius = 32
@@ -150,7 +150,7 @@ def crop_based_on_centroids(target_file_path, centroid_list, output_folder_path)
 		if crop_has_target_dim or keep_boundary_particles:
 			# Save cropped image
 			file_name =  output_file_prefix + "_" + str(int(centroid[0])) + "_" + str(int(centroid[1])) + ".bmp"
-			output_path = output_folder_path + file_name
+			output_path = output_folder_path + "data/images/" + file_name
 			cv2.imwrite(output_path, crop)
 			indicator_color = (0, 255, 0) # Indicator color when cropped
 		else:
@@ -227,6 +227,7 @@ def initialize_segmentation_model():
 def build_segmentation_output_folder(output_folder_path):
 	if (not os.path.isdir(output_folder_path)): 
 		os.makedirs(output_folder_path)
+		os.makedirs(output_folder_path + "data/images/")
 		os.makedirs(output_folder_path + "debug_output/")
 
 
