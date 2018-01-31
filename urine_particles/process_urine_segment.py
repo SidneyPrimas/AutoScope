@@ -93,6 +93,7 @@ def generate_semanitc_segmentation(model, data,  target_file_path, output_folder
 	img_labeled = np.argmax(img_array, axis=1) 
 	# Reshape into single channel images. 
 	img_reshaped = np.reshape(img_labeled, target_size)
+	img_base = img_reshaped.copy()
 
 	# Convert images to binary (if there are multiple classes)
 	img_reshaped = ((img_reshaped > 0)).astype('uint8')
@@ -106,14 +107,37 @@ def generate_semanitc_segmentation(model, data,  target_file_path, output_folder
 	# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
 	struct_element = np.ones((4,4), np.uint8)
 	img_reshaped = cv2.erode(img_reshaped.astype('float32'), struct_element, iterations=1)
+
+
+	struct_element = np.ones((4,4), np.uint8)
+	img_reshaped = cv2.dilate(img_reshaped.astype('float32'), struct_element, iterations=4)
 	#**********#
 
 
 	pred_connected = cv2.connectedComponentsWithStats(img_reshaped.astype('int8'), connectivity=8)
-	pred_label_matrices = pred_connected[1][1:] # Remove the background matric (at index 0).
+	num_labels = pred_connected[0]
+	connected_components_mask = pred_connected[1] # Remove the background matric (at index 0).
 
-	for index, mask in enumerate(pred_label_matrices):
-		print mask.shape
+	img_output = np.zeros(img_base.shape)
+	for component_count in range(num_labels):
+		#  The first label is the background (zero label). We always ignore it. 
+		if component_count == 0:
+			continue
+
+		# Count the labels of the connected components
+		particle_mask = (connected_components_mask == component_count)
+		particle_crop = img_base[particle_mask]
+		unique, counts = np.unique(particle_crop, return_counts=True)
+		print dict(zip(unique, counts))
+
+
+		# Generate output image
+		img_output += particle_mask * img_base * 50 
+
+	
+	cv2.imwrite(output_folder_path + "connected_output.bmp", img_output)
+	cv2.imwrite(output_folder_path + "base_output.bmp", img_base*50)
+	exit()
 
 
 
@@ -124,12 +148,12 @@ def generate_crops_from_segmentation(model, data, target_file_path, output_folde
 	Create crops around each centroid to be classified with another model. 
 	"""
 
-		# Generate centroid list based on segmentation model
-		centroid_list = get_centroid_list(model, data, target_file_path, output_folder_path)
+	# Generate centroid list based on segmentation model
+	centroid_list = get_centroid_list(model, data, target_file_path, output_folder_path)
 
 
-		# Generate crops on input image based on the centroid_list (produced by segmentation model)
-		crop_based_on_centroids(target_file_path, centroid_list, output_folder_path)
+	# Generate crops on input image based on the centroid_list (produced by segmentation model)
+	crop_based_on_centroids(target_file_path, centroid_list, output_folder_path)
 
 
 

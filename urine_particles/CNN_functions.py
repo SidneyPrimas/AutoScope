@@ -143,9 +143,6 @@ def preprocess_segmentation(img_array, target_size, apply_morphs=True):
 
 	return img_reshaped
 
-
-def get_class_accurayc_perImage():
-
 	
 
 
