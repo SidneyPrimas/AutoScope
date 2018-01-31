@@ -10,7 +10,6 @@ from collections import defaultdict
 import random
 import itertools
 import cv2
-import shutil
 
 
 # Import keras libraries
@@ -216,24 +215,75 @@ class ClassifyParticlesData(object):
 
 		return validation_generator
 
-	def create_prediction_generator(self, pred_dir_path):
 
-		# Create image generator class for training data. 
-		test_datagen = ImageDataGenerator(
-			preprocessing_function=self.get_preprocess_func(), # Preprocess function applied to each image before any other transformation. Applies normalization. 
-		)
+	def create_custom_prediction_generator(self, pred_dir_path):
+		"""
+		Description: Creates a generator that returns images to be predicted. 
+		Return
+		x_input: Numpy array that includes the images in the folders within pred_dir_path
+		path_list: Python list that includes the path to the images in x_input
+		"""
+		# Symmetrically list images
+		images_list = glob.glob(pred_dir_path + "*/*.bmp")
 
-		# Create image generator. 
-		prediction_generator = test_datagen.flow_from_directory(
-			pred_dir_path,
-			class_mode = None, # No labels are returned (useful for predict_generator and evaluate_generator)
-			target_size = self.config.target_size,
-			batch_size = self.config.batch_size,
-			shuffle = True, # default
-			color_mode = self.config.color 
-		)
+		# Shuffle lists
+		images_list.sort()
+		reorder =  range(len(images_list))
+		random.shuffle(reorder)
+		images_list = [images_list[i] for i in reorder]
 
-		return prediction_generator
+		#  Returns generator that cycles through the list of images
+		images_iterator = itertools.cycle(images_list)
+
+		# Provide an image and the corresponding path. 
+		while(True): 
+			# 
+			x_input, path_list = self._get_batch_of_pred_images(images_iterator)
+			x_input = np.array(x_input)
+			yield x_input, path_list
+
+
+	def _get_batch_of_pred_images(self, images_iterator):
+		"""
+		Description: Get a batch of images with the corresponding load paths for each image. 
+		"""
+		x_input = []
+		path_list = []
+
+		for i in range(self.config.batch_size):
+
+			image_path = next(images_iterator)
+
+			# Get images
+			x_input.append(self._get_image_from_dir(image_path, new_size = self.config.target_size))
+			path_list.append(image_path)
+
+		return x_input, path_list
+
+	def _get_image_from_dir(self, image_path, new_size=None):
+		"""
+		Loads and preprocess image (including resizes and image norm for each image). 
+		"""
+		# Use PIL since in correct RGB format. And, Keras relies on PIL. 
+		img = PIL.Image.open(image_path) 
+
+		# Convert to grayscale if necessary. Keras implementation also converts from rgb/grayscale first. 
+		if ('grayscale' == self.config.color):
+			 img = img.convert('L')
+
+		# TODO: Used PIL since VGG16 pretrained network used PIL. Not necessary, and can be changed to numpy implementation. 
+		if new_size:
+			# PIL loads image as (width, height). My configuration is (height, width)
+			new_size_PIL = new_size[::-1] # Move from numpy convention to PIL convention
+			if (img.size != new_size_PIL):
+				img = img.resize(new_size_PIL, resample = PIL.Image.ANTIALIAS) #PIL implementation: Use antialias to not alias while downsampling. 
+		
+		x = image_keras.img_to_array(img) # convert to numpy array (as float 32)
+
+		preprocess = self.get_preprocess_func()
+		x = preprocess(x)
+
+		return x
 
 
 	def print_data_summary(self): 
@@ -262,8 +312,9 @@ class ClassifyParticlesData(object):
 		if (output_dir):
 			if (not labels_to_class):
 				raise RuntimeError("In order to save output images, please provide dictionary for labels_to_class argument.")
-			if (os.path.exists(output_dir)): 
-				self.delete_folder_with_confirmation(output_dir)	
+			
+			# Delete the folder if it exists
+			CNN_functions.delete_folder_with_confirmation(output_dir)	
 
 			os.makedirs(output_dir)
 			for label, class_name in labels_to_class.iteritems():
@@ -272,12 +323,10 @@ class ClassifyParticlesData(object):
 
 		# Validate across multiple batches
 		for _ in range(total_batches):
-			img_input =  next(pred_generator)
+			img_input, path_list =  next(pred_generator)
 			label_pred = model.predict_on_batch(img_input)
 
-
-			self.split_batch_into_class_folders(img_input, label_pred, output_dir, labels_to_class)
-
+			self._split_batch_into_class_folders(img_input, label_pred, path_list, output_dir, labels_to_class)
 			
 			# Append to overall metrics
 			if all_pred is None: 
@@ -285,12 +334,12 @@ class ClassifyParticlesData(object):
 			else: 
 				all_pred = np.append(all_pred, label_pred, axis=0)
 
-
 		return all_pred
 
-	def split_batch_into_class_folders(self, img_input, label_pred, output_dir, labels_to_class):
+	def _split_batch_into_class_folders(self, img_input, label_pred, path_list, output_dir, labels_to_class):
 		"""
 		Description: Takes a batch of images with correspoinding categorigcal/softmax predictions. Uses output_dir and labels_to_class to store outputs. 
+		Note: Create a permenant link. to corresponding image. 
 		Note: Seperate function to make code more readable. 
 		"""
 		for index in range(img_input.shape[0]):
@@ -298,17 +347,7 @@ class ClassifyParticlesData(object):
 			datestring = datetime.strftime(datetime.now(), '%Y%m%d_%H-%M-%S-%f')
 			file_name = str("%0.04fconfidence_%s"%(label_pred[index][label], datestring))
 			img_save_path = output_dir + labels_to_class[label] + "/" + file_name + ".bmp"
-			cv2.imwrite(img_save_path, img_input[index])
-
-
-	def delete_folder_with_confirmation(self, folder_path):
-		# User confirmation before deleting folder
-		user_question = 'Delete %s: (yes/no): '%(folder_path)
-		reply = str(raw_input(user_question)).lower().strip()
-		if (reply == 'yes'):
-			shutil.rmtree(folder_path)
-		else:
-			raise RuntimeError("Output folder already exists. However, user indicate not to delete output folder.")
+			os.link(path_list[index], img_save_path)
 
 
 

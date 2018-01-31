@@ -168,6 +168,7 @@ class SegmentParticlesData(object):
 		# Use PIL since in correct RGB format. And, Keras relies on PIL. 
 		img = PIL.Image.open(image_path) 
 
+
 		# TODO: Used PIL since VGG16 pretrained network used PIL. Not necessary, and can be changed to numpy implementation. 
 		if new_size:
 			# PIL loads image as (width, height). My configuration is (height, width)

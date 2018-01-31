@@ -8,6 +8,7 @@ import os
 import cv2
 import math
 import glob
+import shutil
 
 from tensorflow.python.keras._impl.keras import backend as K
 
@@ -115,7 +116,9 @@ def get_classification_accuracy_perBatch(all_truth, all_pred):
 
 
 def preprocess_segmentation(img_array, target_size, apply_morphs=True):
-
+	"""
+	Description: Performs the following transformations => categorical softmax to single label, reshape, to binary, and possible morph functions.
+	"""
 	# Convert from categorical format to label format. 
 	img_labeled = np.argmax(img_array, axis=1) 
 	# Reshape into single channel images. 
@@ -155,12 +158,13 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	+ Possible Improvement: Instead of using connectedComponentsWithStats for the ground truth, use the ground truth coordinates to seed the location of the ground truth particles. 
 	"""
 	
+	# Preprocesses input images, including converting them into binary images. 
 	truth_reshaped = preprocess_segmentation(truth_array, config.target_size, apply_morphs=False)
 	pred_reshaped= preprocess_segmentation(pred_array, config.target_size, apply_morphs=True)
 
 	# Transform colors for visualization
-	truth_output = get_color_image(truth_reshaped, nclasses = config.nclasses, colors = config.colors)
-	pred_output = get_color_image(pred_reshaped, nclasses = config.nclasses, colors = config.colors)
+	truth_output = get_color_image(truth_reshaped, nclasses = 2, colors = [(0, 0, 0), (128,128,128)])
+	pred_output = get_color_image(pred_reshaped, nclasses = 2, colors = [(0, 0, 0), (128,128,128)])
 
 	# Input requirement: 8-bit single, channel image. Image input is binary with all non-zero pixels treated as 1s. 
 	# connected_output array: [num_labels, label_matrices, marker_stats, centroids]
@@ -251,9 +255,9 @@ def nearest_centroid(centroid, array_of_centroids):
 	"""
 
 	# No nearest centroids since none predicted by model. 
-	if (len(pred_centroids) == 0): 
-		nearest_i_pred = -1 
-		nearest_distance = int('inf') # guarantees that particle marked as not identified. 
+	if (len(array_of_centroids) == 0): 
+		nearest_i = -1 
+		nearest_distance = float('inf') # guarantees that particle marked as not identified. 
 	else: 
 		dist_2 = np.sum((array_of_centroids - centroid)**2, axis=1) # For comparison purposes, don't need to calculate actual distnace. 
 		nearest_i =  np.argmin(dist_2)
@@ -329,6 +333,19 @@ def get_color_image(img_input, nclasses, colors):
 		img_output[:,:,2] += (img_input == c)*colors[c][2]
 
 	return img_output
+
+
+def delete_folder_with_confirmation(folder_path):
+	"""
+	Description: If the folder exists, delete if recursively after user confirmation
+	"""
+	if (os.path.exists(folder_path)): 
+		user_question = 'Delete %s: (yes/no): '%(folder_path)
+		reply = str(raw_input(user_question)).lower().strip()
+		if (reply == 'yes'):
+			shutil.rmtree(folder_path)
+		else:
+			raise RuntimeError("Output folder already exists. However, user indicate not to delete output folder.")
 
 		
 

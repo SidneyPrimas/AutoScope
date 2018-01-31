@@ -50,7 +50,7 @@ config = ClassifyParticles_Config()
 data = ClassifyParticlesData(config)
 
 # Create necessary data generators
-pred_generator = data.create_prediction_generator(pred_dir_path=image_data_folder)
+pred_generator = data.create_custom_prediction_generator(pred_dir_path=image_data_folder)
 
 # Builds model
 model = createModel(input_shape = config.image_shape, base_weights = config.imagenet_weights_file, classes=config.nclasses)
@@ -60,7 +60,7 @@ CNN_functions.load_model(model, config.weight_file_input, config)
 
 # Predict
 total_cropped_images = len(glob.glob(image_data_folder + "images/*.bmp"))
-num_batches = int(math.ceil(total_cropped_images/float(data.config.batch_size)))
+num_batches = int(math.floor(total_cropped_images/float(data.config.batch_size)))
 all_pred = data.predict_particle_images(
 	model=model, 
 	pred_generator=pred_generator, 
