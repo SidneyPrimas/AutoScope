@@ -37,14 +37,15 @@ To Do:
 """ Configuration """
 # Files/Folders
 root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/" # Folder that contains files to be processes
-input_files = ["img1.bmp", "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp"] # Name of files to be processed. 
-output_folders = ["cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/"] # Name of the output folder. 
+input_files = ["img1.bmp"]#, "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp"] # Name of files to be processed. 
+output_folders = ["cropped_output/"]#, "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/"] # Name of the output folder. 
 
 output_crop_size = 64 # The output size of the crops, measured in pixels. Used on the original image. 
 indicator_radius = 32
 
 debug_flag = True
 keep_boundary_particles = False
+segmentation_mode = 'semantic' # Select 'crops' to produce crops from the segmentation. Select 'semantic' to classify pixels without cropping.
 
 
 
@@ -53,10 +54,8 @@ def main():
 	# Clean up disk from previous sessions
 	clean_up_old_output_folders(root_folder, output_folders)
 
-
 	# Build the semantic segmentation model. 
 	model, data = initialize_segmentation_model()
-
 
 	for file_index, target_file in enumerate(input_files):
 
@@ -67,14 +66,70 @@ def main():
 		# Build output folders (if necessary)
 		build_segmentation_output_folder(output_folder_path)
 
+
+		if (segmentation_mode == 'crops'):
+			generate_crops_from_segmentation(model, data, target_file_path, output_folder_path)
+		elif (segmentation_mode == 'semantic'):
+			generate_semanitc_segmentation(model, data, target_file_path, output_folder_path)
+		else: 
+			raise RuntimeError("The segmentation mode that was selected doesn't exist. Please select a correct mode.")
+
+
+def generate_semanitc_segmentation(model, data,  target_file_path, output_folder_path): 
+	"""
+	Description: Use semantic segmetnation approach to classify particles. 
+	"""
+
+	# Get output prefix name
+	output_file_prefix = get_file_name(target_file_path, remove_ext=True)
+
+	# Predict segmentation of original_img with segmentation model  
+	img_array = data.predict_image(model, target_file_path)
+
+	#TODO: CREATE POSSIBLE FUNCTION (only change is morph severity so maybe put in function)
+	#**********#
+	target_size = data.config.target_size
+	# Convert from categorical format to label format. 
+	img_labeled = np.argmax(img_array, axis=1) 
+	# Reshape into single channel images. 
+	img_reshaped = np.reshape(img_labeled, target_size)
+
+	# Convert images to binary (if there are multiple classes)
+	img_reshaped = ((img_reshaped > 0)).astype('uint8')
+
+	# Close
+	# Note: Closing removes background pixels from foreground blobs. Thus, it consolidates blobs. 
+	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
+	img_reshaped = cv2.morphologyEx(img_reshaped.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 2)
+	
+	# Erosions
+	# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
+	struct_element = np.ones((4,4), np.uint8)
+	img_reshaped = cv2.erode(img_reshaped.astype('float32'), struct_element, iterations=1)
+	#**********#
+
+
+	pred_connected = cv2.connectedComponentsWithStats(img_reshaped.astype('int8'), connectivity=8)
+	pred_label_matrices = pred_connected[1][1:] # Remove the background matric (at index 0).
+
+	for index, mask in enumerate(pred_label_matrices):
+		print mask.shape
+
+
+
+
+def generate_crops_from_segmentation(model, data, target_file_path, output_folder_path):
+	"""
+	Description: Use connectedComponents to determine predicted centroids of particles.
+	Create crops around each centroid to be classified with another model. 
+	"""
+
 		# Generate centroid list based on segmentation model
 		centroid_list = get_centroid_list(model, data, target_file_path, output_folder_path)
 
 
 		# Generate crops on input image based on the centroid_list (produced by segmentation model)
 		crop_based_on_centroids(target_file_path, centroid_list, output_folder_path)
-
-
 
 
 
