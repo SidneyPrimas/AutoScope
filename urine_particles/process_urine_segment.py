@@ -128,7 +128,8 @@ def generate_semanitc_segmentation(model, data,  target_file_path, output_folder
 		particle_mask = (connected_components_mask == component_count)
 		particle_crop = img_base[particle_mask]
 		unique, counts = np.unique(particle_crop, return_counts=True)
-		print dict(zip(unique, counts))
+		label_dict = dict(zip(unique, counts))
+		print sorted(label_dict, key=label_dict.get)
 
 
 		# Generate output image
