@@ -71,6 +71,7 @@ def main():
 		# Print out results for single folder
 		label_list = np.argmax(all_pred, axis=1)
 		all_label_list.extend(label_list)
+		data.config.logger.info("Results for: %s", image_data_path)
 		CNN_functions.print_summary_statistics_for_labels(
 			label_list, 
 			class_mapping, 
@@ -89,6 +90,7 @@ def main():
 
 
 	# Print out results for all folders in input_folders
+	data.config.logger.info("Results for: %s", root_folder)
 	total_input_images = sum(input_img_count)
 	CNN_functions.print_summary_statistics_for_labels(
 		all_label_list, 

@@ -41,12 +41,13 @@ root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1
  # Name of files to be processed. 
 input_files = ["img1.bmp", "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp", "img7.bmp"]
  # Name of the output folder (placed in the root folder)
-output_folders = ["img1/", "img2/",  "img3/", "img4/", "img5/", "img6.bmp/", "img7.bmp/"]
+output_folders = ["img1_sem/", "img2_sem/",  "img3_sem/", "img4_sem/", "img5_sem/", "img6_sem/", "img7_sem/"]
 
 
 # Select 'crops' to produce crops from the segmentation. Select 'semantic' get particle statistics for images based on semantic segmentation.
 segmentation_mode = 'semantic' 
-class_mapping =  {0:'back', 1:'10um', 2:'rbc', 3:'wbc'}
+# Maps class label to class name. 
+class_mapping =  {0:'back', 1:'10um', 2:'rbc', 3:'wbc'} # Only needed in semantic mode. 
 # The label of the class to be discarded. This usually is the lave of 'other' or 'background'
 discard_label = 0 
 # The output size of the crops, measured in pixels. Used on the original image. 
@@ -55,7 +56,7 @@ indicator_radius = 32
 
 # Flags
 debug_flag = True
-keep_boundary_particles = False
+keep_boundary_particles = True
 
 
 
