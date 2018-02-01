@@ -27,9 +27,9 @@ Implementation Notes:
 class SegmentParticles_Config():
 	def __init__(self):
 		# Core Configurations: Manually updated by user. Always needed. 
-		self.project_folder = "20180130_semantic_seg/"
+		self.project_folder = "20180120_training/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name =  "seg_class_weights_0.h5" #"20180125_base_segmentation.h5"  #Set to 'None' to disable.
+		self.weight_file_input_name = "20180125_base_segmentation.h5" #"seg_class_weights_0.h5 #Set to 'None' to disable.
 		self.weight_file_output_name = "seg_class_weights_" # Set to 'None' to disable. 
 		self.generate_images_with_cropping = False
 		self.fullscale_target_size = None # (height, width) for numpy

@@ -39,9 +39,9 @@ To Do:
 # Folder that contains the canvas files to be processed
 root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/" 
  # Name of files to be processed. 
-input_files = ["img1.bmp"]#, "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp"]
+input_files = ["img1.bmp", "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp", "img7.bmp"]
  # Name of the output folder (placed in the root folder)
-output_folders = ["cropped_output/"]#, "cropped_output/",  "cropped_output/", "cropped_output/", "cropped_output/"]
+output_folders = ["img1/", "img2/",  "img3/", "img4/", "img5/", "img6.bmp/", "img7.bmp/"]
 
 
 # Select 'crops' to produce crops from the segmentation. Select 'semantic' get particle statistics for images based on semantic segmentation.

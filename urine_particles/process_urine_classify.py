@@ -28,14 +28,14 @@ Description: Given a setup of croped particles, classify particles. Provide stat
 root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/"
 # input_folder is a set of folders (with specific sub-folders). One of these subfolders includes the crops. 
 # All files related to a classification session are loaded and saved into a single input_folder
-input_folders = ["cropped_output1/", "cropped_output2/"]#,  "cropped_output/", "cropped_output/", "cropped_output/"]
+input_folders = ["img1/", "img2/",  "img3/", "img4/", "img5/", "img6/", "img7/"]
 # image_data_folder contains subfolders that contain the crops to be predicted
 image_data_folder =  "data/"
 # sorted_output stores references to the sorted images for user review. 
 sorted_output_folder = "sorted_output/"
 
 # The numbe of canvas images that went into each of the input folders. 
-input_img_count = [1, 1]
+input_img_count = [1, 1, 1, 1, 1, 1, 1]
 class_mapping =  {0:'10um', 1:'other', 2:'rbc', 3:'wbc'}
 discard_label = 1
 indicator_radius = 32
