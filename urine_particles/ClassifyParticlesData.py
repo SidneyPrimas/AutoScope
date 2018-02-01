@@ -294,31 +294,18 @@ class ClassifyParticlesData(object):
 		self.config.logger.info("###### DATA ######  \n\n")
 
 
-	def predict_particle_images(self, model, pred_generator, total_batches=1, output_dir=None, labels_to_class=None): 
+	def predict_particle_images(self, model, pred_generator, total_batches=1): 
 		""" 
 		Description: Predicts the class for each particle provided by a genrator, up to a certain count. 
 		Args
 		model: Tensorflow model used to predict particles 
 		pred_generator: Generator that produces batches of images to be classified. Generator returned by create_prediction_generator().
 		total_images: The number of batches of images that will be processes. 
-		output_dir: Directory into which predicted images will be saved. Only save images if directory exists. 
-		labels_to_class: Dictionary structure that has labels as keys to the class names. Only include struct if want to save predictions. 
 		"""
 
 		# Track overall label metrics
 		all_pred = None
-
-		# Setup output directory
-		if (output_dir):
-			if (not labels_to_class):
-				raise RuntimeError("In order to save output images, please provide dictionary for labels_to_class argument.")
-			
-			# Delete the folder if it exists
-			CNN_functions.delete_folder_with_confirmation(output_dir)	
-
-			os.makedirs(output_dir)
-			for label, class_name in labels_to_class.iteritems():
-				os.makedirs(output_dir + class_name)
+		all_path_list = None
 
 
 		# Validate across multiple batches
@@ -326,28 +313,15 @@ class ClassifyParticlesData(object):
 			img_input, path_list =  next(pred_generator)
 			label_pred = model.predict_on_batch(img_input)
 
-			self._split_batch_into_class_folders(img_input, label_pred, path_list, output_dir, labels_to_class)
-			
 			# Append to overall metrics
 			if all_pred is None: 
 				all_pred = label_pred
+				all_path_list = path_list
 			else: 
 				all_pred = np.append(all_pred, label_pred, axis=0)
+				all_path_list = np.append(all_path_list, path_list, axis=0)
 
-		return all_pred
-
-	def _split_batch_into_class_folders(self, img_input, label_pred, path_list, output_dir, labels_to_class):
-		"""
-		Description: Takes a batch of images with correspoinding categorigcal/softmax predictions. Uses output_dir and labels_to_class to store outputs. 
-		Note: Create a permenant link. to corresponding image. 
-		Note: Seperate function to make code more readable. 
-		"""
-		for index in range(img_input.shape[0]):
-			label = np.argmax(label_pred[index])
-			datestring = datetime.strftime(datetime.now(), '%Y%m%d_%H-%M-%S-%f')
-			file_name = str("%0.04fconfidence_%s"%(label_pred[index][label], datestring))
-			img_save_path = output_dir + labels_to_class[label] + "/" + file_name + ".bmp"
-			os.link(path_list[index], img_save_path)
+		return all_pred, all_path_list
 
 
 

@@ -36,16 +36,27 @@ To Do:
 
 """ Configuration """
 # Files/Folders
-root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/" # Folder that contains files to be processes
-input_files = ["img1.bmp"]#, "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp"] # Name of files to be processed. 
-output_folders = ["cropped_output/"]#, "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/", "cropped_output/"] # Name of the output folder. 
+# Folder that contains the canvas files to be processed
+root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/" 
+ # Name of files to be processed. 
+input_files = ["img1.bmp"]#, "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp"]
+ # Name of the output folder (placed in the root folder)
+output_folders = ["cropped_output/"]#, "cropped_output/",  "cropped_output/", "cropped_output/", "cropped_output/"]
 
-output_crop_size = 64 # The output size of the crops, measured in pixels. Used on the original image. 
+
+# Select 'crops' to produce crops from the segmentation. Select 'semantic' get particle statistics for images based on semantic segmentation.
+segmentation_mode = 'semantic' 
+class_mapping =  {0:'back', 1:'10um', 2:'rbc', 3:'wbc'}
+# The label of the class to be discarded. This usually is the lave of 'other' or 'background'
+discard_label = 0 
+# The output size of the crops, measured in pixels. Used on the original image. 
+output_crop_size = 64 
 indicator_radius = 32
 
+# Flags
 debug_flag = True
 keep_boundary_particles = False
-segmentation_mode = 'semantic' # Select 'crops' to produce crops from the segmentation. Select 'semantic' to classify pixels without cropping.
+
 
 
 
@@ -57,6 +68,20 @@ def main():
 	# Build the semantic segmentation model. 
 	model, data = initialize_segmentation_model()
 
+	# Process images in either 'crops' or 'semantic' mode
+	if (segmentation_mode == 'crops'): # Produce crops from segmentation
+		process_inputImages_in_crops_mode(model, data, root_folder, input_files, output_folders)
+	elif (segmentation_mode == 'semantic'): # Use semantic segmentation to indicate particles
+		process_inputImages_in_semantic_mode(model, data, root_folder, input_files, output_folders)
+	else: 
+		raise RuntimeError("The segmentation mode that was selected doesn't exist. Please select a correct mode.")
+
+
+
+def process_inputImages_in_crops_mode(model, data,  root_folder, input_files, output_folders):
+	"""
+	Description: Process all images by generating crops around the predicted particle location (predicted through segmentation)
+	"""
 	for file_index, target_file in enumerate(input_files):
 
 		# Define files/folders
@@ -66,87 +91,169 @@ def main():
 		# Build output folders (if necessary)
 		build_segmentation_output_folder(output_folder_path)
 
-
-		if (segmentation_mode == 'crops'):
-			generate_crops_from_segmentation(model, data, target_file_path, output_folder_path)
-		elif (segmentation_mode == 'semantic'):
-			generate_semanitc_segmentation(model, data, target_file_path, output_folder_path)
-		else: 
-			raise RuntimeError("The segmentation mode that was selected doesn't exist. Please select a correct mode.")
+		# Produce crops 
+		generate_crops_from_inputImage(model, data, target_file_path, output_folder_path)
 
 
-def generate_semanitc_segmentation(model, data,  target_file_path, output_folder_path): 
+def process_inputImages_in_semantic_mode(model, data,  root_folder, input_files, output_folders):
 	"""
-	Description: Use semantic segmetnation approach to classify particles. 
+	Description: Process all images by counting particles through semantic segmentation.
+	Print out average results across all images to log. 
+	"""
+	all_labels_list = []
+	for file_index, target_file in enumerate(input_files):
+
+		# Define files/folders
+		target_file_path = root_folder + target_file
+		output_folder_path = root_folder + output_folders[file_index]
+
+		# Build output folders (if necessary)
+		build_segmentation_output_folder(output_folder_path)
+
+		# Produce labels from semantic segmentation of a single canvas image
+		label_list = generate_particlePredictions_from_inputImage(model, data, target_file_path, output_folder_path)
+		all_labels_list.extend(label_list)
+
+	canvas_img_cnt = len(input_files)
+	data.config.logger.info("\nResults for: %s", root_folder)
+	CNN_functions.print_summary_statistics_for_labels(all_labels_list, class_mapping, data.config, discard_label=discard_label, image_count=canvas_img_cnt)
+
+
+
+def generate_particlePredictions_from_inputImage(model, data,  target_file_path, output_folder_path): 
+	"""
+	Description: Use semantic segmetnation approach to classify particles on a SINGLE image. 
 	"""
 
 	# Get output prefix name
 	output_file_prefix = get_file_name(target_file_path, remove_ext=True)
 
 	# Predict segmentation of original_img with segmentation model  
-	img_array = data.predict_image(model, target_file_path)
+	pred_array = data.predict_image(model, target_file_path)
 
-	#TODO: CREATE POSSIBLE FUNCTION (only change is morph severity so maybe put in function)
-	#**********#
-	target_size = data.config.target_size
-	# Convert from categorical format to label format. 
-	img_labeled = np.argmax(img_array, axis=1) 
-	# Reshape into single channel images. 
-	img_reshaped = np.reshape(img_labeled, target_size)
-	img_base = img_reshaped.copy()
+	# Obtain original image
+	original_img = cv2.imread(target_file_path)
 
-	# Convert images to binary (if there are multiple classes)
-	img_reshaped = ((img_reshaped > 0)).astype('uint8')
+	# Temp (use for debugging as to generate predictions more rapidly)
+	#temp_prediction_path = root_folder + output_file_prefix + "_rawImgArray.bmp"
+	#pred_array = cv2.imread(temp_prediction_path, cv2.IMREAD_GRAYSCALE)
 
-	# Close
-	# Note: Closing removes background pixels from foreground blobs. Thus, it consolidates blobs. 
-	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
-	img_reshaped = cv2.morphologyEx(img_reshaped.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 2)
+	# Convert to labeled image.
+	pred_img = CNN_functions.predArray_to_predMatrix(pred_array, data.config.target_size)
+
+	# Apply morphological operations
+	morph_mask = CNN_functions.apply_morph(pred_img, morph_type='classes')
+
+	# From the semantic image, get list of partiles with the corresponding classes
+	centroid_list, component_labels, particle_label_mask = semanticImg_to_particleCounts(pred_img, morph_mask)
+
+	# Place indicator for each classified particle. 
+	# TODO: Break out into seperate function for readability (maybe?)
+	for index, centroid in enumerate(centroid_list):
+		label = component_labels[index]
+		circl_centroid = (int(centroid[0]), int(centroid[1]))
+		cv2.circle(
+			original_img, 
+			center=circl_centroid, 
+			radius=indicator_radius, 
+			color=data.config.colors[label], 
+			thickness=2)
+
+	# Convert labeled images to rgb images
+	# Produce rgb image where each connected component is labeled with it's label
+	particle_label_img_rgb = CNN_functions.get_color_image(particle_label_mask, nclasses=data.config.nclasses, colors=data.config.colors)
+	# Produce rgb image for predicted image from semantic segmentation
+	pred_img_rgb = CNN_functions.get_color_image(pred_img, nclasses=data.config.nclasses, colors=data.config.colors)
 	
-	# Erosions
-	# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
-	struct_element = np.ones((4,4), np.uint8)
-	img_reshaped = cv2.erode(img_reshaped.astype('float32'), struct_element, iterations=1)
+	
+	# Produce summary statistics
+	data.config.logger.info("\nResults for: %s", target_file_path)
+	CNN_functions.print_summary_statistics_for_labels(component_labels, class_mapping, data.config, discard_label=discard_label, image_count=1)
 
 
-	struct_element = np.ones((4,4), np.uint8)
-	img_reshaped = cv2.dilate(img_reshaped.astype('float32'), struct_element, iterations=4)
-	#**********#
+	# Save images
+	debug_images_path = output_folder_path + "debug_output/" + output_file_prefix
+	cv2.imwrite(debug_images_path + "_model_raw_prediction.bmp" , pred_img_rgb)
+	cv2.imwrite(debug_images_path + "_processed_prediction.bmp" , particle_label_img_rgb)
+	cv2.imwrite(debug_images_path + "_labeled_form_semantic.bmp" , original_img)
+	
+
+	return component_labels
 
 
-	pred_connected = cv2.connectedComponentsWithStats(img_reshaped.astype('int8'), connectivity=8)
-	num_labels = pred_connected[0]
-	connected_components_mask = pred_connected[1] # Remove the background matric (at index 0).
 
-	img_output = np.zeros(img_base.shape)
-	for component_count in range(num_labels):
+
+def semanticImg_to_particleCounts(semantic_img, mask):
+	"""
+	Description: Determines particle counts by looking at each connected component in mask and counting the underlying labels in semantic_img that make up each connected component. 
+	Args
+	semantic_img: Image with each pixel labeled with a class. 
+	mask: Binary image to identify location of particles through connected component analysis. 
+	Returns
+	centroid_list: List of particle centroids, without the background
+	component_labels: List of particle labels, withouththe background
+	particle_label_mask: Image where connected component particles are labeled with the final class. 
+	"""
+	# Seperate connected components based in input mask
+	connectedComponents_output = cv2.connectedComponentsWithStats(mask.astype('int8'), connectivity=8)
+	connectedComponents_num = connectedComponents_output[0]
+	connectedComponents_mask = connectedComponents_output[1] 
+	centroid_list = connectedComponents_output[3][1:] # Remove background centroid
+
+	
+
+	# Classify each connected component based on the labels within the semantic_img
+	particle_label_mask = np.zeros(semantic_img.shape)
+	component_labels = [] # list of all the images labels
+	for component_index in range(connectedComponents_num):
+
 		#  The first label is the background (zero label). We always ignore it. 
-		if component_count == 0:
+		if component_index == 0:
 			continue
 
-		# Count the labels of the connected components
-		particle_mask = (connected_components_mask == component_count)
-		particle_crop = img_base[particle_mask]
-		unique, counts = np.unique(particle_crop, return_counts=True)
-		label_dict = dict(zip(unique, counts))
-		print sorted(label_dict, key=label_dict.get)
-
-
+		# Creates mask for a single connected component
+		target_component_mask = (connectedComponents_mask == component_index)
+		# Gets the labels in semantic_img that correspond to a single connected component. 
+		target_component_labels = semantic_img[target_component_mask]
+		# Calculates the particles single lable given a list of the labels for each pixel that particle has. 
+		particle_label = get_particleLabel_from_pixelLabels(target_component_labels, background=discard_label)
+		# Add label to list of labels for image
+		component_labels.append(particle_label)
+		
 		# Generate output image
-		img_output += particle_mask * img_base * 50 
+		particle_label_mask += target_component_mask * particle_label 
 
+
+	return centroid_list, component_labels, particle_label_mask
+
+
+def get_particleLabel_from_pixelLabels(pixel_labels, background = 0):
+	"""
+	Description: A particle is made from many pixel labels. Given a list of pixel labels, find the label with the most pixels. 
+	Discard the background label as irrelevant. 
+	pixel_labels: A list of labels. 
+	background: The background label should never be returned. It should be discarded. 
+	"""
+
+	# Get counts for each label
+	unique_labels, counts = np.unique(pixel_labels, return_counts=True) 
+	# Transform results into a dictionary
+	counts_dict = dict(zip(unique_labels, counts))
+	# Sort dictionary based on value
+	ordered_labels = sorted(counts_dict.items(), key=lambda x:x[1], reverse=True) 
+	# Identify label with most counts. Disregard counts of background label.
+	label_with_max_counts = ordered_labels[0][0]
+	if (label_with_max_counts == background):
+		label_with_max_counts = ordered_labels[1][0]
+
+	return label_with_max_counts
 	
-	cv2.imwrite(output_folder_path + "connected_output.bmp", img_output)
-	cv2.imwrite(output_folder_path + "base_output.bmp", img_base*50)
-	exit()
 
 
-
-
-def generate_crops_from_segmentation(model, data, target_file_path, output_folder_path):
+def generate_crops_from_inputImage(model, data, target_file_path, output_folder_path):
 	"""
 	Description: Use connectedComponents to determine predicted centroids of particles.
-	Create crops around each centroid to be classified with another model. 
+	Create crops around each centroid to be classified with another model. Do for single image. 
 	"""
 
 	# Generate centroid list based on segmentation model
@@ -174,8 +281,9 @@ def get_centroid_list(model, data, target_file_path, output_folder_path):
 	# Predict segmentation of original_img with segmentation model  
 	pred_array = data.predict_image(model, target_file_path)
 
-	# Get particle list from prediction 
-	pred_image = CNN_functions.preprocess_segmentation(pred_array, target_size=data.config.target_size, apply_morphs=True)
+	# Apply morphological transformations
+	pred_image = CNN_functions.predArray_to_predMatrix(pred_array, data.config.target_size) # Convert from prediction arrays to labeled matrices
+	pred_image = CNN_functions.apply_morph(pred_image, morph_type='foreground')
 
 	# Obtain centroid list with connected component analysis
 	pred_connected = cv2.connectedComponentsWithStats(pred_image.astype('int8'), connectivity=8)

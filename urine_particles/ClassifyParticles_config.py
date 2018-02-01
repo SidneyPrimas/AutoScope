@@ -50,8 +50,12 @@ class ClassifyParticles_Config():
 		self.output_img_dir = self.root_data_dir + "image_data/" + self.project_folder +"classification/debug_output/"
 		self.weight_file_input = None if self.weight_file_input_name is None else (self.root_data_dir + "model_storage/" + self.project_folder + self.weight_file_input_name)  
 		self.image_shape = self.target_size + (self.channels,)
+		self.colors = [(random.randint(0,255),random.randint(0,255),random.randint(0,255)) for _ in range(self.nclasses)]
 		self.classification_metadata = CNN_functions.get_json_log(self.root_data_dir + "image_data/" + self.project_folder + "classification_metadata.log")
 		
+		# Microscope configuration
+		self.hpf_area = 0.196349541 # in mm^2
+		self.primas_area = 10.1568 # in mm^2
 
 		# Create and configure logger. 
 		self.log_name = "TF_logger"

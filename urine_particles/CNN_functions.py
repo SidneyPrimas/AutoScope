@@ -115,33 +115,67 @@ def get_classification_accuracy_perBatch(all_truth, all_pred):
 	return accuracy
 
 
-def preprocess_segmentation(img_array, target_size, apply_morphs=True):
+def predArray_to_predMatrix(pred_array, target_size):
 	"""
-	Description: Performs the following transformations => categorical softmax to single label, reshape, to binary, and possible morph functions.
+	Description: Convert prediction array (categorical) to a matrix with each pixel labeled with maximum class. 
 	"""
 	# Convert from categorical format to label format. 
-	img_labeled = np.argmax(img_array, axis=1) 
+	pred_labeled = np.argmax(pred_array, axis=1) 
 	# Reshape into single channel images. 
-	img_reshaped = np.reshape(img_labeled, target_size)
+	pred_matrix = np.reshape(pred_labeled, target_size)
+	return pred_matrix
 
+
+
+def apply_morph(img_input, morph_type=None):
+	"""
+	Description: 1) Transforms img_input into binary img, 2) Applies morphological operations to image. 
+	Args
+	morph_type: 
+	+ 'foreground' => applies morph operations for foregound segmentation
+	+ 'classes' => applies morph operations for semantic segmentation (per pixel classification) with many classes
+	Returns
+	img_output: binary img
+	"""
+
+	# Argument checking
+	if (morph_type != 'foreground') and (morph_type != 'classes') and (morph_type != None):
+		raise ValueError("morpth_type in CNN_functions.apply_morph should be either segment or classify")
 
 	# Convert images to binary (if there are multiple classes)
-	img_reshaped = ((img_reshaped > 0)).astype('uint8')
+	img_output = ((img_input > 0)).astype('uint8')
 
 
-	if (apply_morphs):
+	if (morph_type == 'foreground'):
 		# Close
 		# Note: Closing removes background pixels from foreground blobs. Thus, it consolidates blobs. 
 		struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
-		img_reshaped = cv2.morphologyEx(img_reshaped.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 2)
+		img_output = cv2.morphologyEx(img_output.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 2)
 		
 		# Erosions
 		# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
 		struct_element = np.ones((4,4), np.uint8)
-		img_reshaped = cv2.erode(img_reshaped.astype('float32'), struct_element, iterations=4)
+		img_output = cv2.erode(img_output.astype('float32'), struct_element, iterations=4)
 
 
-	return img_reshaped
+	if (morph_type == 'classes'):
+		# Close
+		# Note: Closing removes background pixels from foreground blobs. Thus, it consolidates blobs. 
+		struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
+		img_output = cv2.morphologyEx(img_output.astype('float32'), cv2.MORPH_CLOSE, struct_element, iterations = 2)
+		
+		# Erosions
+		# Note: Erosions allows for 1) seperation of merged blobs and 2) removal of popcorn prediction noise. 
+		struct_element = np.ones((4,4), np.uint8)
+		img_output = cv2.erode(img_output.astype('float32'), struct_element, iterations=2)
+
+		# Dilate
+		# Note: The remaining particle blobs are augmented so that they capture the underlying labels for blob classification. 
+		struct_element = np.ones((4,4), np.uint8)
+		img_output = cv2.dilate(img_output.astype('float32'), struct_element, iterations=4)
+
+
+	return img_output
 
 	
 
@@ -159,9 +193,15 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	+ Possible Improvement: Instead of using connectedComponentsWithStats for the ground truth, use the ground truth coordinates to seed the location of the ground truth particles. 
 	"""
 	
-	# Preprocesses input images, including converting them into binary images. 
-	truth_reshaped = preprocess_segmentation(truth_array, config.target_size, apply_morphs=False)
-	pred_reshaped= preprocess_segmentation(pred_array, config.target_size, apply_morphs=True)
+	# Convert from prediction arrays to labeled matrices
+	truth_reshaped = predArray_to_predMatrix(truth_array, config.target_size)
+	pred_reshaped = predArray_to_predMatrix(pred_array, config.target_size)
+
+	# Conver to binary images. Apply morphological transformations.
+	# Convert to binary image just in case using a semantic segmetnation model with many classes
+	truth_reshaped = apply_morph(truth_reshaped, morph_type=None) # Just converts to binary image
+	pred_reshaped = apply_morph(pred_reshaped, morph_type='foreground')
+
 
 	# Transform colors for visualization
 	truth_output = get_color_image(truth_reshaped, nclasses = 2, colors = [(0, 0, 0), (128,128,128)])
@@ -348,8 +388,69 @@ def delete_folder_with_confirmation(folder_path):
 		else:
 			raise RuntimeError("Output folder already exists. However, user indicate not to delete output folder.")
 
-		
 
+
+def print_summary_statistics_for_labels(label_list, class_mapping, config, discard_label= None, image_count = 1):
+	"""
+	Description: Prints summary of results
+	Args
+	class_mapping: dict that maps {label (int): class name (str)}
+	config: Instance of either segmentation or classificatino configuration object. 
+	discard_lavel: The label (int) to discard within summary. Usually 'other' or 'background' class
+	image_count: The total number of canvas images used to get the labels in label_list
+	"""
+
+	# Get counts for each of the particle labels
+	label_count_dic = count_labels(label_list, class_mapping)
+	# Count total number of labels
+	total_labels = sum(label_count_dic.values())
+	# Count the total number of particles => discarding the discard_lavel
+	total_particles = np.sum(counts for label, counts in label_count_dic.iteritems() if label != discard_label)
+
+	# Print summary results
+	config.logger.info("Results")
+	config.logger.info("Total Labels: %d", total_labels)
+	config.logger.info("Total Particles (discared label %d): %d", discard_label, total_particles)
+	config.logger.info("Type\t\t\tCount\t\t\tperPrimas\t\t\tperHPF\t\t\tPercent of Particles")
+
+
+	# Print out results for each class
+	k_primas_to_HPF = config.hpf_area/float(config.primas_area) # converts from Primas unit to HPF unit. 
+	for label, class_name in class_mapping.iteritems():
+		# Calculate metrics
+		perPrimas = label_count_dic[label]/float(image_count) #calculates average per primas microscope image
+		perHPF = perPrimas*k_primas_to_HPF # converts to perHPF
+		particle_percent = 100*label_count_dic[label]/float(total_particles)
+
+		# Print results
+		# Pretty print the percent
+		pp_percent = '%.02f%%'%(particle_percent)
+		if label == discard_label:
+			pp_percent = "N/A"
+		# Print single row of results
+		print_row_str = "%s\t\t\t%d\t\t\t%.02f\t\t\t\t%.02f\t\t\t%s"
+		config.logger.info(print_row_str, class_name, label_count_dic[label], perPrimas, perHPF, pp_percent)
+
+
+def count_labels(label_list, class_mapping):
+	"""
+	Description: Counts the occurrence of labels in label_list. Outputs the result as a dict. 
+	Returns
+	label_count_dic: A dictionary that maps the labels to the number of counts of that label in label_list
+	"""
+	# Initialize the dictionary
+	label_count_dic = {}
+	for label in class_mapping:
+		label_count_dic[label] = 0
+
+	for label in label_list: 
+		if label in label_count_dic:
+			label_count_dic[label] += 1
+		else:
+			raise ValueError("count_labels: Label in label_list doesn't map with labels given in class_mapping.")
+			
+
+	return label_count_dic
 
 
 

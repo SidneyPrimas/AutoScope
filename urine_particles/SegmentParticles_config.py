@@ -50,7 +50,6 @@ class SegmentParticles_Config():
 		self.detection_radius = 30 # The proximity that a predicted particle needs to be to a ground truth particle for it to be detected/classified. (needs to be adjusted based on resampling of image)
 		self.bgr_means = [90.61598179, 129.97525112, 103.00621832] # VGG is [103.939, 116.779, 123.68]  
 
-
 		# Auto Configurations: Can be auto-calculated. 
 		self.train_images_dir = self.root_data_dir + "image_data/" + self.project_folder + "segmentation/train_images/"
 		self.train_annotations_dir = self.root_data_dir + "image_data/" + self.project_folder + "segmentation/train_annotations/"
@@ -65,6 +64,9 @@ class SegmentParticles_Config():
 		self.segmentation_metadata = CNN_functions.get_json_log(self.root_data_dir + "image_data/" + self.project_folder + "segmentation_metadata.log")
 		self.labels = self.segmentation_metadata['segmentation_labels']
 
+		# Microscope configuration
+		self.hpf_area = 0.196349541 # in mm^2
+		self.primas_area = 10.1568 # in mm^2
 		
 
 		# Create and configure logger. 
