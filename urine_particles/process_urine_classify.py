@@ -53,17 +53,21 @@ def main():
 	if (auto_determine_inputs):
 		root_folder, input_folders, input_img_count = auto_determine_classification_config_parameters(output_folder_suffix="crops")
 
-	print root_folder
-	print input_folders
-	print input_img_count
-	exit()
-
-
 	# Builds the classification model
 	model, data = initialize_classification_model(log_dir=root_folder)
 
+	# Print Configuration
+	data.config.logger.info("Segmentation Prediction Results")
+	data.config.logger.info(root_folder)
+	data.config.logger.info(input_folders)
+	data.config.logger.info(input_img_count)
+
+
 	all_label_list = []
 	for index_folder, target_folder in enumerate(input_folders):
+
+		# Indicate next target_folder in log
+		data.config.logger.info("Results for: %s", root_folder)
 
 		# Define paths
 		image_data_path = root_folder + target_folder + image_data_folder
@@ -81,7 +85,7 @@ def main():
 		# Note: With either approach, the statistics will be randomly biased. With round UP will have all particles included on output images.
 		total_cropped_images = len(glob(image_data_path + "images/*.bmp"))
 		num_batches = int(math.ceil(total_cropped_images/float(data.config.batch_size)))
-		data.config.logger.info("Images not classified: %d", total_cropped_images - num_batches*data.config.batch_size)
+		data.config.logger.info("Images classified twice: %d", num_batches*data.config.batch_size-total_cropped_images)
 
 		# Predict: Sort crops into classes
 		all_pred, all_path_list = data.predict_particle_images(
@@ -111,7 +115,6 @@ def main():
 
 
 	# Print out results for all folders in input_folders
-	data.config.logger.info("Results for: %s", root_folder)
 	total_input_images = sum(input_img_count)
 	CNN_functions.print_summary_statistics_for_labels(
 		all_label_list, 

@@ -41,7 +41,7 @@ root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1
 # If True, auto selectes all '.bmp' images in root folder. 
 auto_determine_inputs = True
 # Select 'crops' to produce crops from the segmentation. Select 'semantic' get particle statistics for images based on semantic segmentation.
-segmentation_mode = 'crops' 
+segmentation_mode = 'semantic' 
 
 # Files/Folders
 # Name of files to be processed. 
@@ -70,16 +70,19 @@ def main():
 	if (auto_determine_inputs):
 		root_folder, input_files, output_folders = auto_determine_segmentation_config_parameters(segmentation_mode)
 
-	print root_folder
-	print input_files
-	print output_folders
-	exit()
-
 	# Clean up disk from previous sessions
 	clean_up_old_output_folders(root_folder, output_folders)
 
 	# Build the semantic segmentation model. 
-	model, data = initialize_segmentation_model(log_dir=root_folder)
+	# Define a custom log filename and path based on segmentation_mode.
+	model, data = initialize_segmentation_model(log_dir=root_folder, log_prefix=segmentation_mode + "_")
+
+
+	# Print Configuration
+	data.config.logger.info("Segmentation Prediction Results")
+	data.config.logger.info(root_folder)
+	data.config.logger.info(input_files)
+	data.config.logger.info(output_folders)
 
 	# Process images in either 'crops' or 'semantic' mode
 	if (segmentation_mode == 'crops'): # Produce crops from segmentation
@@ -405,16 +408,23 @@ def get_scale_factors(original_image, resized_image):
 	return factor_height, factor_width	
 
 
-def initialize_segmentation_model(log_dir=None):
+def initialize_segmentation_model(log_dir=None, log_prefix=None):
 	""" 
 	Builds the semantic segmentation model and loads the pre-trained weights. 
+	Args (Need both log_dir and log_prefix to update the log configurations log)
+	log_dir: Override the log directory in Segment_particles_Config object. 
+	log_prefix: Log prefix to customize the log name. 
+
 	"""
 	# Instantiates configuration for training/validation
 	config = SegmentParticles_Config()
 
 	# Reroute/update logging
 	if (log_dir):
-		log_file_name = "segmentation_prediction.log" #If None, then name based on datetime.
+		if (not seg_mode):
+			raise ValueError("initialize_segmentation_model: When log_dir arg given, user also needs to provide log_prifix.")
+
+		log_file_name = log_prefix + "segmentation_prediction.log" #If None, then name based on datetime.
 		config.logger = CNN_functions.create_logger(log_dir, file_name=log_file_name, log_name="predict_seg_logger")
 
 
