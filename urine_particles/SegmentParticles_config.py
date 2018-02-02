@@ -61,7 +61,7 @@ class SegmentParticles_Config():
 		self.weight_file_input = None if self.weight_file_input_name is None else (self.root_data_dir + "model_storage/" + self.project_folder + self.weight_file_input_name)  
 		self.image_shape = self.target_size + (self.channels,)
 		#self.colors = [(0,0,0)] + [(random.randint(0,255),random.randint(0,255),random.randint(0,255)) for _ in range(self.nclasses-1)]
-		self.colors = [(0,0,0), (255,0,0), (0,255,0),(0,0,255)]
+		self.colors = [(0,0,0), (0,0,255), (255,0,0),(0,255,0)] # in bgr format
 		self.segmentation_metadata = CNN_functions.get_json_log(self.root_data_dir + "image_data/" + self.project_folder + "segmentation_metadata.log")
 		self.labels = self.segmentation_metadata['segmentation_labels']
 

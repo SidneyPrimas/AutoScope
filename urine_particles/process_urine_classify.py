@@ -264,6 +264,7 @@ def auto_determine_classification_config_parameters(output_folder_suffix):
 
 
 	input_files_paths =  glob(root_folder + "*.bmp")
+	input_files_paths.sort() 
 	input_folders = [CNN_functions.get_file_name_from_path(path)+"_"+output_folder_suffix+"/" for path in input_files_paths]
 	input_img_count = [1 for _ in input_files_paths]
 

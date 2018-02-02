@@ -421,7 +421,7 @@ def initialize_segmentation_model(log_dir=None, log_prefix=None):
 
 	# Reroute/update logging
 	if (log_dir):
-		if (not seg_mode):
+		if (not log_prefix):
 			raise ValueError("initialize_segmentation_model: When log_dir arg given, user also needs to provide log_prifix.")
 
 		log_file_name = log_prefix + "segmentation_prediction.log" #If None, then name based on datetime.
@@ -485,6 +485,7 @@ def auto_determine_segmentation_config_parameters(output_folder_suffix):
 
 
 	input_files_paths =  glob(root_folder + "*.bmp")
+	input_files_paths.sort()
 	input_files =[CNN_functions.get_file_name_from_path(path)+".bmp" for path in input_files_paths]
 	output_folders = [CNN_functions.get_file_name_from_path(path)+"_"+output_folder_suffix+"/" for path in input_files_paths]
 

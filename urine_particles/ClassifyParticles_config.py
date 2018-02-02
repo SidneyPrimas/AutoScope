@@ -51,7 +51,7 @@ class ClassifyParticles_Config():
 		self.weight_file_input = None if self.weight_file_input_name is None else (self.root_data_dir + "model_storage/" + self.project_folder + self.weight_file_input_name)  
 		self.image_shape = self.target_size + (self.channels,)
 		#self.colors = [(random.randint(0,255),random.randint(0,255),random.randint(0,255)) for _ in range(self.nclasses)]
-		self.colors = [(0,0,0), (255,0,0), (0,255,0),(0,0,255)]
+		self.colors = [(0,0,255), (0,0,0), (255,0,0),(0,255,0)] # in bgr format
 		self.classification_metadata = CNN_functions.get_json_log(self.root_data_dir + "image_data/" + self.project_folder + "classification_metadata.log")
 		
 		# Microscope configuration
