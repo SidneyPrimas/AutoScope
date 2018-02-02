@@ -27,7 +27,7 @@ class ClassifyParticles_Config():
 		self.weight_file_input_name =  "classification_base_model_ImageNorm_grayscale.h5" #Set to 'None' to disable.
 		self.weight_file_output_name = "classify_weights_" # Set to 'None' to disable. 
 		self.target_size = (64, 64) # Warning: Be careful if non-square dimensions (see above note). 
-		self.batch_size = 64 
+		self.batch_size = 8 
 		self.num_epochs = 5  # Print validation results after each epoch. Save model after num_epochs.
 		self.batches_per_epoch_train = 35 # Batches for each training session. If None, set so that every image is trained. 
 		self.batches_per_epoch_val = 5 # Batches for each validation session. If None, set so that every image is trained. 
@@ -50,7 +50,8 @@ class ClassifyParticles_Config():
 		self.output_img_dir = self.root_data_dir + "image_data/" + self.project_folder +"classification/debug_output/"
 		self.weight_file_input = None if self.weight_file_input_name is None else (self.root_data_dir + "model_storage/" + self.project_folder + self.weight_file_input_name)  
 		self.image_shape = self.target_size + (self.channels,)
-		self.colors = [(random.randint(0,255),random.randint(0,255),random.randint(0,255)) for _ in range(self.nclasses)]
+		#self.colors = [(random.randint(0,255),random.randint(0,255),random.randint(0,255)) for _ in range(self.nclasses)]
+		self.colors = [(0,0,0), (255,0,0), (0,255,0),(0,0,255)]
 		self.classification_metadata = CNN_functions.get_json_log(self.root_data_dir + "image_data/" + self.project_folder + "classification_metadata.log")
 		
 		# Microscope configuration
@@ -58,9 +59,8 @@ class ClassifyParticles_Config():
 		self.primas_area = 10.1568 # in mm^2
 
 		# Create and configure logger. 
-		self.log_name = "TF_logger"
-		self.log_file_name = "classification.log" #If None, then name based on datetime.
-		self.logger = CNN_functions.create_logger(self.log_dir, self.log_file_name, self.log_name)
+		log_file_name = "classification.log" #If None, then name based on datetime.
+		self.logger = CNN_functions.create_logger(self.log_dir, file_name=log_file_name, log_name="TF_logger")
 
 
 		

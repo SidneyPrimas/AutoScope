@@ -27,9 +27,9 @@ Implementation Notes:
 class SegmentParticles_Config():
 	def __init__(self):
 		# Core Configurations: Manually updated by user. Always needed. 
-		self.project_folder = "20180130_semantic_seg/"
+		self.project_folder = "20180120_training/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name = "seg_class_weights_0.h5" #"20180125_base_segmentation.h5" #Set to 'None' to disable.
+		self.weight_file_input_name = "20180125_base_segmentation.h5" #"seg_class_weights_0.h5"  #Set to 'None' to disable.
 		self.weight_file_output_name = "seg_class_weights_" # Set to 'None' to disable. 
 		self.generate_images_with_cropping = False
 		self.fullscale_target_size = None # (height, width) for numpy
@@ -38,7 +38,7 @@ class SegmentParticles_Config():
 		self.num_epochs = 1 # Print validation results after each epoch. Save model after num_epochs.
 		self.batches_per_epoch_train = 40 # Batches for each training session.
 		self.batches_per_epoch_val = 1 # Batches for each validation session. 
-		self.nclasses = 4
+		self.nclasses = 2
 
 
 		# Secondary Configurations: Manually updated by user. Sometimes needed. 
@@ -60,7 +60,8 @@ class SegmentParticles_Config():
 		self.output_img_dir = self.root_data_dir + "image_data/" + self.project_folder +"segmentation/img_output/"
 		self.weight_file_input = None if self.weight_file_input_name is None else (self.root_data_dir + "model_storage/" + self.project_folder + self.weight_file_input_name)  
 		self.image_shape = self.target_size + (self.channels,)
-		self.colors = [(0,0,0)] + [(random.randint(0,255),random.randint(0,255),random.randint(0,255)) for _ in range(self.nclasses-1)]
+		#self.colors = [(0,0,0)] + [(random.randint(0,255),random.randint(0,255),random.randint(0,255)) for _ in range(self.nclasses-1)]
+		self.colors = [(0,0,0), (255,0,0), (0,255,0),(0,0,255)]
 		self.segmentation_metadata = CNN_functions.get_json_log(self.root_data_dir + "image_data/" + self.project_folder + "segmentation_metadata.log")
 		self.labels = self.segmentation_metadata['segmentation_labels']
 

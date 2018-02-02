@@ -453,5 +453,16 @@ def count_labels(label_list, class_mapping):
 	return label_count_dic
 
 
+def get_file_name_from_path(target_file_path, remove_ext=True):
+	"""
+	Description: From a path to a file, returns the file name. 
+	remove_ext: Indicate if the extension should be removed.
+	"""
+	file_name_end = -1
+	if remove_ext:
+		file_name_end = target_file_path.rfind(".")
+	file_name_start = target_file_path.rfind("/") + 1
+	output_file_prefix = target_file_path[file_name_start:file_name_end]
 
+	return output_file_prefix
 

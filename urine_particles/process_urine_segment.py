@@ -8,6 +8,7 @@ from glob import glob
 import json
 import sys
 import random
+import argparse
 
 
 #Import keras libraries
@@ -35,17 +36,18 @@ To Do:
 """
 
 """ Configuration """
-# Files/Folders
 # Folder that contains the canvas files to be processed
 root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/" 
- # Name of files to be processed. 
-input_files = ["img1.bmp", "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp", "img7.bmp"]
- # Name of the output folder (placed in the root folder)
-output_folders = ["img1_sem/", "img2_sem/",  "img3_sem/", "img4_sem/", "img5_sem/", "img6_sem/", "img7_sem/"]
-
-
+# If True, auto selectes all '.bmp' images in root folder. 
+auto_determine_inputs = True
 # Select 'crops' to produce crops from the segmentation. Select 'semantic' get particle statistics for images based on semantic segmentation.
-segmentation_mode = 'semantic' 
+segmentation_mode = 'crops' 
+
+# Files/Folders
+# Name of files to be processed. 
+input_files = ["img1.bmp", "img2.bmp", "img3.bmp", "img4.bmp", "img5.bmp", "img6.bmp", "img7.bmp"]
+# Name of the output folder (placed in the root folder)
+output_folders = ["img1_sem/", "img2_sem/",  "img3_sem/", "img4_sem/", "img5_sem/", "img6_sem/", "img7_sem/"]
 # Maps class label to class name. 
 class_mapping =  {0:'back', 1:'10um', 2:'rbc', 3:'wbc'} # Only needed in semantic mode. 
 # The label of the class to be discarded. This usually is the lave of 'other' or 'background'
@@ -56,18 +58,28 @@ indicator_radius = 32
 
 # Flags
 debug_flag = True
-keep_boundary_particles = True
+keep_boundary_particles = False
 
 
 
 
 def main():
 
+	# Determine files to be processed automatically. Custom function depending on folder setup and training goals.
+	# Allows for more rapid cloud processing. Function updated often. 
+	if (auto_determine_inputs):
+		root_folder, input_files, output_folders = auto_determine_segmentation_config_parameters(segmentation_mode)
+
+	print root_folder
+	print input_files
+	print output_folders
+	exit()
+
 	# Clean up disk from previous sessions
 	clean_up_old_output_folders(root_folder, output_folders)
 
 	# Build the semantic segmentation model. 
-	model, data = initialize_segmentation_model()
+	model, data = initialize_segmentation_model(log_dir=root_folder)
 
 	# Process images in either 'crops' or 'semantic' mode
 	if (segmentation_mode == 'crops'): # Produce crops from segmentation
@@ -127,7 +139,7 @@ def generate_particlePredictions_from_inputImage(model, data,  target_file_path,
 	"""
 
 	# Get output prefix name
-	output_file_prefix = get_file_name(target_file_path, remove_ext=True)
+	output_file_prefix = CNN_functions.get_file_name_from_path(target_file_path, remove_ext=True)
 
 	# Predict segmentation of original_img with segmentation model  
 	pred_array = data.predict_image(model, target_file_path)
@@ -277,7 +289,7 @@ def get_centroid_list(model, data, target_file_path, output_folder_path):
 	"""
 
 	# Get output prefix name
-	output_file_prefix = get_file_name(target_file_path, remove_ext=True)
+	output_file_prefix = CNN_functions.get_file_name_from_path(target_file_path, remove_ext=True)
 
 	# Predict segmentation of original_img with segmentation model  
 	pred_array = data.predict_image(model, target_file_path)
@@ -323,7 +335,7 @@ def crop_based_on_centroids(target_file_path, centroid_list, output_folder_path)
 		original_cpy = original_img.copy()
 
 	# Get output prefix name
-	output_file_prefix = get_file_name(target_file_path, remove_ext=True)
+	output_file_prefix = CNN_functions.get_file_name_from_path(target_file_path, remove_ext=True)
 
 
 	# Crop each labeled particle from the original image. 
@@ -393,12 +405,21 @@ def get_scale_factors(original_image, resized_image):
 	return factor_height, factor_width	
 
 
-def initialize_segmentation_model():
+def initialize_segmentation_model(log_dir=None):
 	""" 
 	Builds the semantic segmentation model and loads the pre-trained weights. 
 	"""
 	# Instantiates configuration for training/validation
 	config = SegmentParticles_Config()
+
+	# Reroute/update logging
+	if (log_dir):
+		log_file_name = "segmentation_prediction.log" #If None, then name based on datetime.
+		config.logger = CNN_functions.create_logger(log_dir, file_name=log_file_name, log_name="predict_seg_logger")
+
+
+	# Print configuration
+	CNN_functions.print_configurations(config) # Print config summary to log file
 
 	# Configuration sanity check
 	CNN_functions.validate_segmentation_config(config)
@@ -433,20 +454,31 @@ def clean_up_old_output_folders(root_folder, output_folders):
 		CNN_functions.delete_folder_with_confirmation(output_folder_path)
 
 
-
-def get_file_name(target_file_path, remove_ext=True):
+def auto_determine_segmentation_config_parameters(output_folder_suffix):
 	"""
-	Description: From a path to a file, returns the file name. 
-	remove_ext: Indicate if the extension should be removed.
+	Determine files/outpus to be processed automatically. Custom function depending on folder setup and training goals.
+	Allows for more rapid cloud processing. Function updated often. 
+	User provides root_folder path. 
 	"""
-	file_name_end = -1
-	if remove_ext:
-		file_name_end = target_file_path.rfind(".")
-	file_name_start = target_file_path.rfind("/") + 1
-	output_file_prefix = target_file_path[file_name_start:file_name_end]
+	# Get root folder from user
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-r","--root_folder", help="Path to root folder that contains data to be processed", type=str)
+	args = parser.parse_args()
+	root_folder = args.root_folder
 
-	return output_file_prefix
+	# Check user input
+	if (root_folder == None):
+		raise ValueError("When auto_determine_inputs is set to True, user needs to provide root_folder.")
 
+	if (not os.path.isdir(root_folder)): 
+		raise ValueError("When auto_determine_inputs is set to True, user needs to provide valid root folder.")
+
+
+	input_files_paths =  glob(root_folder + "*.bmp")
+	input_files =[CNN_functions.get_file_name_from_path(path)+".bmp" for path in input_files_paths]
+	output_folders = [CNN_functions.get_file_name_from_path(path)+"_"+output_folder_suffix+"/" for path in input_files_paths]
+
+	return root_folder, input_files, output_folders
 
 
 if __name__ == "__main__":

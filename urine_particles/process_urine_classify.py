@@ -2,10 +2,11 @@
 import os
 import numpy as np
 import cv2
-import glob
+from glob import glob
 import math
 from datetime import datetime
 import re
+import argparse
 
 #Import keras libraries
 from tensorflow.python.keras.optimizers import SGD, RMSprop
@@ -23,9 +24,12 @@ Description: Given a setup of croped particles, classify particles. Provide stat
 """
 
 """ Configuration """
-# Files/Folders
 # root_folder contains input_folders (as well as )
-root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/"
+root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol5_rev1/"
+# If True, auto selectes all '.bmp' images in root folder. 
+auto_determine_inputs = True
+
+# Files/Folders
 # input_folder is a set of folders (with specific sub-folders). One of these subfolders includes the crops. 
 # All files related to a classification session are loaded and saved into a single input_folder
 input_folders = ["img1/", "img2/",  "img3/", "img4/", "img5/", "img6/", "img7/"]
@@ -43,8 +47,20 @@ indicator_radius = 32
 
 def main():
 
+	# Determine files to be processed automatically. Custom function depending on folder setup and training goals.
+	# Allows for more rapid cloud processing. Function updated often. 
+	# Current version: Assumes assumes single input_folder per original image. 
+	if (auto_determine_inputs):
+		root_folder, input_folders, input_img_count = auto_determine_classification_config_parameters(output_folder_suffix="crops")
+
+	print root_folder
+	print input_folders
+	print input_img_count
+	exit()
+
+
 	# Builds the classification model
-	model, data = initialize_classification_model()
+	model, data = initialize_classification_model(log_dir=root_folder)
 
 	all_label_list = []
 	for index_folder, target_folder in enumerate(input_folders):
@@ -58,9 +74,14 @@ def main():
 		pred_generator = data.create_custom_prediction_generator(pred_dir_path=image_data_path)
 
 		# Calculate number of batches to run. 
-		# Batch count selected so we process until we cannot make a full batch with new images. 
-		total_cropped_images = len(glob.glob(image_data_path + "images/*.bmp"))
-		num_batches = int(math.floor(total_cropped_images/float(data.config.batch_size)))
+		# When round number of batches DOWN: 
+		# + Drawback: Certain segmented particles will not be classified. So, results/vizualizations will  not include these.
+		# When round number of batches UP: 
+		# + Will label all segmented particles. However 1) will have duplicates in labeling (should be fine) and 2) duplicate in statistics.
+		# Note: With either approach, the statistics will be randomly biased. With round UP will have all particles included on output images.
+		total_cropped_images = len(glob(image_data_path + "images/*.bmp"))
+		num_batches = int(math.ceil(total_cropped_images/float(data.config.batch_size)))
+		data.config.logger.info("Images not classified: %d", total_cropped_images - num_batches*data.config.batch_size)
 
 		# Predict: Sort crops into classes
 		all_pred, all_path_list = data.predict_particle_images(
@@ -188,13 +209,23 @@ def build_sorted_output_folder(output_dir, labels_to_class):
 	for label, class_name in labels_to_class.iteritems():
 		os.makedirs(output_dir + class_name)
 
-def initialize_classification_model():
+def initialize_classification_model(log_dir=None):
 	""" 
 	Builds the classification  model and loads the pre-trained weights. 
 	"""
 
 	# Instantiates configuration for training/validation
 	config = ClassifyParticles_Config()
+
+	# Reroute/update logging
+	if (log_dir):
+		log_file_name = "classification_prediction.log" #If None, then name based on datetime.
+		config.logger = CNN_functions.create_logger(log_dir, file_name=log_file_name, log_name="predict_classify_logger")
+
+
+	# Print configuration
+	CNN_functions.print_configurations(config) # Print config summary to log file
+
 
 	# Instantiate training/validation data
 	data = ClassifyParticlesData(config)
@@ -208,7 +239,32 @@ def initialize_classification_model():
 
 	return model, data
 
+def auto_determine_classification_config_parameters(output_folder_suffix):
+	"""
+	Determine files/outpus to be processed automatically. Custom function depending on folder setup and training goals.
+	Allows for more rapid cloud processing. Function updated often. 
+	Current version: Assumes assumes single input_folder per original image. 
+	"""
 
+	# Get root folder from user
+	parser = argparse.ArgumentParser()
+	parser.add_argument("-r","--root_folder", help="Path to root folder that contains data to be processed", type=str)
+	args = parser.parse_args()
+	root_folder = args.root_folder
+
+	# Check user input
+	if (root_folder == None):
+		raise ValueError("When auto_determine_inputs is set to True, user needs to provide root_folder.")
+
+	if (not os.path.isdir(root_folder)): 
+		raise ValueError("When auto_determine_inputs is set to True, user needs to provide valid root folder.")
+
+
+	input_files_paths =  glob(root_folder + "*.bmp")
+	input_folders = [CNN_functions.get_file_name_from_path(path)+"_"+output_folder_suffix+"/" for path in input_files_paths]
+	input_img_count = [1 for _ in input_files_paths]
+
+	return root_folder, input_folders, input_img_count
 
 if __name__ == "__main__":
 	main()
