@@ -24,12 +24,12 @@ Implementation Notes:
 
 """ User Updated Configuration Parameters"""
 input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
-output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180130_semantic_seg/'  
+output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180202_training/'  
 segmentation_folder_name = 'segmentation/'
 
 indicator_radius = 20 # Moved from 15 to 20px because moved from 5MPx to 8MPx (scaled radius based on linear increase of width)
 crop_images_flag = False
-validation_proportion = 0.2
+validation_proportion = 0.1
 
 
 # Implementation Notes: Labels need to start at 0 (with the bacgkround), and increment monotonically by 1. 
@@ -38,10 +38,10 @@ validation_proportion = 0.2
 segmentation_labels = {
 	"background"	:	{"background": 0} ,# background always has a 0 label
 	"10um"			:	{"particle": 1, "other": 0, "discard": 0, "accident": 0}, 
-	"rbc"			:	{"particle": 2, "other": 0, "discard": 0, "accident": 0}, 
-	"wbc"			:	{"particle": 3, "other": 0, "discard": 0, "accident": 0}, 
+	"rbc"			:	{"particle": 1, "other": 0, "discard": 0, "accident": 0}, 
+	"wbc"			:	{"particle": 1, "other": 0, "discard": 0, "accident": 0}, 
 }
-nclasses = 4 # Total number of classes, including the background class. 
+nclasses = 2 # Total number of classes, including the background class. 
 input_particle_folders = [
 	"wbc/", 
 	"10um/", 
@@ -82,8 +82,8 @@ def main():
 
 	# Move data from training folder into validation folder. 
 	# Since split_data sorts the data, will move corresponding images/annotations to the validation folder. 
-	util.split_data(input_dir = train_annotations_dir, output_dir = val_annotations_dir, move_proportion = validation_proportion)
-	util.split_data(input_dir = train_images_dir, output_dir = val_images_dir, move_proportion = validation_proportion)
+	util.split_data(input_dir = train_annotations_dir, output_dir = val_annotations_dir, move_proportion = validation_proportion, in_order = True)
+	util.split_data(input_dir = train_images_dir, output_dir = val_images_dir, move_proportion = validation_proportion, in_order = True)
 
 	# Create metadata log
 	create_segmentation_metadata_log(segmentation_metadata_path) 

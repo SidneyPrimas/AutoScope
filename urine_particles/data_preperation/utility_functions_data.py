@@ -2,6 +2,7 @@ import cv2
 from glob import glob
 import os
 import math
+import random
 
 def label_single_image(input_image, particle_list, color_list, radius, segmentation_labels):
 	"""
@@ -54,7 +55,7 @@ def metadata_to_label(class_metadata, label_struct):
 
 	return label
 
-def split_data(input_dir, output_dir, move_proportion):
+def split_data(input_dir, output_dir, move_proportion, in_order):
 	"""
 	For each particle folder, move 'move_proportion' of files to the particle folder in the output directory. 
 	Move at least one image from each particle folder. 
@@ -74,7 +75,10 @@ def split_data(input_dir, output_dir, move_proportion):
 			os.makedirs(target_output_dir)
 
 		images_list = glob(input_subfolder_path + "/*.bmp")
-		images_list.sort() # Ensures that images will be appropriately sorted. 
+		if (in_order):
+			images_list.sort() # Ensures that images will be appropriately sorted. 
+		else: 
+			random.shuffle(images_list)
 
 		count = len(images_list)
 		val_count = int(math.ceil(count * move_proportion))
@@ -96,4 +100,44 @@ def split_data(input_dir, output_dir, move_proportion):
 
 			destination = target_output_dir + base_file_name + extension
 			os.rename(source, destination)
+
+
+def balance_classes_in_dir(input_dir):
+	input_subfolder_path_list = glob(input_dir + "*")
+
+
+	# Count the total number of files in each class. 
+	# Get the count of images of the class with the most images. 
+	class_count_dic = {}
+	max_img_count = 0
+	for input_subfolder_path in input_subfolder_path_list:
+
+		class_name = input_subfolder_path.split("/")[-1]
+		class_img_count = len(glob(input_subfolder_path + "/*.bmp"))
+
+		class_count_dic[class_name] = class_img_count
+
+		if (class_img_count > max_img_count): 
+			max_img_count = class_img_count
+
+
+	# Augment each class folder so that all class folders have equal number of input images. 
+	for input_subfolder_path in input_subfolder_path_list:
+		# Identify subfolder name
+		class_name = input_subfolder_path.split('/')[-1]
+		
+
+		images_list = glob(input_subfolder_path + "/*.bmp")
+		random.shuffle(images_list) # Ensures that images will be randomly selected. 
+		images_list_iterator =  itertools.cycle(images_list)
+
+		# Augment random images
+		num_of_added_images = max_img_count - class_count_dic[class_name]
+		for i in range(num_of_added_images):
+			file_path = next(images_list_iterator)
+
+			filename = file_path.split('/')[-1].split('.bmp')[0]
+			cpy_filename_suffix = "_cpy" + str(i) + ".bmp"
+			dst = input_subfolder_path + "/" + filename + cpy_filename_suffix
+			shutil.copy(file_path, dst)
 

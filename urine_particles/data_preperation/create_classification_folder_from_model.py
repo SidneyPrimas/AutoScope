@@ -89,8 +89,14 @@ def main():
 	generate_crops_from_model(segmentation_metadata)
 
 	# Split into validation and training data
-	util.split_data(input_dir=training_root_dir, output_dir=validation_root_dir, move_proportion=validation_proportion)
+	util.split_data(input_dir=training_root_dir, output_dir=validation_root_dir, move_proportion=validation_proportion, in_order=False)
 
+
+	# Augment the dataset so each class has equal images
+	util.balance_classes_in_dir(input_dir=training_root_dir)
+	util.balance_classes_in_dir(input_dir=validation_root_dir)
+
+	
 	# Create classifcation metadata log
 	create_classification_metadata_log(classification_metadata_path)
 

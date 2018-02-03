@@ -8,6 +8,8 @@ from glob import glob
 import json
 import sys
 import random
+import shutil
+import itertools
 
 # import from local libraries
 import utility_functions_data as util
@@ -30,12 +32,12 @@ To Do:
 
 # User inputs (apply to any directories)
 input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
-output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180120_training/'  
+output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180202_training/'  
 classification_folder_name = "classification/"
 
 detection_radius = 30 # Radius (measured in pixels) that indicates the allowable distance between a predicted particle and a reference particle to be deemed accurate. Used on the orignal image
 output_crop_size = 64 # The output size of the crops, measured in pixels. Used on the original image. 
-validation_proportion = 0.2 #Proportion of images placed in validation
+validation_proportion = 0.1 #Proportion of images placed in validation
 skip_boundary_particles = True # Skip the particles that are on the boundary of the image. 
 debug_flag = True
 
@@ -81,7 +83,11 @@ def main():
 	generate_crops_from_labels(segmentation_metadata)
 
 	# Split into validation and training data
-	util.split_data(input_dir=training_root_dir, output_dir=validation_root_dir, move_proportion=validation_proportion)
+	util.split_data(input_dir=training_root_dir, output_dir=validation_root_dir, move_proportion=validation_proportion, in_order=False)
+
+	# Augment the dataset so each class has equal images
+	util.balance_classes_in_dir(input_dir=training_root_dir)
+	util.balance_classes_in_dir(input_dir=validation_root_dir)
 
 	# Create classifcation metadata log
 	create_classification_metadata_log(classification_metadata_path)

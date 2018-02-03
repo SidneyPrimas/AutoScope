@@ -22,15 +22,15 @@ Implementation Notes:
 class ClassifyParticles_Config():
 	def __init__(self):
 		# Core Configurations: Manually updated by user. Always needed. 
-		self.project_folder = "20180120_training/"
+		self.project_folder = "20180202_training/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name =  "classification_base_model_ImageNorm_grayscale.h5" #Set to 'None' to disable.
+		self.weight_file_input_name =  None #"classification_base_model_ImageNorm_grayscale.h5" #Set to 'None' to disable.
 		self.weight_file_output_name = "classify_weights_" # Set to 'None' to disable. 
 		self.target_size = (64, 64) # Warning: Be careful if non-square dimensions (see above note). 
-		self.batch_size = 8 
+		self.batch_size = 64 
 		self.num_epochs = 5  # Print validation results after each epoch. Save model after num_epochs.
-		self.batches_per_epoch_train = 35 # Batches for each training session. If None, set so that every image is trained. 
-		self.batches_per_epoch_val = 5 # Batches for each validation session. If None, set so that every image is trained. 
+		self.batches_per_epoch_train = 40 # Batches for each training session. If None, set so that every image is trained. 
+		self.batches_per_epoch_val = 7 # Batches for each validation session. If None, set so that every image is trained. 
 		self.nclasses = 4
 
 		# Secondary Configurations: Manually updated by user. Sometimes needed. 

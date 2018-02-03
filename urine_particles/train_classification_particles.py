@@ -11,7 +11,7 @@ from tensorflow.python.keras.utils import plot_model
 # import from local libraries
 from ClassifyParticlesData import ClassifyParticlesData
 import CNN_functions
-from classification_models import base_model as createModel
+from classification_models import base_model_bn as createModel
 from ClassifyParticles_config import ClassifyParticles_Config
 
 
