@@ -3,6 +3,8 @@ from glob import glob
 import os
 import math
 import random
+import shutil
+import itertools
 
 def label_single_image(input_image, particle_list, color_list, radius, segmentation_labels):
 	"""

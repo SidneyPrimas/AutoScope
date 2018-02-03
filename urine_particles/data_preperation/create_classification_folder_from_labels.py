@@ -7,9 +7,7 @@ from PIL import Image
 from glob import glob
 import json
 import sys
-import random
-import shutil
-import itertools
+
 
 # import from local libraries
 import utility_functions_data as util

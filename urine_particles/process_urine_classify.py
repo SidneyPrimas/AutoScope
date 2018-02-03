@@ -25,7 +25,7 @@ Description: Given a setup of croped particles, classify particles. Provide stat
 
 """ Configuration """
 # root_folder contains input_folders (as well as )
-root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol5_rev1/"
+root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/"
 # If True, auto selectes all '.bmp' images in root folder. 
 auto_determine_inputs = True
 
