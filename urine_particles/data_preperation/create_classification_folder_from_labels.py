@@ -30,7 +30,7 @@ To Do:
 
 # User inputs (apply to any directories)
 input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
-output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180202_training/'  
+output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180205_training_plus/'  
 classification_folder_name = "classification/"
 
 detection_radius = 30 # Radius (measured in pixels) that indicates the allowable distance between a predicted particle and a reference particle to be deemed accurate. Used on the orignal image

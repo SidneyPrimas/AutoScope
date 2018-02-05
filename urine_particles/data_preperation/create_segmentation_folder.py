@@ -24,7 +24,7 @@ Implementation Notes:
 
 """ User Updated Configuration Parameters"""
 input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
-output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180202_training/'  
+output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180205_training_plus/'  
 segmentation_folder_name = 'segmentation/'
 
 indicator_radius = 20 # Moved from 15 to 20px because moved from 5MPx to 8MPx (scaled radius based on linear increase of width)

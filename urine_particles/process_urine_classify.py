@@ -44,6 +44,9 @@ class_mapping =  {0:'10um', 1:'other', 2:'rbc', 3:'wbc'}
 discard_label = 1
 indicator_radius = 32
 
+# Flags
+split_crops_into_class_folders_flag = False
+
 
 def main():
 
@@ -73,6 +76,7 @@ def main():
 		image_data_path = root_folder + target_folder + image_data_folder
 		sorted_output_path =  root_folder + target_folder + sorted_output_folder
 		debug_output_path = root_folder + target_folder + 'debug_output/'
+
 
 		# Create necessary data generator
 		pred_generator = data.create_custom_prediction_generator(pred_dir_path=image_data_path)
@@ -104,14 +108,17 @@ def main():
 			discard_label= discard_label, 
 			image_count = input_img_count[index_folder])
 
+
 		# Sort images into class folders. 
-		split_batch_into_class_folders(all_pred, all_path_list, sorted_output_path, class_mapping)
+		if (split_crops_into_class_folders_flag):
+			split_batch_into_class_folders(all_pred, all_path_list, sorted_output_path, class_mapping)
 
 		
 		original_img_dic = label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, data.config.colors)
 		# Save the labeled iamges
 		for img_name in original_img_dic:
-			cv2.imwrite(debug_output_path + img_name + '_labeled_from_crops.bmp', original_img_dic[img_name])
+			prefix_rootdir = root_folder.split('/')[-2]
+			cv2.imwrite(debug_output_path + prefix_rootdir + "_" + img_name + "_labeled_from_crops.bmp", original_img_dic[img_name])
 
 
 	# Print out results for all folders in input_folders
@@ -222,7 +229,8 @@ def initialize_classification_model(log_dir=None):
 
 	# Reroute/update logging
 	if (log_dir):
-		log_file_name = "classification_prediction.log" #If None, then name based on datetime.
+		prefix = log_dir.split('/')[-2]
+		log_file_name = prefix + "_classification_prediction.log" #If None, then name based on datetime.
 		config.logger = CNN_functions.create_logger(log_dir, file_name=log_file_name, log_name="predict_classify_logger")
 
 

@@ -116,7 +116,7 @@ class ClassifyParticlesData(object):
 		x = x[..., ::-1]
 
 		# PER-IMAGE NORMALIZATION (average of image)
-		# median_intensity = np.median(x)
+		median_intensity = np.median(x)
 		x[..., 0] -= median_intensity # Blue
 		x[..., 1] -= median_intensity # Green 
 		x[..., 2] -= median_intensity # Red
@@ -200,8 +200,11 @@ class ClassifyParticlesData(object):
 		print "Batches per Epoch for Validation: %d"%(self.config.batches_per_epoch_val)
 
 		# Create image generator class for training data. 
+		# Note: Since we have duplicates to balance classes, still apply horizontal + vertical flips so don't use identical images. 
 		test_datagen = ImageDataGenerator(
 			preprocessing_function=self.get_preprocess_func(), # Preprocess function applied to each image before any other transformation. Applies normalization. 
+			horizontal_flip=True, 
+			vertical_flip = True, 
 		)
 
 		# Create image generator. 
