@@ -16,6 +16,12 @@ python urine_particles/process_urine_classify.py -r ./urine_particles/data/clini
 python urine_particles/process_urine_segment.py -r ./urine_particles/data/clinical_experiment/prediction_folder/sol5_rev1/
 python urine_particles/process_urine_classify.py -r ./urine_particles/data/clinical_experiment/prediction_folder/sol5_rev1/
 
+python urine_particles/process_urine_segment.py -r ./urine_particles/data/clinical_experiment/prediction_folder/sol6_rev2/
+python urine_particles/process_urine_classify.py -r ./urine_particles/data/clinical_experiment/prediction_folder/sol6_rev2/
+
+python urine_particles/process_urine_segment.py -r ./urine_particles/data/clinical_experiment/prediction_folder/sol7_rev2/
+python urine_particles/process_urine_classify.py -r ./urine_particles/data/clinical_experiment/prediction_folder/sol7_rev2/
+
 python urine_particles/process_urine_segment.py -r ./urine_particles/data/clinical_experiment/prediction_folder/base_10um_rev1/
 python urine_particles/process_urine_classify.py -r ./urine_particles/data/clinical_experiment/prediction_folder/base_10um_rev1/
 

@@ -11,7 +11,7 @@ from tensorflow.python.keras.utils import plot_model
 # import from local libraries
 from ClassifyParticlesData import ClassifyParticlesData
 import CNN_functions
-from classification_models import base_model as createModel
+from classification_models import base_model_with_pos as createModel
 from ClassifyParticles_config import ClassifyParticles_Config
 
 
@@ -36,6 +36,7 @@ data.print_data_summary() # Print data summary to log file
 
 # Builds model
 model = createModel(input_shape = config.image_shape, base_weights = config.imagenet_weights_file, classes=config.nclasses)
+
 
 # Load weights (if the load file exists)
 CNN_functions.load_model(model, config.weight_file_input, config)
