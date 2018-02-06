@@ -206,7 +206,6 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda), 
 		name='block1_conv1')(img_input)
-	x = BatchNormalization(axis=-1)(x)
 	x = Conv2D(
 		filters=32, 
 		kernel_size=(3, 3), 
@@ -216,7 +215,6 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda),
 		name='block1_conv2')(x)
-	x = BatchNormalization(axis=-1)(x)
 	x = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(x)
 	f1 = x
 
@@ -230,7 +228,6 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda), 
 		name='block2_conv1')(x)
-	x = BatchNormalization(axis=-1)(x)
 	x = Conv2D(
 		filters=64, 
 		kernel_size=(3, 3), 
@@ -240,7 +237,6 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda), 
 		name='block2_conv2')(x)
-	x = BatchNormalization(axis=-1)(x)
 	x = MaxPooling2D((2, 2), strides=(2, 2), name='block2_pool')(x)
 	f2 = x
 

@@ -15,7 +15,7 @@ import re
 
 # Import keras libraries
 from tensorflow.python.keras.preprocessing import image as image_keras
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.python.keras.preprocessing.image import ImageDataGenerator, flip_axis, random_shift, random_rotation
 
 # Import local libraries
 import CNN_functions
@@ -28,6 +28,7 @@ class ClassifyParticlesData(object):
 		self.config = config
 		self.train_count = 0 
 		self.image_train_count = 0 
+
 
 
 
@@ -100,7 +101,8 @@ class ClassifyParticlesData(object):
 		x[..., 1] -= 129.97525112 # Green 
 		x[..., 2] -= 103.00621832 # Red
 
-		x /= 128.0 # Normalize with max possible value. Results in range from [-1,1].
+		x /= 128.0 # Normalize Results in range from [-1,1].
+		#x /= np.std(x)
 
 		return x
 
@@ -124,7 +126,8 @@ class ClassifyParticlesData(object):
 		x[..., 1] -= median_intensity # Green 
 		x[..., 2] -= median_intensity # Red
 
-		x /= 128.0 # Normalize with max possible value. Results in range from [-1,1].
+		x /= 128.0 # Normalize. Results in range from [-1,1].
+		#x /= np.std(x)
 
 		return x
 
@@ -139,9 +142,10 @@ class ClassifyParticlesData(object):
 
 		# PER-IMAGE GRAYSCALE NORMALIZATION 
 		median_intensity = np.median(x)
-		x[..., 0] -= median_intensity # Blue
+		#dx[..., 0] -= median_intensity # Blue
 
-		x /= 128.0 # Normalize with max possible value. Results in range from [-1,1].
+		x /= 128.0 # Normalize. Results in range from [-1,1].
+		#x /= np.std(x)
 
 		return x
 
@@ -183,8 +187,8 @@ class ClassifyParticlesData(object):
 		train_datagen =  ImageDataGenerator(
 			preprocessing_function=self.get_preprocess_func(), # Preprocess function applied to each image before any other transformation. Applies normalization.
 			rotation_range=45,  
-			width_shift_range=0.07,
-			height_shift_range=0.07,
+			width_shift_range=0.2,
+			height_shift_range=0.2,
 			#shear_range=0.1,
 			#zoom_range=0.2,
 			horizontal_flip=True, 
@@ -455,24 +459,43 @@ class ClassifyParticlesData(object):
 		x = preprocess(x)
 
 		# augment image
-		if (augment_data):
-			x = self._transform_image(x)
+		x = self._transform_image(x, augment_data)
 		
 		return x
 
-	def _transform_image(self, x):
+	def _transform_image(self, x, augment_data):
 		"""
-		Description: Augments an input image randomly, in real-time
-		ToDo: If needed, create data augmentation codes that shifts and rotates image. Implement with homography transform.
+		Description: Augments an input image randomly, in real-time. 
+		Note: We always flip images around axis since sometimes we have duplicate images in a dataset (since we might pad classes to equalize them)
+		ToDo: To improve efficiency, combine rotation/shift into single homography transformation (instead of applying two back to back.)
+		Currently, apply two transformations/interpolations sequetially. Can concatenate this into a single transformation. 
 		"""
-		
+
 		# Probabilistic horizontal flip
 		if np.random.random() < 0.5:
-			x = CNN_functions.flip_axis(x, 1) # flip around columns
+			x = flip_axis(x, 1) # flip around columns
 
 		# Probabilist vertical flip
 		if np.random.random() < 0.5:
-			x = CNN_functions.flip_axis(x, 0) # flip around rows
+			x = flip_axis(x, 0) # flip around rows
+		
+		# Only apply when agumenting data. 
+		if (augment_data):
+			x = random_rotation(x, 
+				rg=45, 
+				row_axis=0, 
+				col_axis=1, 
+				channel_axis=2,
+				fill_mode='nearest')
+
+			x = random_shift(x, 
+				wrg=0.2, 
+				hrg=0.2, 
+				row_axis=0, 
+				col_axis=1, 
+				channel_axis=2,
+				fill_mode='nearest')
+
 
 		return x
 

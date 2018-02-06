@@ -27,7 +27,7 @@ data = ClassifyParticlesData(config)
 
 # Create necessary data generators
 train_generator = data.create_custom_labeled_generator(target_directory=config.train_images_dir, augment_data=True)
-val_generator = data.create_custom_labeled_generator(target_directory=config.val_images_dir, augment_data=True)
+val_generator = data.create_custom_labeled_generator(target_directory=config.val_images_dir, augment_data=False)
 
 # Print configuration
 CNN_functions.print_configurations(config) # Print config summary to log file

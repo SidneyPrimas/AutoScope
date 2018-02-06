@@ -113,11 +113,6 @@ def get_confusion_matrix(all_truth, all_pred):
 def get_classification_accuracy_perBatch(all_truth, all_pred):
 	'Return the accuracy given the predicted labels and the ground truth labels. '
 	correct_prediction = np.equal(np.argmax(all_truth, axis=1), np.argmax(all_pred, axis=1))
-	print "Truth"
-	print np.argmax(all_truth, axis=1)
-	print "Predictions"
-	print np.argmax(all_pred, axis=1)
-	print correct_prediction
 	accuracy = np.mean(correct_prediction.astype(np.float))
 	return accuracy
 
@@ -493,14 +488,4 @@ def get_coordinates_from_cropname(crop_filename):
 
 
 	return coordinate_pos
-
-def  flip_axis(x, axis):
-	"""
-	Description: Flips image around given axis. 
-	Credit: Taken from keras library. 
-	"""
-	x = np.asarray(x).swapaxes(axis, 0)
-	x = x[::-1, ...]
-	x = x.swapaxes(0, axis)
-	return x
 
