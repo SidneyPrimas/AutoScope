@@ -26,8 +26,8 @@ CNN_functions.validate_classification_config(config)
 data = ClassifyParticlesData(config)
 
 # Create necessary data generators
-train_generator = data.create_training_generator(train_dir_path=config.train_images_dir, save_to_dir_bool=config.save_aug_data_to_dir)
-val_generator = data.create_validation_generator(val_dir_path=config.val_images_dir)
+train_generator = data.create_custom_labeled_generator(target_directory=config.train_images_dir, augment_data=True)
+val_generator = data.create_custom_labeled_generator(target_directory=config.val_images_dir, augment_data=True)
 
 # Print configuration
 CNN_functions.print_configurations(config) # Print config summary to log file
@@ -36,6 +36,7 @@ data.print_data_summary() # Print data summary to log file
 
 # Builds model
 model = createModel(input_shape = config.image_shape, base_weights = config.imagenet_weights_file, classes=config.nclasses)
+# plot_model(model, to_file='model.png')
 
 
 # Load weights (if the load file exists)

@@ -221,6 +221,7 @@ def crop_particles_into_class_folders_using_model(original_image, predicted_imag
 
 		# Save cropped image
 		class_folder = class_name + "/"
+		# Important: Order of centroid data important! Used as a feature later. 
 		file_name = target_truth_metadata["main"] + "_" + target_truth_metadata["sub"] + "_" + str(int(centroid_pred_upscaled[0])) + "_" + str(int(centroid_pred_upscaled[1])) + ".bmp"
 		output_path = training_root_dir + class_folder + file_name
 		cv2.imwrite(output_path, crop)

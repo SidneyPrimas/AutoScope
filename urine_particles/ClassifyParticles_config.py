@@ -32,6 +32,9 @@ class ClassifyParticles_Config():
 		self.batches_per_epoch_train = 40 # Batches for each training session. If None, set so that every image is trained. 
 		self.batches_per_epoch_val = 7 # Batches for each validation session. If None, set so that every image is trained. 
 		self.nclasses = 4
+		self.class_mapping = {'10um': 0, 'other': 1, 'rbc': 2,  'wbc': 3}
+		self.enable_custom_features = True # If true, feeds cropped image centroids into model (use base_model_with_pos model)
+		self.canvas_dims = (2464, 3280) # (height, width) => Only needed with enable_custom_features
 
 		# Secondary Configurations: Manually updated by user. Sometimes needed. 
 		self.optimizer = Adam(lr=1e-4) # Adam seems to work much better. 

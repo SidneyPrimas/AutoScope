@@ -68,6 +68,7 @@ def main():
 	# Determine files to be processed automatically. Custom function depending on folder setup and training goals.
 	# Allows for more rapid cloud processing. Function updated often. 
 	if (auto_determine_inputs):
+		global root_folder, input_files, output_folders
 		root_folder, input_files, output_folders = auto_determine_segmentation_config_parameters(segmentation_mode)
 
 	# Clean up disk from previous sessions
@@ -355,6 +356,7 @@ def crop_based_on_centroids(target_file_path, centroid_list, output_folder_path)
 		crop_has_target_dim = (crop.shape[0] == output_crop_size) and (crop.shape[1] == output_crop_size)
 		if crop_has_target_dim or keep_boundary_particles:
 			# Save cropped image
+			# Important: Order of centroid data important! Used as a feature later. 
 			file_name =  output_file_prefix + "_" + str(int(centroid[0])) + "_" + str(int(centroid[1])) + ".bmp"
 			output_path = output_folder_path + "data/images/" + file_name
 			cv2.imwrite(output_path, crop)

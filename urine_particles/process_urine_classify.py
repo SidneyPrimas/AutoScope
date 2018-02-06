@@ -16,7 +16,7 @@ from tensorflow.python.keras.utils import plot_model
 # import from local libraries
 from ClassifyParticlesData import ClassifyParticlesData
 import CNN_functions
-from classification_models import base_model as createModel
+from classification_models import base_model_with_pos as createModel
 from ClassifyParticles_config import ClassifyParticles_Config
 
 """
@@ -53,7 +53,9 @@ def main():
 	# Determine files to be processed automatically. Custom function depending on folder setup and training goals.
 	# Allows for more rapid cloud processing. Function updated often. 
 	# Current version: Assumes assumes single input_folder per original image. 
+	# Note: Need 'global' to update global vars instead of creating new local vars. 
 	if (auto_determine_inputs):
+		global root_folder, input_folders, input_img_count
 		root_folder, input_folders, input_img_count = auto_determine_classification_config_parameters(output_folder_suffix="crops")
 
 	# Builds the classification model
@@ -164,10 +166,11 @@ def label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, 
 			original_img_dic[original_img_name] = original_img
 
 
-
+circle_centroid
 		# Identify particle centroid from crop image name
-		coordinates_str = re.findall("_(\d+)", crop_filename)
-		circle_centroid = (int(coordinates_str[0]), int(coordinates_str[1]))
+		# Coordinate_metrics includes 3 lists, including coordinate_pos, delta_pos, angular_pos. 
+		coordinate_metrics = CNN_functions.get_coordinates_from_cropname(crop_filename)
+		circle_centroid = (coordinate_metrics[0][0], coordinate_metrics[0][1]) # turn into tuple with (width, height)
 
 
 		# Place indicator for each classified particle. 

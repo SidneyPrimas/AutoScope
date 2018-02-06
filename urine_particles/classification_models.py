@@ -111,9 +111,10 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 	+ Implements layer regularization for all weights. 
 	+ Implements accurate initializations, with biases set to 0.1 to ensure neuron activation initially. 
 	"""
-	features_input = Input(shape=(2,))
 
-	img_input = Input(shape=input_shape)
+	# Define input tensors
+	img_input = Input(shape=input_shape, name='image_input')
+	features_input = Input(shape=(6,), name='features_input')
 
 	# Block 1
 	# When using Conv2D as first layer, need to correctly connect the layer to input with input_shape argument. 
@@ -162,17 +163,24 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 
 	# Fully-connected layers (needed in order to load original VGG16 imagenet weights). 
 	x = Flatten(name='flatten')(x)
-	x = Dense(
+
+	# Dropout Layer (moved dropout layer)
+	# Note: Removed dropouts between hidden layers to maintain position features. 
+	cnn_features = Dropout(0.3)(x) # Automatically disabled during validation
+
+	# Merge feature layers
+	merged_features1 = Concatenate(axis=-1)([cnn_features, features_input])
+
+	cnn_features = Dense(
 		units=1024, 
 		activation='relu', 
 		kernel_initializer=TruncatedNormal(stddev=0.1), 
 		bias_initializer=Constant(value=0.1), 
 		kernel_regularizer=l2(reg_lambda), 
-		name='fc1')(x)
-	cnn_features = Dropout(0.5)(x) # Automatically disabled during validation
+		name='fc1')(merged_features1)
 
-	# Merge feature layers
-	merged_features = Concatenate(axis=-1)([features_input, cnn_features])
+	# Merge feature layers (include to provide plenty of axes )
+	merged_features2 = Concatenate(axis=-1)([cnn_features, features_input])
 
 	x = Dense(
 		units=classes, 
@@ -180,9 +188,9 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		kernel_initializer=TruncatedNormal(stddev=0.1), 
 		bias_initializer=Constant(value=0.1), 
 		kernel_regularizer=l2(reg_lambda), 
-		name='predictions')(x) 
+		name='predictions')(merged_features2) 
 
-	model  = Model([features_input, img_input], x, name = "base_model")
+	model  = Model([img_input, features_input], x, name = "base_model")
 
 	return model
 

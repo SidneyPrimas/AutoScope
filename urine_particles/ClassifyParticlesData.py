@@ -10,6 +10,7 @@ from collections import defaultdict
 import random
 import itertools
 import cv2
+import re
 
 
 # Import keras libraries
@@ -151,6 +152,12 @@ class ClassifyParticlesData(object):
 
 
 	def create_training_generator(self, train_dir_path, save_to_dir_bool=False):
+		"""
+		Description: Creates a custom generator that returns model inputs and labels. 
+		Use keras library. 
+		Current advantages of using keras: Additional augmentation functions (shift and rotation) and saving augmented data to dir automatically. 
+		Current disadvantages: No option imlemented for including centroids in input data. 
+		"""
 
 		#  If not already, initialize batches per epoch. 
 		if (self.config.batches_per_epoch_train == None):
@@ -193,11 +200,16 @@ class ClassifyParticlesData(object):
 		return train_generator
 
 	def create_validation_generator(self, val_dir_path):
+		"""
+		Description: Creates a custom generator that returns model inputs and labels. 
+		Use keras library. 
+		"""
 
 		# If not already, initialize batches per epoch. 
 		if (self.config.batches_per_epoch_val == None):
 			self.config.batches_per_epoch_val = self._get_batches_per_epoch(val_dir_path, self.config.batch_size)
 		print "Batches per Epoch for Validation: %d"%(self.config.batches_per_epoch_val)
+
 
 		# Create image generator class for training data. 
 		# Note: Since we have duplicates to balance classes, still apply horizontal + vertical flips so don't use identical images. 
@@ -219,56 +231,153 @@ class ClassifyParticlesData(object):
 		return validation_generator
 
 
-	def create_custom_prediction_generator(self, pred_dir_path):
+	def create_custom_labeled_generator(self, target_directory, augment_data): 
 		"""
-		Description: Creates a generator that returns images to be predicted. 
+		Description: Creates generator that produces the models input data and their corresponding labels. 
 		Return
-		x_input: Numpy array that includes the images in the folders within pred_dir_path
-		path_list: Python list that includes the path to the images in x_input
+		x_input: Numpy array that includes the images in the folders within pred_dir_path. 
+			Depending on enable_custom_features in config might also include image cnetroids. . 
+		y_labels: The corresponding labels to the x_input
 		"""
-		# Symmetrically list images
-		images_list = glob.glob(pred_dir_path + "*/*.bmp")
 
-		# Shuffle lists
-		images_list.sort()
-		reorder =  range(len(images_list))
-		random.shuffle(reorder)
-		images_list = [images_list[i] for i in reorder]
+		# If not already, initialize batches per epoch. 
+		if (self.config.batches_per_epoch_val == None):
+			self.config.batches_per_epoch_val = self._get_batches_per_epoch(val_dir_path, self.config.batch_size)
+		print "Batches per Epoch for Validation: %d"%(self.config.batches_per_epoch_val)
+
+		# Setup list of training images.
+		images_list = glob.glob(target_directory + '*/*.bmp') # path to training data
+		
+		# Verify class mapping dictionary
+		# Specifically, verify that the auto-generated mapping is identical to the config mapping
+		class_path_list = glob.glob(target_directory + '*') # paths to class folders
+		if (len(class_path_list) != len(self.config.class_mapping)):
+			raise ValueError("class_mapping in class configuration doesn't match with class folder structure. Please reconcile.")
+		for key, class_folder_path in enumerate(class_path_list):
+			class_name = class_folder_path.split('/')[-1]
+			if (self.config.class_mapping[class_name] != key):
+				raise ValueError("class_mapping in class configuration doesn't match with class folder structure. Please reconcile.")
+
+
+		# Shuffle image list
+		random.shuffle(images_list)
 
 		#  Returns generator that cycles through the list of images
 		images_iterator = itertools.cycle(images_list)
 
 		# Provide an image and the corresponding path. 
 		while(True): 
-			# 
-			x_input, path_list = self._get_batch_of_pred_images(images_iterator)
-			x_input = np.array(x_input)
-			yield x_input, path_list
+			x_inputs, y_labels, _ = self._get_batch_of_images(images_iterator, 
+				include_labels=True, 
+				include_custom_features=self.config.enable_custom_features,
+				augment_data=augment_data)
 
 
-	def _get_batch_of_pred_images(self, images_iterator):
+			yield x_inputs, y_labels
+
+
+	def create_custom_prediction_generator(self, pred_dir_path):
 		"""
-		Description: Get a batch of images with the corresponding load paths for each image. 
+		Description: Creates a generator that returns images to be predicted. 
+		Return
+		x_inputs: Numpy array that includes the images in the folders within pred_dir_path + the centroids of the corresponding image. 
+		path_list: Python list that includes the path to the images in x_input
 		"""
-		x_input = []
+		# Symmetrically list images
+		images_list = glob.glob(pred_dir_path + "*/*.bmp")
+
+		# Shuffle lists
+		random.shuffle(images_list)
+
+		#  Returns generator that cycles through the list of images
+		images_iterator = itertools.cycle(images_list)
+
+		# Provide an image and the corresponding path. 
+		while(True): 
+			# Get batch of inputs and their corresponding path lists. 
+			x_inputs, _, path_list = self._get_batch_of_images(
+				images_iterator, 
+				include_labels=False, 
+				include_custom_features = self.config.enable_custom_features,
+				augment_data=False)
+			
+
+			yield x_inputs, path_list
+
+
+	def _get_batch_of_images(self, images_iterator, include_labels, include_custom_features, augment_data):
+		"""
+		Description: Get a batch of images with the corresponding 1) labels and 2) load paths for each image. 
+		Args: 
+		images_iterator: Iterator that yiels a single path to a single input image
+		include_labels: Bool that indicates if labels should be generated for this batch. 
+		include_custom_features: Bool that indicates if centroid feature should be included in x_inputs
+		augment_data: Bool that indicates if real time data augmentation should be applied
+		"""
+		image_input = []
+		coordinates_input = []
+		label_list = []
 		path_list = []
 
 		for i in range(self.config.batch_size):
 
+			# Get image path 
 			image_path = next(images_iterator)
-
-			# Get images
-			x_input.append(self._get_image_from_dir(image_path, new_size = self.config.target_size))
 			path_list.append(image_path)
 
-		return x_input, path_list
+			# Get image
+			image_input.append(self._get_image_from_dir(image_path, augment_data, new_size = self.config.target_size))
 
-	def _get_image_from_dir(self, image_path, new_size=None):
+			# Get labels (if include_labels is True)
+			if (include_labels):
+				label_list.append(self._get_label_from_imgPath(image_path))
+
+			# Get image cordinates
+			if (include_custom_features):
+				crop_filename = image_path[image_path.rfind('/')+1:] # Identify image_path file name
+				coordinate_metrics = CNN_functions.get_coordinates_from_cropname(crop_filename, image_dim=self.config.canvas_dims)
+				coordinate_features = coordinate_metrics[0] + coordinate_metrics[1] + coordinate_metrics[2]
+				coordinates_input.append(coordinate_features)
+
+		# Build + format objects to be returned
+		# Create x_inputs
+		if (include_custom_features):
+			x_inputs = {'image_input': np.array(image_input), 'features_input': np.array(coordinates_input, dtype=np.float32)}
+		else: 
+			x_inputs = np.array(image_input)
+
+		# Create y_labels
+		if (include_labels):
+			y_labels = np.array(label_list)
+		else:
+			y_labels = None
+
+		return x_inputs, y_labels, path_list
+
+
+	def _get_label_from_imgPath(self, image_path):
 		"""
-		Loads and preprocess image (including resizes and image norm for each image). 
+		Description: Gets a sparse categorical label array from the image_path. 
+		+ Obtains the class name from the image path
+		+ Uses config.class_mapping to go from class name to label. 
+		+ Constructs a sparse categorical label with all 0s except a 1 at label position. 
+		"""
+
+		class_name = image_path.split('/')[-2]
+		label = self.config.class_mapping[class_name]
+		label_array = np.zeros(len(self.config.class_mapping))
+		label_array[label] = 1
+
+		return label_array
+
+
+	def _get_image_from_dir(self, image_path, augment_data, new_size=None):
+		"""
+		Descriptions: Loads and preprocess image (including resizes,  image norm for each image and augmenting the image). 
 		"""
 		# Use PIL since in correct RGB format. And, Keras relies on PIL. 
-		img = PIL.Image.open(image_path) 
+		img = PIL.Image.open(image_path)
+
 
 		# Convert to grayscale if necessary. Keras implementation also converts from rgb/grayscale first. 
 		if ('grayscale' == self.config.color):
@@ -281,10 +390,31 @@ class ClassifyParticlesData(object):
 			if (img.size != new_size_PIL):
 				img = img.resize(new_size_PIL, resample = PIL.Image.ANTIALIAS) #PIL implementation: Use antialias to not alias while downsampling. 
 		
+
 		x = image_keras.img_to_array(img) # convert to numpy array (as float 32)
 
 		preprocess = self.get_preprocess_func()
 		x = preprocess(x)
+
+		# augment image
+		if (augment_data):
+			x = self._transform_image(x)
+		
+		return x
+
+	def _transform_image(self, x):
+		"""
+		Description: Augments an input image randomly, in real-time
+		ToDo: If needed, create data augmentation codes that shifts and rotates image. Implement with homography transform.
+		"""
+		
+		# Probabilistic horizontal flip
+		if np.random.random() < 0.5:
+			x = CNN_functions.flip_axis(x, 1) # flip around columns
+
+		# Probabilist vertical flip
+		if np.random.random() < 0.5:
+			x = CNN_functions.flip_axis(x, 0) # flip around rows
 
 		return x
 
@@ -302,8 +432,8 @@ class ClassifyParticlesData(object):
 		Description: Predicts the class for each particle provided by a genrator, up to a certain count. 
 		Args
 		model: Tensorflow model used to predict particles 
-		pred_generator: Generator that produces batches of images to be classified. Generator returned by create_prediction_generator().
-		total_images: The number of batches of images that will be processes. 
+		pred_generator: Generator that produces batches of images to be classified. Generator returned by create_custom_prediction_generator().
+		total_batches: The number of batches of images that will be processes. 
 		"""
 
 		# Track overall label metrics
@@ -313,8 +443,8 @@ class ClassifyParticlesData(object):
 
 		# Validate across multiple batches
 		for _ in range(total_batches):
-			img_input, path_list =  next(pred_generator)
-			label_pred = model.predict_on_batch(img_input)
+			x_inputs, path_list =  next(pred_generator)	
+			label_pred = model.predict_on_batch(x_inputs)
 
 			# Append to overall metrics
 			if all_pred is None: 
@@ -339,8 +469,8 @@ class ClassifyParticlesData(object):
 
 		# Validate across multiple batches
 		for _ in range(self.config.batches_per_epoch_val):
-			img_input, label_truth =  next(val_generator)
-			label_pred = model.predict_on_batch(img_input)
+			x_inputs, label_truth =  next(val_generator)
+			label_pred = model.predict_on_batch(x_inputs)
 			
 			# Append to overall metrics
 			if all_truth is None: 
@@ -377,8 +507,8 @@ class ClassifyParticlesData(object):
 			loss_all = []
 			accuracy_all = []
 			for batch in range(self.config.batches_per_epoch_train):
-				img_input, label_truth =  next(train_generator)
-				metric_output = model.train_on_batch(img_input, label_truth)
+				x_inputs, label_truth =  next(train_generator)
+				metric_output = model.train_on_batch(x_inputs, label_truth)
 				# Update per batch tracking variables
 				self.train_count += 1
 				self.image_train_count += self.config.batch_size

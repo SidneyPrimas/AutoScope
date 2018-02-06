@@ -9,6 +9,7 @@ import cv2
 import math
 import glob
 import shutil
+import re
 
 from tensorflow.python.keras._impl.keras import backend as K
 
@@ -44,6 +45,7 @@ def validate_segmentation_config(config):
 
 def validate_classification_config(config):
 	assert(config.nclasses == config.classification_metadata["nclasses"]) # Check that the data creation nclasses is the same as the model nclasses. 
+	assert(config.nclasses == len(config.class_mapping))
 	assert(config.nclasses == len(glob.glob(config.train_images_dir + "*")))
 	assert(config.nclasses == len(glob.glob(config.val_images_dir + "*")))
 
@@ -465,4 +467,49 @@ def get_file_name_from_path(target_file_path, remove_ext=True):
 	output_file_prefix = target_file_path[file_name_start:file_name_end]
 
 	return output_file_prefix
+
+
+def get_coordinates_from_cropname(crop_filename, image_dim=None):
+	"""
+	crop_filename: Extract the coordinate positions from crop_filename. 
+	Args
+	crop_filename: The filename of the cropped image that contains coordinates embedded in the name. 
+	+ Currently, the standard format is 'img1_43_235.bmp' or 'img1_43_235_cpy20.bmp' or '10um_particle_40_1455_cpy304.bmp'
+	image_dim: A tuple that indicates the dimensions of an image. The tuple is given in (height, width) format.
+		Only calculate the delta_pos and angular_pos with image_dim given 
+	Return (all given in (widht, height format))
+	coordinate_pos: The raw coordinate position with the origin at pixel (0,0)
+	delta_pos: The coordinates with the origin at the center of the image
+	angular_pos: The angular position with the origin at the center of the image
+	"""
+
+	# Identify particle centroid from crop image name
+	coordinates_str = re.findall("_(\d+)", crop_filename)
+	# Provided in (widht, height) format
+	coordinate_pos = [int(coordinates_str[0]), int(coordinates_str[1])]
+
+
+	delta_pos = None
+	angular_pos = None
+	if (image_dim): 
+		# Swith from (height, width) to (width, height)
+		reference_center_width_height = (image_dim[1]/2.0, image_dim[0]/2.0)
+		delta_x = coordinate_pos[0]-reference_center_width_height[0]
+		delta_y = coordinate_pos[1]-reference_center_width_height[1]
+		delta_pos = [delta_x, delta_y]
+		angle = math.atan2(delta_y, delta_x)
+		mag = math.sqrt(math.pow(delta_y,2) + math.pow(delta_x, 2))
+		angular_pos = [mag, angle]
+
+	return coordinate_pos, delta_pos, angular_pos
+
+def  flip_axis(x, axis):
+	"""
+	Description: Flips image around given axis. 
+	Credit: Taken from keras library. 
+	"""
+	x = np.asarray(x).swapaxes(axis, 0)
+	x = x[::-1, ...]
+	x = x.swapaxes(0, axis)
+	return x
 

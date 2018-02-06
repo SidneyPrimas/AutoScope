@@ -150,6 +150,7 @@ def crop_particles_into_class_folders_using_labels(original_image, particle_list
 
 		# Save cropped image
 		class_folder = class_name + "/"
+		# Important: Order of centroid data important! Used as a feature later. 
 		file_name = target_truth_metadata["main"] + "_" + target_truth_metadata["sub"] + "_" + str(int(centroid[0])) + "_" + str(int(centroid[1])) + ".bmp"
 		output_path = training_root_dir + class_folder + file_name
 		cv2.imwrite(output_path, crop)
