@@ -162,11 +162,7 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 	f2 = x
 
 	# Fully-connected layers (needed in order to load original VGG16 imagenet weights). 
-	x = Flatten(name='flatten')(x)
-
-	# Dropout Layer (moved dropout layer)
-	# Note: Removed dropouts between hidden layers to maintain position features. 
-	cnn_features = Dropout(0.3)(x) # Automatically disabled during validation
+	cnn_features = Flatten(name='flatten')(x)
 
 	# Merge feature layers
 	merged_features1 = Concatenate(axis=-1)([cnn_features, features_input])
@@ -178,6 +174,10 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1), 
 		kernel_regularizer=l2(reg_lambda), 
 		name='fc1')(merged_features1)
+
+	
+	# Dropout Layer 
+	cnn_features = Dropout(0.2)(cnn_features) # Automatically disabled during validation
 
 	# Merge feature layers (include to provide plenty of axes )
 	merged_features2 = Concatenate(axis=-1)([cnn_features, features_input])
