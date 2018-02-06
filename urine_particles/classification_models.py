@@ -86,7 +86,7 @@ def base_model_bn(input_shape, base_weights, classes, reg_lambda=0.001):
 		kernel_regularizer=l2(reg_lambda), 
 		name='fc1')(x)
 	x = BatchNormalization(axis=-1)(x)
-	x = Dropout(0.5)(x) # Automatically disabled during validation
+	x = Dropout(0.2)(x) # Automatically disabled during validation
 	x = Dense(
 		units=classes, 
 		activation='softmax', 

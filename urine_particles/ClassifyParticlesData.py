@@ -197,6 +197,10 @@ class ClassifyParticlesData(object):
 			save_prefix = "augmented_"
 		)
 
+		# Ensure that mapping from class name to label is consisent. 
+		if (self.config.class_mapping != train_generator.class_indices):
+			raise ValueError("class_mapping in class configuration doesn't match with class folder structure. Please reconcile.")
+
 		return train_generator
 
 	def create_validation_generator(self, val_dir_path):
@@ -228,6 +232,10 @@ class ClassifyParticlesData(object):
 			color_mode = self.config.color 
 		)
 
+		# Ensure that mapping from class name to label is consisent. 
+		if (self.config.class_mapping != validation_generator.class_indices):
+			raise ValueError("class_mapping in class configuration doesn't match with class folder structure. Please reconcile.")
+
 		return validation_generator
 
 
@@ -251,12 +259,13 @@ class ClassifyParticlesData(object):
 		# Verify class mapping dictionary
 		# Specifically, verify that the auto-generated mapping is identical to the config mapping
 		class_path_list = glob.glob(target_directory + '*') # paths to class folders
-		if (len(class_path_list) != len(self.config.class_mapping)):
-			raise ValueError("class_mapping in class configuration doesn't match with class folder structure. Please reconcile.")
+		class_mapping_fromFolder = {}
 		for key, class_folder_path in enumerate(class_path_list):
 			class_name = class_folder_path.split('/')[-1]
-			if (self.config.class_mapping[class_name] != key):
-				raise ValueError("class_mapping in class configuration doesn't match with class folder structure. Please reconcile.")
+			class_mapping_fromFolder[class_name] = self.config.class_mapping[class_name]
+
+		if (self.config.class_mapping != class_mapping_fromFolder):
+			raise ValueError("class_mapping in class configuration doesn't match with class folder structure. Please reconcile.")
 
 
 		# Shuffle image list
@@ -487,7 +496,7 @@ class ClassifyParticlesData(object):
 		# Output results
 		self.config.logger.info("Validation Results")
 		self.config.logger.info("Validation accuracy: %1.3f" %(accuracy))
-		self.config.logger.info("Map Class Name to Class Number: %s", val_generator.class_indices)
+		self.config.logger.info("Map Class Name to Class Number: %s", self.config.class_mapping)
 		self.config.logger.info("Confusion Matrix:")
 		self.config.logger.info(confusion)
 		self.config.logger.info("\n\n\n")
