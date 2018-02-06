@@ -100,6 +100,8 @@ class ClassifyParticlesData(object):
 		x[..., 1] -= 129.97525112 # Green 
 		x[..., 2] -= 103.00621832 # Red
 
+		x /= 128.0 # Normalize with max possible value. Results in range from [-1,1].
+
 		return x
 
 	@staticmethod 
@@ -122,6 +124,8 @@ class ClassifyParticlesData(object):
 		x[..., 1] -= median_intensity # Green 
 		x[..., 2] -= median_intensity # Red
 
+		x /= 128.0 # Normalize with max possible value. Results in range from [-1,1].
+
 		return x
 
 	@staticmethod 
@@ -135,7 +139,9 @@ class ClassifyParticlesData(object):
 
 		# PER-IMAGE GRAYSCALE NORMALIZATION 
 		median_intensity = np.median(x)
-		x[..., 0] -= median_intensity# Blue
+		x[..., 0] -= median_intensity # Blue
+
+		x /= 128.0 # Normalize with max possible value. Results in range from [-1,1].
 
 		return x
 
@@ -259,10 +265,11 @@ class ClassifyParticlesData(object):
 		# Verify class mapping dictionary
 		# Specifically, verify that the auto-generated mapping is identical to the config mapping
 		class_path_list = glob.glob(target_directory + '*') # paths to class folders
+		class_path_list.sort()
 		class_mapping_fromFolder = {}
 		for key, class_folder_path in enumerate(class_path_list):
 			class_name = class_folder_path.split('/')[-1]
-			class_mapping_fromFolder[class_name] = self.config.class_mapping[class_name]
+			class_mapping_fromFolder[class_name] = key
 
 		if (self.config.class_mapping != class_mapping_fromFolder):
 			raise ValueError("class_mapping in class configuration doesn't match with class folder structure. Please reconcile.")
@@ -344,8 +351,7 @@ class ClassifyParticlesData(object):
 			# Get image cordinates
 			if (include_custom_features):
 				crop_filename = image_path[image_path.rfind('/')+1:] # Identify image_path file name
-				coordinate_metrics = CNN_functions.get_coordinates_from_cropname(crop_filename, image_dim=self.config.canvas_dims)
-				coordinate_features = coordinate_metrics[0] + coordinate_metrics[1] + coordinate_metrics[2]
+				coordinate_features = self._get_custom_features(crop_filename)
 				coordinates_input.append(coordinate_features)
 
 		# Build + format objects to be returned
@@ -362,6 +368,49 @@ class ClassifyParticlesData(object):
 			y_labels = None
 
 		return x_inputs, y_labels, path_list
+
+
+	def _get_custom_features(self, crop_filename):
+		"""
+		crop_filename: Extract, calculate and normalize the custom features. Specifically, get position information. 
+		Args
+		crop_filename: The filename of the cropped image that contains coordinates embedded in the name. 
+		+ Currently, the standard format is 'img1_43_235.bmp' or 'img1_43_235_cpy20.bmp' or '10um_particle_40_1455_cpy304.bmp'
+		image_dim: A tuple that indicates the dimensions of an image. The tuple is given in (height, width) format.
+		Return (given in (width, height))
+		normalized_pos_list = [coordinate_pos + delta_pos + angular_pos]
+		coordinate_pos (list): The raw coordinate position with the origin at pixel (0,0)
+		delta_pos (list): The coordinates with the origin at the center of the image
+		angular_pos (list): The angular position with the origin at the center of the image
+		"""
+
+		# Determine raw coordinate_pos (already returned as float)
+		coordinate_pos = CNN_functions.get_coordinates_from_cropname(crop_filename)
+
+		# Swith from (height, width) to (width, height)
+		dims_w_h = [float(self.config.canvas_dims[1]), float(self.config.canvas_dims[0])]
+
+		# Calculate delta_pos
+		dims_half_w_h = [dims_w_h[0]/2.0, dims_w_h[1]/2.0]
+		delta_x = (coordinate_pos[0]-dims_half_w_h[0])
+		delta_y = coordinate_pos[1]-dims_half_w_h[1]
+
+
+		# Determine angular_pos
+		angle = math.atan2(delta_y, delta_x)
+		mag = math.sqrt(math.pow(delta_y,2) + math.pow(delta_x, 2))
+		mag_max = math.sqrt(math.pow(dims_half_w_h[1],2) + math.pow(dims_half_w_h[0], 2))
+		
+
+		# Normalize position values
+		coordinate_pos = [coordinate_pos[0]/dims_w_h[0], coordinate_pos[1]/dims_w_h[1]]
+		delta_pos = [delta_x/dims_half_w_h[0], delta_y/dims_half_w_h[1]]
+		angular_pos = [mag/mag_max, angle/math.pi] 
+
+		# Create output list
+		normalized_pos_list = coordinate_pos + delta_pos + angular_pos
+
+		return normalized_pos_list
 
 
 	def _get_label_from_imgPath(self, image_path):
@@ -480,6 +529,7 @@ class ClassifyParticlesData(object):
 		for _ in range(self.config.batches_per_epoch_val):
 			x_inputs, label_truth =  next(val_generator)
 			label_pred = model.predict_on_batch(x_inputs)
+
 			
 			# Append to overall metrics
 			if all_truth is None: 

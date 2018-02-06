@@ -36,7 +36,7 @@ data.print_data_summary() # Print data summary to log file
 
 # Builds model
 model = createModel(input_shape = config.image_shape, base_weights = config.imagenet_weights_file, classes=config.nclasses)
-plot_model(model, to_file='model.png')
+# plot_model(model, to_file='model.png')
 
 
 # Load weights (if the load file exists)

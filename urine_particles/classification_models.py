@@ -9,7 +9,85 @@ from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Input, Dense, F
 from tensorflow.python.keras.regularizers import l2
 from tensorflow.python.keras.initializers import Constant, TruncatedNormal
 
+def base_model(input_shape, base_weights, classes, reg_lambda=0.001): 
+	"""
+	Configuration: data_format => channel_last
+	Args: 
+	input_shape: shape of image, including the channel. 
+	Return: 
+	An instantiated model.
+	Notes: 
+	+ Implements layer regularization for all weights. 
+	+ Implements accurate initializations, with biases set to 0.1 to ensure neuron activation initially. 
+	"""
+	img_input = Input(shape=input_shape)
 
+	# Block 1
+	# When using Conv2D as first layer, need to correctly connect the layer to input with input_shape argument. 
+	x = Conv2D(
+		filters=32,
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block1_conv1')(img_input)
+	x = Conv2D(
+		filters=32, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda),
+		name='block1_conv2')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(x)
+	f1 = x
+
+	# Block 2
+	x = Conv2D(
+		filters=64, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block2_conv1')(x)
+	x = Conv2D(
+		filters=64, 
+		kernel_size=(3, 3), 
+		activation='relu', 
+		padding='same', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1),
+		kernel_regularizer=l2(reg_lambda), 
+		name='block2_conv2')(x)
+	x = MaxPooling2D((2, 2), strides=(2, 2), name='block2_pool')(x)
+	f2 = x
+
+	# Fully-connected layers (needed in order to load original VGG16 imagenet weights). 
+	x = Flatten(name='flatten')(x)
+	x = Dense(
+		units=1024, 
+		activation='relu', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1), 
+		kernel_regularizer=l2(reg_lambda), 
+		name='fc1')(x)
+	x = Dropout(0.5)(x) # Automatically disabled during validation
+	x = Dense(
+		units=classes, 
+		activation='softmax', 
+		kernel_initializer=TruncatedNormal(stddev=0.1), 
+		bias_initializer=Constant(value=0.1), 
+		kernel_regularizer=l2(reg_lambda), 
+		name='predictions')(x) 
+
+	model  = Model(img_input, x, name = "base_model")
+
+	return model
 
 
 def base_model_bn(input_shape, base_weights, classes, reg_lambda=0.001): 
@@ -86,7 +164,7 @@ def base_model_bn(input_shape, base_weights, classes, reg_lambda=0.001):
 		kernel_regularizer=l2(reg_lambda), 
 		name='fc1')(x)
 	x = BatchNormalization(axis=-1)(x)
-	x = Dropout(0.2)(x) # Automatically disabled during validation
+	x = Dropout(0.5)(x) # Automatically disabled during validation
 	x = Dense(
 		units=classes, 
 		activation='softmax', 
@@ -110,6 +188,7 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 	Notes: 
 	+ Implements layer regularization for all weights. 
 	+ Implements accurate initializations, with biases set to 0.1 to ensure neuron activation initially. 
+	+ Includes custom features, wich is the coordinate position for each crop. 
 	"""
 
 	# Define input tensors
@@ -127,6 +206,7 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda), 
 		name='block1_conv1')(img_input)
+	x = BatchNormalization(axis=-1)(x)
 	x = Conv2D(
 		filters=32, 
 		kernel_size=(3, 3), 
@@ -136,6 +216,7 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda),
 		name='block1_conv2')(x)
+	x = BatchNormalization(axis=-1)(x)
 	x = MaxPooling2D((2, 2), strides=(2, 2), name='block1_pool')(x)
 	f1 = x
 
@@ -149,6 +230,7 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda), 
 		name='block2_conv1')(x)
+	x = BatchNormalization(axis=-1)(x)
 	x = Conv2D(
 		filters=64, 
 		kernel_size=(3, 3), 
@@ -158,6 +240,7 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 		bias_initializer=Constant(value=0.1),
 		kernel_regularizer=l2(reg_lambda), 
 		name='block2_conv2')(x)
+	x = BatchNormalization(axis=-1)(x)
 	x = MaxPooling2D((2, 2), strides=(2, 2), name='block2_pool')(x)
 	f2 = x
 
@@ -177,7 +260,7 @@ def base_model_with_pos(input_shape, base_weights, classes, reg_lambda=0.001):
 
 	
 	# Dropout Layer 
-	cnn_features = Dropout(0.2)(cnn_features) # Automatically disabled during validation
+	cnn_features = Dropout(0.5)(cnn_features) # Automatically disabled during validation
 
 	# Merge feature layers (include to provide plenty of axes )
 	merged_features2 = Concatenate(axis=-1)([cnn_features, features_input])

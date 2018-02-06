@@ -29,7 +29,7 @@ class ClassifyParticles_Config():
 		self.target_size = (64, 64) # Warning: Be careful if non-square dimensions (see above note). 
 		self.batch_size = 64
 		self.num_epochs = 5  # Print validation results after each epoch. Save model after num_epochs.
-		self.batches_per_epoch_train = 40 # Batches for each training session. If None, set so that every image is trained. 
+		self.batches_per_epoch_train = 3 # Batches for each training session. If None, set so that every image is trained. 
 		self.batches_per_epoch_val = 7 # Batches for each validation session. If None, set so that every image is trained. 
 		self.nclasses = 4
 		self.class_mapping = {'10um': 0, 'other': 1, 'rbc': 2,  'wbc': 3}

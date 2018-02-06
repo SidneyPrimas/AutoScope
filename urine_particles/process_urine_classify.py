@@ -166,11 +166,10 @@ def label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, 
 			original_img_dic[original_img_name] = original_img
 
 
-circle_centroid
 		# Identify particle centroid from crop image name
 		# Coordinate_metrics includes 3 lists, including coordinate_pos, delta_pos, angular_pos. 
 		coordinate_metrics = CNN_functions.get_coordinates_from_cropname(crop_filename)
-		circle_centroid = (coordinate_metrics[0][0], coordinate_metrics[0][1]) # turn into tuple with (width, height)
+		circle_centroid = (int(coordinate_metrics[0]), int(coordinate_metrics[1])) # turn into tuple with (width, height)
 
 
 		# Place indicator for each classified particle. 
