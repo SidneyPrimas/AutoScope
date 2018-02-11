@@ -24,15 +24,17 @@ from model_FCN8 import FCN8_32px_factor as createModel
 from SegmentParticles_config import SegmentParticles_Config
 
 """
-Description: Crops the particles from images in raw_image_data based on the segmentation location predicted by the model.  
+Description: Crops the particles from images in raw_image_data based on the segmentation location predicted by the model. 
+Goal of script: The goal of this script is to understand the reduction in classification accuracy when... 
+	the canvas image is cropped based on predicted particles locations vs. actual particle locations (in create_classification_folder_from_model.py)...
+	Obviously, in the end-to-end system, particles are cropped based on the model. 
 
 Execution Notes: 
 + Assume standard folder structure: raw_image_data folder is structured so raw_image_data => particle_folders => (original folder + coordinates folder)
 + Crops are taken from images in raw_image_data, and not from the segmentation training/validation folders. 
 
 To Do: 
-+ Need to consolidate create_classification_folder_from_labels.py, create_classification_folder_from_model.py and segment_urine.py
-++ These files are based on each other and they have A LOT of overlapping code. 
++ Possible To Do: Integrate + refactor code with create_classification_folder_from_model.py
 + Figure out indication radius + detection radius => Should be the same
 """
 

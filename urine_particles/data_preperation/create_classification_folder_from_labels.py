@@ -16,7 +16,7 @@ import CNN_functions
 
 
 """
-Description: Crops the particles from images inraw_image_data based on the ground truth labels in raw_image_data. 
+Description: Crops the particles from images in raw_image_data based on the ground truth labels in raw_image_data. 
 
 Execution Notes: 
 + Assume standard folder structure: raw_image_data folder is structured so raw_image_data => particle_folders => (original folder + coordinates folder)

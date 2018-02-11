@@ -29,7 +29,7 @@ segmentation_folder_name = 'segmentation/'
 
 indicator_radius = 20 # Moved from 15 to 20px because moved from 5MPx to 8MPx (scaled radius based on linear increase of width)
 crop_images_flag = False
-validation_proportion = 0.1
+validation_proportion = 0.2
 
 
 # Implementation Notes: Labels need to start at 0 (with the bacgkround), and increment monotonically by 1. 

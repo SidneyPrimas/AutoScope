@@ -179,20 +179,59 @@ def apply_morph(img_input, morph_type=None):
 
 	return img_output
 
+def standard_segmentation(img_input, min_particle_size):
+	"""
+	Description: Applies standard segmentation algorithm to transform greyscale image to segmented image. 
+	Uses adaptive thresholding, morphology functions, and component analysis. 
+	Args
+	img_input: Raw, grayscale autoscope image. 
+	Output: Segmented image, with each pixel labeled as either 0 (background) or 1 (foreground). Single channel image. 
+	"""
+
+	# Adaptive threshold: Since we have different illuminations across image, we use an adaptive threshold 
+	im_thresh = cv2.adaptiveThreshold(img_input, 1, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 5, 4)
+
+	# Closing: When we close an image, we remove background pixel from the foreground. 
+	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2,2))
+	im_morph = cv2.morphologyEx(im_thresh, cv2.MORPH_CLOSE, struct_element, iterations = 1)
+
+
+	# Filter markers based on each marker property. 
+	connected_output = cv2.connectedComponentsWithStats(im_morph, connectivity=8)
+	base_num_labels = connected_output[0]
+	print "Number of Original Components: %d" % (base_num_labels - 1) # Minus 1 since we don't count the background
+	base_markers = connected_output[1]
+	base_stats = connected_output[2]
+
+	# Loop over each marker. Based on stats, decide to eliminate or include marker. 
+	for index in range(base_num_labels):
+		# The first label is the background (zero label). We always ignore it. . 
+		if index == 0:
+			continue
+		# Area: If any connected component has an area less than "min_particle_size" pixels, turn it into a background (black)
+		if base_stats[index][4] <= min_particle_size:
+			im_morph[base_markers == index] = 0
+
+
+	# After the obvious components have been removed, the rest of the components are consolidated by closing the particles. 
+	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
+	im_components = cv2.morphologyEx(im_morph, cv2.MORPH_CLOSE, struct_element, iterations = 1)
+
+	# Particles + clumps that are close to each other should be combined. 
+	struct_element = np.ones((3,3),np.uint8)
+	img_output = cv2.dilate(im_components, struct_element, iterations=5)
+
+	return img_output
 	
 
 
 def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, base_output_path):
 	"""
 	Returns the systems accuracy in identifying the location of a particle.
-	Does not look at a each pixel. Instead, determines if a particle has been more broadly identified by the model. 
+	Preprocesses truth and predicted segmentations arrays from segmentation models (specifically from SegmentParticlesData.py)
 	Arguments 
 	truth_array: Single ground truth array in (image_pixels, classes)
 	pred_array: Single predictions array in (image_pixels, classes)
-	Guiding heuristics
-	+ For each ground truth particle, the algorthm determines if there is a predicted particle in the region of interest. The same predicted particle blob can  be used twice for different ground truth particles. 
-	+ Possible Improvement: A current issue is that ground truth and predicted particles merge into a single particle. The connectedComponentsWithStats treats these merged particles as a single particle, leading to errors both in the wrongly detected and missed detections. A solution is to look at any pixel in region of interest, instead of just looking at the centroid. 
-	+ Possible Improvement: Instead of using connectedComponentsWithStats for the ground truth, use the ground truth coordinates to seed the location of the ground truth particles. 
 	"""
 	
 	# Convert from prediction arrays to labeled matrices
@@ -204,16 +243,31 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	truth_reshaped = apply_morph(truth_reshaped, morph_type=None) # Just converts to binary image
 	pred_reshaped = apply_morph(pred_reshaped, morph_type='foreground')
 
+	determine_segmentation_accuracy(truth_reshaped, pred_reshaped, config, radius, base_output_path)
 
-	# Transform colors for visualization
-	truth_output = get_color_image(truth_reshaped, nclasses = 2, colors = [(0, 0, 0), (128,128,128)])
-	pred_output = get_color_image(pred_reshaped, nclasses = 2, colors = [(0, 0, 0), (128,128,128)])
+
+def determine_segmentation_accuracy(truth_matrix, pred_matrix, config, radius, base_output_path):
+	"""
+	Returns the accuracy in identifying the location of a particle, when comparing truth_matrix with pred_matrix
+	Does not look at a each pixel. Instead, determines if a particle has been more broadly identified by the model. 
+	Arguments 
+	truth_matrix: Binary matrix with segmented pixels (0 is background, and 1 is foreground)
+	pred_matrix: Predicted binary matrix with segmented pixels (0 is background, and 1 is foreground)
+	Guiding heuristics
+	+ For each ground truth particle, the algorthm determines if there is a predicted particle in the region of interest. The same predicted particle blob can  be used twice for different ground truth particles. 
+	+ Possible Improvement: A current issue is that ground truth and predicted particles merge into a single particle. The connectedComponentsWithStats treats these merged particles as a single particle, leading to errors both in the wrongly detected and missed detections. A solution is to look at any pixel in region of interest, instead of just looking at the centroid. 
+	+ Possible Improvement: Instead of using connectedComponentsWithStats for the ground truth, use the ground truth coordinates to seed the location of the ground truth particles. 
+	"""
+
+	# Transform colors for visualization (converts from single to three channels)
+	truth_output = get_color_image(truth_matrix, nclasses = 2, colors = [(0, 0, 0), (128,128,128)])
+	pred_output = get_color_image(pred_matrix, nclasses = 2, colors = [(0, 0, 0), (128,128,128)])
 
 	# Input requirement: 8-bit single, channel image. Image input is binary with all non-zero pixels treated as 1s. 
 	# connected_output array: [num_labels, label_matrices, marker_stats, centroids]
 	# Connectivity: Connectivity of 8 makes it more likely that particles that are merged due to proximity will be treated seperately. 
-	truth_connected = cv2.connectedComponentsWithStats(truth_reshaped.astype('int8'), connectivity=8)
-	pred_connected = cv2.connectedComponentsWithStats(pred_reshaped.astype('int8'), connectivity=8)
+	truth_connected = cv2.connectedComponentsWithStats(truth_matrix.astype('int8'), connectivity=8)
+	pred_connected = cv2.connectedComponentsWithStats(pred_matrix.astype('int8'), connectivity=8)
 	truth_centroids = np.asarray(truth_connected[3][1:])  # Remove the background centroid (at index 0).
 	pred_centroids = np.asarray(pred_connected[3][1:]) # Remove the background centroid (at index 0).
 	truth_intersection_indices = [] # List of indecies that are in both ground truth and predictoin set
@@ -221,6 +275,7 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 
 	# Measured stats 
 	total_ground_truth_particles = truth_centroids.shape[0]
+	total_pred_particles = pred_centroids.shape[0]
 	intersection_of_pred_and_truth = 0
 	only_truth_particles = 0
 	only_pred_particles = 0
@@ -229,21 +284,22 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 	for index_truth, target_centroid_truth in enumerate(truth_centroids): 
 
 
-		nearest_i_pred, nearest_distance = nearest_centroid(target_centroid_truth, pred_centroids)
+		nearest_i_pred_list, nearest_distance_list = centroids_within_radius(target_centroid_truth, pred_centroids, radius)
 
 		# Determine the ground truth particles successfully detected in the predicted set. 
 		# The intersection of ground truth and prediction sets. 
-		if nearest_distance < radius:
-			intersection_of_pred_and_truth += 1
+		for i, nearest_i_pred in enumerate(nearest_i_pred_list):
+			if nearest_distance_list[i] < radius: # Sanity check centroids_within_radius (needed for nearest_centroid)
+				intersection_of_pred_and_truth += 1
 
-			truth_intersection_indices.append(index_truth)
-			pred_intersection_indices.append(nearest_i_pred)
+				truth_intersection_indices.append(index_truth)
+				pred_intersection_indices.append(nearest_i_pred)
 
-			# Debug: Place GREEN indicator for each ground truth partidcle detected. 
-			if (config.debug):
-				centroid_circle = (int(target_centroid_truth[0]), int(target_centroid_truth[1]))
-				cv2.circle(truth_output, center=centroid_circle, radius=radius, color=(0, 255, 0), thickness=1)
-				cv2.circle(pred_output, center=centroid_circle, radius=radius, color=(0, 255, 0), thickness=1)
+				# Debug: Place GREEN indicator for each ground truth partidcle detected. 
+				if (config.debug):
+					centroid_circle = (int(target_centroid_truth[0]), int(target_centroid_truth[1]))
+					cv2.circle(truth_output, center=centroid_circle, radius=radius, color=(0, 255, 0), thickness=3)
+					cv2.circle(pred_output, center=centroid_circle, radius=radius, color=(0, 255, 0), thickness=3)
 
 
 	# Determine particles only in ground truth set (RED)
@@ -255,8 +311,8 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 		# Debug: Place RED indicator for particles only in ground truth set. 
 		if (config.debug):
 			centroid_circle = (int(target_centroid_truth[0]), int(target_centroid_truth[1]))
-			cv2.circle(truth_output, center=centroid_circle, radius=radius, color=(0, 0, 255), thickness=1)
-			cv2.circle(pred_output, center=centroid_circle, radius=radius, color=(0, 0, 255), thickness=1)
+			cv2.circle(truth_output, center=centroid_circle, radius=radius, color=(0, 0, 255), thickness=3)
+			cv2.circle(pred_output, center=centroid_circle, radius=radius, color=(0, 0, 255), thickness=3)
 
 
 	# Determine particles only in prediction set. (BLUE)
@@ -267,18 +323,15 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 		# Debug: Place BLUE indicator for particlesonly in prediction set.
 		if (config.debug):
 			centroid_circle = (int(target_centroid_pred[0]), int(target_centroid_pred[1]))
-			cv2.circle(truth_output, center=centroid_circle, radius=radius, color=(255, 0, 0), thickness=1)
-			cv2.circle(pred_output, center=centroid_circle, radius=radius, color=(255, 0, 0), thickness=1)
+			cv2.circle(truth_output, center=centroid_circle, radius=radius, color=(255, 0, 0), thickness=3)
+			cv2.circle(pred_output, center=centroid_circle, radius=radius, color=(255, 0, 0), thickness=3)
 
 		
 	# Print results
 	config.logger.info("\nParticle Detection Accuracy for: %s", base_output_path)
 	config.logger.info("Total particles in ground truth set: %d", total_ground_truth_particles)
-	if (total_ground_truth_particles> 0):
-		config.logger.info("Percent of ground truth particles detected: %f", intersection_of_pred_and_truth/float(total_ground_truth_particles))
-	else: 
-		config.logger.info("Percent of ground truth particles detected: invalid")
-	config.logger.info("Intersection between prediction and ground truth sets: %d", intersection_of_pred_and_truth)
+	config.logger.info("Total particles in prediction set: %d", total_pred_particles)
+	config.logger.info("Total particles in prediction set that map to truth set: %d", intersection_of_pred_and_truth)
 	config.logger.info("Only ground truth set: %d", only_truth_particles)
 	config.logger.info("Only prediction set: %d", only_pred_particles)
 	config.logger.info("\n")
@@ -289,7 +342,7 @@ def get_foreground_accuracy_perImage(truth_array, pred_array, config, radius, ba
 		cv2.imwrite(base_output_path + "_truth.jpg", truth_output)
 		cv2.imwrite(base_output_path + "_pred.jpg", pred_output)
 
-def nearest_centroid(centroid, array_of_centroids):
+def nearest_centroids(centroid, array_of_centroids, radius):
 	"""
 	Calculates the closest point in array_of_centroids to centroid. 
 	Args
@@ -304,9 +357,29 @@ def nearest_centroid(centroid, array_of_centroids):
 	else: 
 		dist_2 = np.sum((array_of_centroids - centroid)**2, axis=1) # For comparison purposes, don't need to calculate actual distnace. 
 		nearest_i =  np.argmin(dist_2)
-		nearest_distance = math.sqrt(dist_2[nearest_i])
 
 	return nearest_i, nearest_distance
+
+def centroids_within_radius(centroid, array_of_centroids, radius):
+	"""
+	Calculates the points i array_of_centroids that are within radius of centroid. 
+	Args
+	array_of_centroids: Needs to be a numpy array, with same format as centroid. 
+	centroid: Tuple with x and y coordinates. 
+	"""
+
+
+	nearest_i_list = []
+	nearest_distance_list = []
+	dist_2 = np.sum((array_of_centroids - centroid)**2, axis=1) # For comparison purposes, don't need to calculate actual distnace. 
+
+	within_radius_mask = (dist_2<= radius**2)
+
+	nearest_i_list = within_radius_mask.nonzero()[0] # nonzero returns a tuple with indices for each dimensino. Extract only dimension
+	nearest_distance_list = np.sqrt(dist_2[nearest_i_list])
+
+
+	return list(nearest_i_list), list(nearest_distance_list)
 
 def get_crop_coordinates(input_image_shape, centroid, target_dim):
 	"""

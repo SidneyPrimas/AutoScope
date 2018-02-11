@@ -71,13 +71,13 @@ def main():
 	all_label_list = []
 	for index_folder, target_folder in enumerate(input_folders):
 
-		# Indicate next target_folder in log
-		data.config.logger.info("Results for: %s", root_folder)
-
 		# Define paths
 		image_data_path = root_folder + target_folder + image_data_folder
 		sorted_output_path =  root_folder + target_folder + sorted_output_folder
 		debug_output_path = root_folder + target_folder + 'debug_output/'
+
+		# Indicate next target_folder in log
+		data.config.logger.info("Results for: %s", image_data_path)
 
 
 		# Create necessary data generator
@@ -102,7 +102,6 @@ def main():
 		# Print out results for single folder
 		label_list = np.argmax(all_pred, axis=1)
 		all_label_list.extend(label_list)
-		data.config.logger.info("Results for: %s", image_data_path)
 		CNN_functions.print_summary_statistics_for_labels(
 			label_list, 
 			class_mapping, 
@@ -125,6 +124,7 @@ def main():
 
 	# Print out results for all folders in input_folders
 	total_input_images = sum(input_img_count)
+	data.config.logger.info("Final Results Summary: %s", root_dir)
 	CNN_functions.print_summary_statistics_for_labels(
 		all_label_list, 
 		class_mapping, 

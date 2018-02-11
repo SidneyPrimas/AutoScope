@@ -174,7 +174,7 @@ def generate_particlePredictions_from_inputImage(model, data,  target_file_path,
 			center=circl_centroid, 
 			radius=indicator_radius, 
 			color=data.config.colors[label], 
-			thickness=2)
+			thickness=3)
 
 	# Convert labeled images to rgb images
 	# Produce rgb image where each connected component is labeled with it's label

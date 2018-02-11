@@ -14,7 +14,7 @@ import sys
 import bisect
 
 # Import homebrew functions
-sys.path.append("./urine_particles/data/clinical_experiment/log/20180120_training/segmentation_training/")
+sys.path.append("./urine_particles/data/clinical_experiment/log/20180130_semantic_seg/final_selection_results_updated_more_images/")
 import config 
 
 ### Execution Notes ####
@@ -137,23 +137,24 @@ def output_accuracy_plots(all_total_images, all_accuracy, min_image_count):
 
 		# Visualize the accuracy (across all data)
 		fig = plt.figure(1)
-		plt.plot(all_total_images[n], all_accuracy[n]*100, label = config.logs['legend'][n], linewidth=2.0)
+		plt.plot(all_total_images[n], all_accuracy[n]*100, label = config.logs['legend'][n], linewidth=4.0)
 		fig.patch.set_facecolor('white')
 		plt.xlabel("Number of Training Cycles", fontsize="20")
-		plt.ylabel("Classification Accuracy (%)", fontsize="20")
+		plt.ylabel("Segmentation Accuracy (%)", fontsize="20")
 		plt.legend(loc='lower right', prop={'size':12}, frameon=False)
-		axes = fig.axes[0]
-		#axes.set_ylim([0,100])
+		# axes = fig.axes[0]
+		# axes.set_ylim([0,100])
 
 		# Visualize the accuracy (across all data)
 		fig = plt.figure(2)
-		plt.plot(all_total_images[n][:min_image_index], all_accuracy[n][:min_image_index]*100, label = config.logs['legend'][n], linewidth=2.0)
+		plt.plot(all_total_images[n][:min_image_index], all_accuracy[n][:min_image_index]*100, label = config.logs['legend'][n], linewidth=4.0)
 		fig.patch.set_facecolor('white')
 		plt.xlabel("Number of Training Cycles", fontsize="20")
-		plt.ylabel("Classification Accuracy (%)", fontsize="20")
+		plt.ylabel("Segmentation Accuracy (%)", fontsize="20")
 		plt.legend(loc='lower right', prop={'size':12}, frameon=False)
-		axes = fig.axes[0]
-		#axes.set_ylim([0,100])
+		#axes = fig.axes[0]
+		#axes.set_ylim([98,100])
+		#axes.set_xlim([1500,21000])
 
 
 	plt.show()
