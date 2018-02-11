@@ -38,6 +38,7 @@ output_crop_size = 64 # The output size of the crops, measured in pixels. Used o
 validation_proportion = 0.1 #Proportion of images placed in validation
 skip_boundary_particles = True # Skip the particles that are on the boundary of the image. 
 debug_flag = True
+balance_classes = False
 
 
 classification_labels = {
@@ -84,8 +85,9 @@ def main():
 	util.split_data(input_dir=training_root_dir, output_dir=validation_root_dir, move_proportion=validation_proportion, in_order=False)
 
 	# Augment the dataset so each class has equal images
-	util.balance_classes_in_dir(input_dir=training_root_dir)
-	util.balance_classes_in_dir(input_dir=validation_root_dir)
+	if (balance_classes):
+		util.balance_classes_in_dir(input_dir=training_root_dir)
+		util.balance_classes_in_dir(input_dir=validation_root_dir)
 
 	# Create classifcation metadata log
 	create_classification_metadata_log(classification_metadata_path)

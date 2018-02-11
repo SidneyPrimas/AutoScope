@@ -11,6 +11,14 @@ sys.path.insert(0, './urine_particles')
 import CNN_functions
 from SegmentParticles_config import SegmentParticles_Config
 
+
+"""
+Description: Calculate the accuracy (as compared to the labeled ground truth) of the standard segmentation algorithm. 
+
+Note: 
++ Use total particle counts calculated here (for ground truth particles). These are more accurate. 
+"""
+
 """ Configuration """
 # Files/Folders
 class_name = '10um'
@@ -21,8 +29,6 @@ mask_input_path = './urine_particles/data/clinical_experiment/image_data/2018012
 output_folder = './urine_particles/data/clinical_experiment/image_data/20180120_training/segmentation/img_output/'
 
 min_particle_size = 3
-
-
 
 
 

@@ -141,8 +141,8 @@ class ClassifyParticlesData(object):
 		"""
 
 		# PER-IMAGE GRAYSCALE NORMALIZATION 
-		#median_intensity = np.median(x)
-		#x[..., 0] -= median_intensity # Blue
+		median_intensity = np.median(x)
+		x[..., 0] -= median_intensity # Blue
 
 		x /= 128.0 # Normalize. Results in range from [-1,1].
 		#x /= np.std(x)

@@ -20,7 +20,7 @@ import utility_functions_data as util
 sys.path.insert(0, './urine_particles')
 from SegmentParticlesData import SegmentParticlesData
 import CNN_functions
-from model_FCN8 import FCN8_32px_factor as createModel
+from segmentation_models import FCN8_32px_factor as createModel
 from SegmentParticles_config import SegmentParticles_Config
 
 """

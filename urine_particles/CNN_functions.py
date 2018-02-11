@@ -342,7 +342,7 @@ def determine_segmentation_accuracy(truth_matrix, pred_matrix, config, radius, b
 		cv2.imwrite(base_output_path + "_truth.jpg", truth_output)
 		cv2.imwrite(base_output_path + "_pred.jpg", pred_output)
 
-def nearest_centroids(centroid, array_of_centroids, radius):
+def nearest_centroid(centroid, array_of_centroids):
 	"""
 	Calculates the closest point in array_of_centroids to centroid. 
 	Args
@@ -357,6 +357,7 @@ def nearest_centroids(centroid, array_of_centroids, radius):
 	else: 
 		dist_2 = np.sum((array_of_centroids - centroid)**2, axis=1) # For comparison purposes, don't need to calculate actual distnace. 
 		nearest_i =  np.argmin(dist_2)
+		nearest_distance = math.sqrt(dist_2[nearest_i])
 
 	return nearest_i, nearest_distance
 

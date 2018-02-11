@@ -34,7 +34,7 @@ class ClassifyParticles_Config():
 		self.nclasses = 4
 		self.class_mapping = {'10um': 0, 'other': 1, 'rbc': 2,  'wbc': 3}
 		self.enable_custom_features = True # If true, feeds cropped image centroids into model (use base_model_with_pos model)
-		self.canvas_dims = (2464, 3280) # (height, width) => Only needed with enable_custom_features
+		self.canvas_dims = (2464, 3280) # (height, width) => Only needed with enable_custom_features. canvas_dim should be size of canvas image at time of cropping. 
 
 		# Secondary Configurations: Manually updated by user. Sometimes needed. 
 		self.optimizer = Adam(lr=1e-4) # Adam seems to work much better. 

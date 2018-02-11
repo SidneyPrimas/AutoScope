@@ -27,7 +27,7 @@ Implementation Notes:
 class SegmentParticles_Config():
 	def __init__(self):
 		# Core Configurations: Manually updated by user. Always needed. 
-		self.project_folder =  "20180202_training/" #"20180130_semantic_seg/"
+		self.project_folder =  "20180205_training_plus/" #"20180130_semantic_seg/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
 		self.weight_file_input_name = "20180125_base_segmentation.h5" # "seg_class_weights_0.h5"   #Set to 'None' to disable.
 		self.weight_file_output_name = "seg_class_weights_" # Set to 'None' to disable. 
