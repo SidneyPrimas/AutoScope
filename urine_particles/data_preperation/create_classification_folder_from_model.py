@@ -164,9 +164,10 @@ def generate_crops_from_model(segmentation_metadata):
 			# Crop the original image based on the predicted segmentation. Label the crops based on the reference coordinates. 
 			original_img_cropped = crop_particles_into_class_folders_using_model(original_img, label_pred_reshaped, particle_list)
 
+
 			# Save output with cropped images
 			if (debug_flag):
-				debug_img_output_path = classification_debug_output + particle_folder + "/predicted_particles_" + base_file_name + ".bmp"
+				debug_img_output_path = classification_debug_output + particle_folder + "/predicted_particles_" + base_file_name + ".jpg"
 				cv2.imwrite(debug_img_output_path, original_img_cropped)
 
 
@@ -236,7 +237,7 @@ def crop_particles_into_class_folders_using_model(original_image, predicted_imag
 				center=circl_centroid, 
 				radius=segmentation_metadata["indicator_radius"], 
 				color=(0, 255, 0), 
-				thickness=2)
+				thickness=3)
 
 	# Return original_cpy for debugging purposes
 	return original_cpy

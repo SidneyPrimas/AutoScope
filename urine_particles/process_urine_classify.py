@@ -119,12 +119,12 @@ def main():
 		# Save the labeled iamges
 		for img_name in original_img_dic:
 			prefix_rootdir = root_folder.split('/')[-2]
-			cv2.imwrite(debug_output_path + prefix_rootdir + "_" + img_name + "_labeled_from_crops.bmp", original_img_dic[img_name])
+			cv2.imwrite(debug_output_path + prefix_rootdir + "_" + img_name + "_labeled_from_crops.jpg", original_img_dic[img_name])
 
 
 	# Print out results for all folders in input_folders
 	total_input_images = sum(input_img_count)
-	data.config.logger.info("Final Results Summary: %s", root_dir)
+	data.config.logger.info("Final Results Summary: %s", root_folder)
 	CNN_functions.print_summary_statistics_for_labels(
 		all_label_list, 
 		class_mapping, 
@@ -179,7 +179,7 @@ def label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, 
 			center=circle_centroid, 
 			radius=indicator_radius, 
 			color=label_colors[label], 
-			thickness=2)
+			thickness=3)
 
 
 	return original_img_dic

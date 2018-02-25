@@ -16,13 +16,13 @@ import sys
 import confusion_utility
 
 # Import homebrew functions
-base_directory = "./urine_particles/data/clinical_experiment/log/20180120_training/classification_training/"
-log_name = "classification_base_model_datasetNorm_grayscale_v2.log"
+base_directory = "./urine_particles/data/clinical_experiment/log/20180205_training_plus/classification_training_log/"
+log_name = "20180211_final_model_highAug_v2.log"
 sys.path.append(base_directory)
 import config 
 
 # Window size for smoothing data
-window_input = 20
+window_input = 15
 title = ""
 
 
@@ -83,7 +83,7 @@ for n in range(len(class_accuracy_smooth)):
 	plt.title(title, fontsize="20")
 	plt.xlabel("Number of Training Cycles", fontsize="20")
 	plt.ylabel("Classification Accuracy (%)", fontsize="20")
-	plt.legend(loc='center right', prop={'size':12}, frameon=False)
+	plt.legend(loc='lower right', prop={'size':12}, frameon=False)
 	x1,x2,y1,_ = plt.axis()
 	plt.axis((x1,x2,0,100))
 

@@ -14,7 +14,7 @@ import sys
 import bisect
 
 # Import homebrew functions
-sys.path.append("./urine_particles/data/clinical_experiment/log/20180120_training/classification_training/")
+sys.path.append("./classify_particles_tf/data/log/20171026_CICS_resampling/size_52px/")
 import config 
 
 ### Execution Notes ####
@@ -23,8 +23,8 @@ import config
 
 
 """ Configuration Variables """
-averaging_window = 20
-plot_type = "val" # select "val" for the validation accuracy and "train" for the training accuracy
+averaging_window = 10
+plot_type = "both" # select "val" for the validation accuracy, "train" for the training accuracy and 'both' for train and validation
 
 
 
@@ -38,6 +38,9 @@ def main():
 		output_accuracy_plots(log_data["all_total_images"], log_data["all_train_accuracy"], log_data["min_image_count"])
 	if (plot_type == "val"):
 		output_accuracy_plots(log_data["all_total_images"], log_data["all_val_accuracy"], log_data["min_image_count"])
+	if (plot_type == "both"):
+		compare_train_to_val_accuracies(log_data, log_data["min_image_count"])
+		
 
 
 def process_log():
@@ -120,10 +123,59 @@ def get_index_of_imageNum(image_count_list, count):
 	return index_before_count
 
 
+def compare_train_to_val_accuracies(log_data, min_image_count): 
+	"""
+	Description: Compares the validation accuracy with the training accuracy of all the logs in log_data. 
+	"""
+
+	all_total_images = log_data['all_total_images']
+	all_train_accuracy = log_data['all_train_accuracy']
+	all_val_accuracy = log_data['all_val_accuracy']
+
+
+	print min_image_count
+	for n in range(len(all_total_images)):
+
+		min_image_index = get_index_of_imageNum(all_total_images[n], min_image_count)
+		
+		# Print accuracy stats. 
+		print " Res of %s: Number of Images (%d), Training Accuracy (%f)"%(config.logs['file_name'][n], all_total_images[n][min_image_index],all_train_accuracy[n][min_image_index])
+		print "Total Images (%d), Final Train Accuracy (%f)"%(all_total_images[n][-1], all_train_accuracy[n].iloc[-1])
+		print " Res of %s: Number of Images (%d), Val Accuracy (%f)"%(config.logs['file_name'][n], all_total_images[n][min_image_index],all_val_accuracy[n][min_image_index])
+		print "Total Images (%d), Final Val Accuracy (%f)"%(all_total_images[n][-1], all_val_accuracy[n].iloc[-1])
+
+		# Visualize the accuracy (across all data)
+		fig = plt.figure(1)
+		plt.plot(all_total_images[n], all_train_accuracy[n]*100, label = config.logs['legend'][n], linewidth=2.0)
+		plt.plot(all_total_images[n], all_val_accuracy[n]*100, '--', label = config.logs['legend'][n], linewidth=2.0)
+		fig.patch.set_facecolor('white')
+		plt.xlabel("Number of Training Cycles", fontsize="20")
+		plt.ylabel("Classification Accuracy (%)", fontsize="20")
+		plt.legend(loc='lower right', prop={'size':12}, frameon=False)
+		# axes = fig.axes[0]
+		# axes.set_ylim([0,100])
+
+		# Visualize the accuracy (across all data)
+		fig = plt.figure(2)
+		plt.plot(all_total_images[n][:min_image_index], all_train_accuracy[n][:min_image_index]*100, label = 'Training Accuracy', linewidth=2.0)
+		plt.plot(all_total_images[n][:min_image_index], all_val_accuracy[n][:min_image_index]*100, '--', label = 'Validation Accuracy', linewidth=2.0)
+		plt.plot(all_total_images[n][:min_image_index], 25*np.ones((min_image_index)), ':', label = 'Random Selection', linewidth=2.0)
+		fig.patch.set_facecolor('white')
+		plt.xlabel("Number of Training Cycles", fontsize="20")
+		plt.ylabel("Classification Accuracy (%)", fontsize="20")
+		plt.legend(loc='center right', prop={'size':12}, frameon=False)
+		# axes = fig.axes[0]
+		# axes.set_ylim([0,100])
+
+
+	plt.show()
+
+
+
 
 def output_accuracy_plots(all_total_images, all_accuracy, min_image_count):
 	"""
-	Description: Plot the accuracy obtained from the log.
+	Description: Plot the accuracy obtained from the log. Plot either validation or training accuracy. 
 	"""
 	print min_image_count
 	for n in range(len(all_total_images)):

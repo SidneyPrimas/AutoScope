@@ -9,6 +9,7 @@ import json
 import sys
 import random
 import argparse
+import shutil
 
 
 #Import keras libraries
@@ -190,9 +191,9 @@ def generate_particlePredictions_from_inputImage(model, data,  target_file_path,
 
 	# Save images
 	debug_images_path = output_folder_path + "debug_output/" + output_file_prefix
-	cv2.imwrite(debug_images_path + "_model_raw_prediction.bmp" , pred_img_rgb)
-	cv2.imwrite(debug_images_path + "_processed_prediction.bmp" , particle_label_img_rgb)
-	cv2.imwrite(debug_images_path + "_labeled_form_semantic.bmp" , original_img)
+	cv2.imwrite(debug_images_path + "_model_raw_prediction.jpg" , pred_img_rgb)
+	cv2.imwrite(debug_images_path + "_processed_prediction.jpg" , particle_label_img_rgb)
+	cv2.imwrite(debug_images_path + "_labeled_form_semantic.jpg" , original_img)
 	
 
 	return component_labels
@@ -310,7 +311,7 @@ def get_centroid_list(model, data, target_file_path, output_folder_path):
 	# Save results: Segmented image
 	output_debug_path_prefix = output_folder_path + "debug_output/" + output_file_prefix 
 	img_output = CNN_functions.get_color_image(pred_image, data.config.nclasses, data.config.colors)
-	cv2.imwrite(output_debug_path_prefix + "_segmented.bmp", img_output)
+	cv2.imwrite(output_debug_path_prefix + "_segmented.jpg", img_output)
 
 	# Save results: centroid list
 	output_log = open(output_debug_path_prefix + "_centroid_list.log" , 'w+')
@@ -373,7 +374,7 @@ def crop_based_on_centroids(target_file_path, centroid_list, output_folder_path)
 				center=circl_centroid, 
 				radius=indicator_radius, 
 				color=indicator_color, 
-				thickness=2)
+				thickness=3)
 
 			
 	# Save output with cropped images
@@ -463,7 +464,11 @@ def clean_up_old_output_folders(root_folder, output_folders):
 		output_folder_path = root_folder + target_folder
 
 		# Remove folder if it exists
-		CNN_functions.delete_folder_with_confirmation(output_folder_path)
+		if (os.path.exists(output_folder_path)): 
+			shutil.rmtree(output_folder_path)
+
+		# Alternative: Ask user to delete folder. 
+		#CNN_functions.delete_folder_with_confirmation(output_folder_path)
 
 
 def auto_determine_segmentation_config_parameters(output_folder_suffix):

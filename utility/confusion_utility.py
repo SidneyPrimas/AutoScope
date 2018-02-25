@@ -1,10 +1,3 @@
-"""
-    File name: confusion_utility.py
-    Author: Sidney Primas
-    Date created: 11/15/2017
-    Python Version: 2.7
-    Description: Utility functions used by other print files. 
-"""
 import matplotlib.pyplot as plt
 import numpy as np
 import itertools
@@ -13,10 +6,15 @@ from ast import literal_eval
 
 
 """
-This function gets the confusion matrix from the log file. 
-If indicated by input_number, it averages multiple confusion matrices. 
+Description: Utility functions used by other print files. 
 """
+
+
 def get_confusion_matrix(log_path, total_input, class_size):
+	"""
+	This function gets the confusion matrix from the log file. 
+	If indicated by input_number, it averages multiple confusion matrices. 
+	"""
 
 	with open(log_path) as f:
 		# Keeps track of total inputs
@@ -60,11 +58,12 @@ def convert_to_np_array(confustion_list):
 
 
 
-"""
-This function prints and plots the confusion matrix.
-Normalization can be applied by setting `normalize=True`.
-"""
+
 def plot_confusion_matrix(cm, classes, normalize=False, title = '', cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
     
     if normalize:
         cm = 100*cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
@@ -82,10 +81,14 @@ def plot_confusion_matrix(cm, classes, normalize=False, title = '', cmap=plt.cm.
     plt.yticks(tick_marks, classes, fontsize="16")
     fig.patch.set_facecolor('white')
 
+    percent_str = ''
+    if (normalize):
+        percent_str='%'
+
     fmt = '.0f'
     thresh = cm.max() / 2.
     for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
-        plt.text(j, i, format(cm[i, j], fmt),
+        plt.text(j, i, format(cm[i, j], fmt)+percent_str,
                  horizontalalignment="center",
                  color="white" if cm[i, j] > thresh else "black")
 
@@ -94,11 +97,11 @@ def plot_confusion_matrix(cm, classes, normalize=False, title = '', cmap=plt.cm.
     plt.xlabel('Predicted Particle Type', fontsize="20")
 
 
-"""
-This function calculatates and prints different stats 
-related to classification quality. 
-"""
 def display_classification_stats(cm, class_names):
+	"""
+	This function calculatates and prints different stats 
+	related to classification quality. 
+	"""
 
 	# Calculate based parameters (with numpy matrix)
 	# Use following link as reference: https://stackoverflow.com/questions/31324218/scikit-learn-how-to-obtain-true-positive-true-negative-false-positive-and-fal

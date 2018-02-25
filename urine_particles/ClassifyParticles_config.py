@@ -30,7 +30,7 @@ class ClassifyParticles_Config():
 		self.batch_size = 64
 		self.num_epochs = 5  # Print validation results after each epoch. Save model after num_epochs.
 		self.batches_per_epoch_train = 100 # Batches for each training session. If None, set so that every image is trained. 
-		self.batches_per_epoch_val = 7 # Batches for each validation session. If None, set so that every image is trained. 
+		self.batches_per_epoch_val = 4 # Batches for each validation session. If None, set so that every image is trained. 
 		self.nclasses = 4
 		self.class_mapping = {'10um': 0, 'other': 1, 'rbc': 2,  'wbc': 3}
 		self.enable_custom_features = True # If true, feeds cropped image centroids into model (use base_model_with_pos model)
@@ -54,7 +54,7 @@ class ClassifyParticles_Config():
 		self.weight_file_input = None if self.weight_file_input_name is None else (self.root_data_dir + "model_storage/" + self.project_folder + self.weight_file_input_name)  
 		self.image_shape = self.target_size + (self.channels,)
 		#self.colors = [(random.randint(0,255),random.randint(0,255),random.randint(0,255)) for _ in range(self.nclasses)]
-		self.colors = [(0,0,255), (0,0,0), (255,0,0),(0,255,0)] # in bgr format
+		self.colors = [(255,0,0), (0,0,0), (0,0,255),(255,255,255)] # in bgr format
 		self.classification_metadata = CNN_functions.get_json_log(self.root_data_dir + "image_data/" + self.project_folder + "classification_metadata.log")
 		
 		# Microscope configuration

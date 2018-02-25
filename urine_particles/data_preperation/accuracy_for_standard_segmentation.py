@@ -21,9 +21,9 @@ Note:
 
 """ Configuration """
 # Files/Folders
-class_name = '10um'
-img_filename = '10um_img1.bmp'
-mask_filename = '10um_img1.bmp'
+class_name = 'rbc'
+img_filename = 'rbc_img1.bmp'
+mask_filename = 'rbc_img1.bmp'
 img_input_path = './urine_particles/data/clinical_experiment/image_data/20180120_training/segmentation/val_images/' + class_name + '/' + img_filename
 mask_input_path = './urine_particles/data/clinical_experiment/image_data/20180120_training/segmentation/val_annotations/' + class_name + '/' + mask_filename
 output_folder = './urine_particles/data/clinical_experiment/image_data/20180120_training/segmentation/img_output/'

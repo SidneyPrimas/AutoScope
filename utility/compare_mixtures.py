@@ -1,10 +1,3 @@
-"""
-    File name: compare_mixtures.py
-    Author: Sidney Primas
-    Python Version: 2.7
-    Description: Used to compare classification results across different solution mixtures. 
-"""
-
 import matplotlib.pyplot as plt
 from scipy import stats
 import numpy as np
@@ -12,8 +5,12 @@ import re
 import sys
 import pprint
 
+"""
+Description: Used to compare classification results across different solution mixtures. 
+"""
+
 # Import homebrew functions
-base_directory = "./urine_particles/data/clinical_experiment/log/20180205_training_plus/particleCount_cloud_results/notEqual_withPos/"
+base_directory = "./urine_particles/data/clinical_experiment/log/20180205_training_plus/particleCount_cloud_results/20180205_final_model_highAug_original/"
 sys.path.append(base_directory)
 import config 
 
@@ -24,6 +21,8 @@ import config
 hpf_area = 0.196349541 # in mm^2
 primas_area = 10.1568 # in mm^2
 k_primas_to_HPF = hpf_area/float(primas_area) 
+
+indicator_dict = {'rbc': 'red', 'wbc': 'black', '10um': 'blue' }
 
 title = ""
 
@@ -39,7 +38,7 @@ def main():
 	# Debug
 	pp = pprint.PrettyPrinter(indent=1)
 	pp.pprint(results_dict)
-	pp.pprint(target_metrics_dict)
+	#pp.pprint(target_metrics_dict)
 
 	plot_results(results_dict, target_metrics_dict, title)
 
@@ -133,18 +132,21 @@ def calculate_solution_metrics():
 
 
 
-def plot_results(results_dict, target_metrics_dict, title, log_avg=True, graph_classes=True, metric='percent'):
+def plot_results(results_dict, target_metrics_dict, title, log_avg=False, graph_classes=False, metric='percent'):
 
 	# Aggregate results
 	results_metrics = {} if graph_classes else []
 	target_metrics = {} if graph_classes else []
+
 	for sol_name in results_dict:
 		for img_name in results_dict[sol_name]:
-			
+
 			# Handles log_avg case. only aggregate the retuls for averages in 'final' 
-			if (log_avg): 
-				if(img_name != 'final'):
-					continue
+			if (log_avg) and (img_name != 'final'): 
+				continue
+			# Handles log_avg case. Skips final average if looking at results for each image. 
+			if (not log_avg) and (img_name == 'final'): 
+				continue
 
 			for class_name in results_dict[sol_name][img_name]:
 				# Other class not relevant for comparing to expected metrics. 
@@ -179,23 +181,54 @@ def plot_dict_results(target_metrics, results_metrics):
 	for class_name in results_metrics: 
 
 		# Calculate relevant statistics 
-		slope, intercept, r_value, p_value, _ = stats.linregress(target_metrics[class_name], results_metrics[class_name])
+		slope, intercept, r_value, p_value, stderr = stats.linregress(target_metrics[class_name], results_metrics[class_name])
 		r_squared = r_value**2
-		print ("slope: %f, intercept: %f, r_squared: %f, p_value: %f")%(slope, intercept, r_squared, p_value)
+		print ("slope: %f, intercept: %f, r_squared: %f, p_value: %f, stderr: %f")%(slope, intercept, r_squared, p_value, stderr)
 
-		# Plot
-		fitted_line = [(intercept + slope*value) for value in target_metrics[class_name]]
-		fitted_legend_str = ("%s (r^2: %0.03f)")%(class_name, r_squared)
-		plt.plot(target_metrics[class_name], fitted_line, label=fitted_legend_str)
-		plt.scatter(target_metrics[class_name], results_metrics[class_name], label=class_name)
+		# Add class catter plot
+		if (class_name == 'wbc'):
+			plt.scatter(target_metrics[class_name], results_metrics[class_name], label=class_name, color=indicator_dict[class_name], s=120, facecolors='none')
+		else: 
+			plt.scatter(target_metrics[class_name], results_metrics[class_name], label=class_name, color=indicator_dict[class_name], s=120)
 
+		# User defined best fit plotting => auto fit for every class
+		if (False): 
+			fitted_line = [(intercept + slope*value) for value in target_metrics[class_name]]
+			fitted_legend_str = ("%s (r^2: %0.03f)")%(class_name, r_squared)
+			plt.plot(target_metrics[class_name], fitted_line, 'r', label=fitted_legend_str)
+
+	# User defined best fit plotting => manual, user defined fit. 
+	if (True): 
+		# With 'WBC Solo'
+		# intercept = 6.085599
+		# slope = 0.817443
+		# r_squared = 0.919007 
+		# Without 'WBC Solo'
+		# intercept = 3.138772
+		# slope = 0.905837
+		# r_squared = 0.980137 
+		# Day 1
+		# intercept = 3.508569
+		# slope = 0.894743
+		# r_squared = 0.974421 
+		# Day 2
+		# intercept = 1.945489
+		# slope = 0.941635
+		# r_squared = 0.999101 
+		# Without 'WBC Solo' (no average)
+		intercept = 3.318622
+		slope = 0.900432
+		r_squared = 0.945604 
+		fitted_line = [(intercept + slope*value) for value in range(100)]
+		fitted_legend_str = ("Fitted (r^2: %0.03f)")%(r_squared)
+		plt.plot(range(100), fitted_line, color='gray', label=fitted_legend_str)
 
 	# Plot characteristics
 	plt.title(title)
 	fig.patch.set_facecolor('white')
 	plt.legend(loc='upper left', prop={'size':12}, frameon=True)
-	plt.xlabel("Expected Proportion (%)", fontsize="20")
-	plt.ylabel("Measured Proportion (%)", fontsize="20")
+	plt.xlabel("Reference Results (%)", fontsize="20")
+	plt.ylabel("AutoScope Results (%)", fontsize="20")
 	# axes = fig.axes[0]
 	# axes.set_ylim([0,100])
 	# axes.set_xlim([0,100])
@@ -207,16 +240,16 @@ def plot_list_results(target_metrics, results_metrics):
 	fig = plt.figure()
 
 	# Calculate relevant statistics 
-	slope, intercept, r_value, p_value, _ = stats.linregress(target_metrics, results_metrics)
+	slope, intercept, r_value, p_value, stderr = stats.linregress(target_metrics, results_metrics)
 	r_squared = r_value**2
-	print ("slope: %f, intercept: %f, r_squared: %f, p_value: %f")%(slope, intercept, r_squared, p_value)
+	print ("slope: %f, intercept: %f, r_squared: %f, p_value: %0.68f, stderr: %f")%(slope, intercept, r_squared, p_value, stderr)
 
 	# Plot
 	plt.title(title)
 	plt.scatter(target_metrics, results_metrics, label="metric")
 	fitted_line = [(intercept + slope*value) for value in target_metrics]
 	fitted_legend_str = ("Fitted (r^2: %0.03f)")%(r_squared)
-	plt.plot(target_metrics, fitted_line, 'r', label=fitted_legend_str)
+	plt.plot(target_metrics, fitted_line, color='gray', label=fitted_legend_str)
 	fig.patch.set_facecolor('white')
 	plt.legend(loc='lower right', prop={'size':12}, frameon=True)
 	plt.xlabel("Expected Proportion (%)", fontsize="20")

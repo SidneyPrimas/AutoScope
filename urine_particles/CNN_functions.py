@@ -187,7 +187,7 @@ def standard_segmentation(img_input, min_particle_size):
 	img_input: Raw, grayscale autoscope image. 
 	Output: Segmented image, with each pixel labeled as either 0 (background) or 1 (foreground). Single channel image. 
 	"""
-
+	
 	# Adaptive threshold: Since we have different illuminations across image, we use an adaptive threshold 
 	im_thresh = cv2.adaptiveThreshold(img_input, 1, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 5, 4)
 
@@ -211,7 +211,6 @@ def standard_segmentation(img_input, min_particle_size):
 		# Area: If any connected component has an area less than "min_particle_size" pixels, turn it into a background (black)
 		if base_stats[index][4] <= min_particle_size:
 			im_morph[base_markers == index] = 0
-
 
 	# After the obvious components have been removed, the rest of the components are consolidated by closing the particles. 
 	struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (4,4))
