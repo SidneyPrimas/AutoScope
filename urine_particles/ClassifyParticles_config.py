@@ -22,9 +22,9 @@ Implementation Notes:
 class ClassifyParticles_Config():
 	def __init__(self):
 		# Core Configurations: Manually updated by user. Always needed. 
-		self.project_folder = "20180205_training_plus/"
+		self.project_folder = "20180225_digital_urine/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name =  None #"classify_weights_0.h5" #"classification_base_model_ImageNorm_grayscale.h5" #Set to 'None' to disable.
+		self.weight_file_input_name =   None #'20180211_final_model_midAug.h5'	#Set to 'None' to disable.
 		self.weight_file_output_name = "classify_weights_" # Set to 'None' to disable. 
 		self.target_size = (64, 64) # Warning: Be careful if non-square dimensions (see above note). 
 		self.batch_size = 64

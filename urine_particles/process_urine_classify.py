@@ -9,15 +9,10 @@ import re
 import argparse
 
 #Import keras libraries
-from tensorflow.python.keras.optimizers import SGD, RMSprop
-from tensorflow.python.keras.metrics import categorical_accuracy
 from tensorflow.python.keras.utils import plot_model
 
 # import from local libraries
-from ClassifyParticlesData import ClassifyParticlesData
 import CNN_functions
-from classification_models import base_model_with_pos as createModel
-from ClassifyParticles_config import ClassifyParticles_Config
 
 """
 Description: Given a setup of croped particles, classify particles. Provide statistics on predictions. 
@@ -59,7 +54,7 @@ def main():
 		root_folder, input_folders, input_img_count = auto_determine_classification_config_parameters(output_folder_suffix="crops")
 
 	# Builds the classification model
-	model, data = initialize_classification_model(log_dir=root_folder)
+	model, data = CNN_functions.initialize_classification_model(log_dir=root_folder)
 
 	# Print Configuration
 	data.config.logger.info("Segmentation Prediction Results")
@@ -221,36 +216,6 @@ def build_sorted_output_folder(output_dir, labels_to_class):
 	for label, class_name in labels_to_class.iteritems():
 		os.makedirs(output_dir + class_name)
 
-def initialize_classification_model(log_dir=None):
-	""" 
-	Builds the classification  model and loads the pre-trained weights. 
-	"""
-
-	# Instantiates configuration for training/validation
-	config = ClassifyParticles_Config()
-
-	# Reroute/update logging
-	if (log_dir):
-		prefix = log_dir.split('/')[-2]
-		log_file_name = prefix + "_classification_prediction.log" #If None, then name based on datetime.
-		config.logger = CNN_functions.create_logger(log_dir, file_name=log_file_name, log_name="predict_classify_logger")
-
-
-	# Print configuration
-	CNN_functions.print_configurations(config) # Print config summary to log file
-
-
-	# Instantiate training/validation data
-	data = ClassifyParticlesData(config)
-
-	# Builds model
-	model = createModel(input_shape = config.image_shape, base_weights = config.imagenet_weights_file, classes=config.nclasses)
-
-
-	# Load weights (if the load file exists)
-	CNN_functions.load_model(model, config.weight_file_input, config)
-
-	return model, data
 
 def auto_determine_classification_config_parameters(output_folder_suffix):
 	"""

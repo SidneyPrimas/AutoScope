@@ -25,20 +25,22 @@ Execution Notes:
 To Do: 
 + Need to consolidate create_classification_folder_from_labels.py, create_classification_folder_from_model.py and segment_urine.py
 ++ These files are based on each other and they have A LOT of overlapping code. 
-+ Figure out indication radius + detection radius => Should be the same
 """
 
 # User inputs (apply to any directories)
 input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
-output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180205_training_plus/'  
-classification_folder_name = "classification/"
+output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180225_digital_urine/'  
+classification_folder_name = "particle_source/"
 
 detection_radius = 30 # Radius (measured in pixels) that indicates the allowable distance between a predicted particle and a reference particle to be deemed accurate. Used on the orignal image
+indicator_radius = 20 # Indicator radius for segmentation mask
 output_crop_size = 64 # The output size of the crops, measured in pixels. Used on the original image. 
-validation_proportion = 0.1 #Proportion of images placed in validation
+validation_proportion = 0.2 #Proportion of images placed in validation
 skip_boundary_particles = True # Skip the particles that are on the boundary of the image. 
 debug_flag = True
-balance_classes = False
+balance_classes = False # Flag to balance classes in training and validation. 
+segmentation_metadata_exists = False # Flag to cross-reference metadata from classification/segmentation setup.
+
 
 
 classification_labels = {
@@ -48,6 +50,7 @@ classification_labels = {
 	"wbc"			:	{"particle": "wbc", "other": "other", "discard": "other", "accident": "other"}, 
 }
 nclasses = 4
+input_particle_folders = ["wbc/", "10um/", "rbc/"]
 
 
 """ Fixed + auto-calculated parameters. """
@@ -57,7 +60,6 @@ validation_root_dir = classification_folder_dir + "validation/"
 classification_debug_output = classification_folder_dir + "debug_output/"
 segmentation_metadata_log = output_dir_root + "segmentation_metadata.log"
 classification_metadata_path = output_dir_root + 'classification_metadata.log'
-segmentation_metadata = None # updated during execution 
 
 
 
@@ -72,14 +74,12 @@ def main():
 
 
 	# Get segmentation metadata
-	log = open(segmentation_metadata_log, 'r')
-	global segmentation_metadata # Defined as global since update variable in global context during execution.
-	segmentation_metadata = json.load(log)
-	log.close()
+	if (segmentation_metadata_exists):
+		veryify_segmentation_metadata()
 
 
 	# Generate all the crops for classification (where each class is placed in a different folder)
-	generate_crops_from_labels(segmentation_metadata)
+	generate_crops_from_labels(input_particle_folders)
 
 	# Split into validation and training data
 	util.split_data(input_dir=training_root_dir, output_dir=validation_root_dir, move_proportion=validation_proportion, in_order=False)
@@ -93,11 +93,12 @@ def main():
 	create_classification_metadata_log(classification_metadata_path)
 
 
-def generate_crops_from_labels(segmentation_metadata):
+def generate_crops_from_labels(input_particle_folders):
 	"""Description: Crop particles based on ground truth labels."""
 
 	# Creates crop for reference coordinate log in in raw_image_data.
-	for particle_folder in segmentation_metadata["input_particle_folders"]:
+
+	for particle_folder in input_particle_folders:
 
 		coordinate_files = glob(input_dir_root + particle_folder + "coordinates/*_classes.json")
 
@@ -163,7 +164,7 @@ def crop_particles_into_class_folders_using_labels(original_image, particle_list
 			cv2.circle(
 				original_cpy, 
 				center=circl_centroid, 
-				radius=segmentation_metadata["indicator_radius"], 
+				radius=indicator_radius, 
 				color=(0, 255, 0), 
 				thickness=2)
 
@@ -205,13 +206,28 @@ def create_classification_metadata_log(path):
 		"output_crop_size": output_crop_size, 
 		"skip_boundary_particles": skip_boundary_particles, 
 		"validation_proportion": validation_proportion, 
-		"segmentation_metadata": segmentation_metadata
+		"input_particle_folders": input_particle_folders
 	}
 
 	
 	output_log = open(path , 'w+')
 	json.dump(classification_metadata, output_log)
 	output_log.close()
+
+
+def veryify_segmentation_metadata(): 
+	log = open(segmentation_metadata_log, 'r')
+	segmentation_metadata = json.load(log)
+	log.close()
+
+	seg_input_folders = segmentation_metadata['input_particle_folders']
+
+	if (sorted(seg_input_folders) != sorted(input_particle_folders)):
+		raise RuntimeError("Metadata from creating segmentation folder does not match classification metadata. Please reconcile input_particle_folders!")
+
+	if (segmentation_metadata['indicator_radius'] != indicator_radius): 
+		raise RuntimeError("Metadata from creating segmentation folder does not match classification metadata. Please reconcile indicator radisu!")
+
 
 
 

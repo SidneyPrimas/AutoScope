@@ -489,8 +489,8 @@ class ClassifyParticlesData(object):
 				fill_mode='nearest')
 
 			x = random_shift(x, 
-				wrg=0.2, 
-				hrg=0.2, 
+				wrg=0.1, # high_aug => 0.2, med_aug => 0.1
+				hrg=0.1, 
 				row_axis=0, 
 				col_axis=1, 
 				channel_axis=2,

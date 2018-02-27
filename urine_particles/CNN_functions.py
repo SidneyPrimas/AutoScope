@@ -11,7 +11,15 @@ import glob
 import shutil
 import re
 
+#Import keras libraries
+from tensorflow.python.keras.utils import plot_model
 from tensorflow.python.keras._impl.keras import backend as K
+
+# import from local libraries
+from ClassifyParticlesData import ClassifyParticlesData
+import CNN_functions
+from classification_models import base_model_with_pos as createModel
+from ClassifyParticles_config import ClassifyParticles_Config
 
 
 def save_struct_to_file(history, file_path):
@@ -479,7 +487,7 @@ def print_summary_statistics_for_labels(label_list, class_mapping, config, disca
 	label_count_dic = count_labels(label_list, class_mapping)
 	# Count total number of labels
 	total_labels = sum(label_count_dic.values())
-	# Count the total number of particles => discarding the discard_lavel
+	# Count the total number of particles => discarding the discard_label
 	total_particles = np.sum(counts for label, counts in label_count_dic.iteritems() if label != discard_label)
 
 	# Print summary results
@@ -561,4 +569,35 @@ def get_coordinates_from_cropname(crop_filename):
 
 
 	return coordinate_pos
+
+def initialize_classification_model(log_dir=None):
+	""" 
+	Builds the classification  model and loads the pre-trained weights. 
+	"""
+
+	# Instantiates configuration for training/validation
+	config = ClassifyParticles_Config()
+
+	# Reroute/update logging
+	if (log_dir):
+		prefix = log_dir.split('/')[-2]
+		log_file_name = prefix + "_classification_prediction.log" #If None, then name based on datetime.
+		config.logger = CNN_functions.create_logger(log_dir, file_name=log_file_name, log_name="predict_classify_logger")
+
+
+	# Print configuration
+	print_configurations(config) # Print config summary to log file
+
+
+	# Instantiate training/validation data
+	data = ClassifyParticlesData(config)
+
+	# Builds model
+	model = createModel(input_shape = config.image_shape, base_weights = config.imagenet_weights_file, classes=config.nclasses)
+
+
+	# Load weights (if the load file exists)
+	load_model(model, config.weight_file_input, config)
+
+	return model, data
 
