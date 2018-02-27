@@ -18,15 +18,19 @@ import CNN_functions
 """ 
 Description: Processes many digiital urine samples through classification algo to determine sensitivity/specificity of classification algo. 
 
-Execution Notes: 
+Implementatinos Notes: 
 + Creating digital urine: When creating digital urine: 1) determine the expected particles per HPF (with decimals), 2) multiply by the total of HPFs and 3) round. This allows to give you a better estimate of the exact concentration of the urine. If we round prior to multiplying by HPFs, then you will only get a few discrete solution concentrations. 
 + Running out of particles: When creating a digital solution, if we run out of particles, we reuse particles again. The reason for this: 1) if we run out of particles, we will be so far above the threshold that it won't matter for the results of that specific particle (although it could matter for other particles), 2) different runs of the same repeat particles through the network will give different results, which will reduce variability (this is the whole point of using more than 1 HPF), 3) this is a rare occurence due to the particle distributions. 
 + Drawbacks of this method: 1) We do not include error from segmentation 2) we re-use particles across different digital samples, 3) etc 
+
+Execution Notes: 
++ Before running the script, make sure you selected the correct model in CNN_Functions (since model initialize there)
+
 """
 
 """ Configuration """
 # Main Configuration Parameters
-total_solutions_to_run = 100 # indicate the number of solutions to test.
+total_solutions_to_run = 250 # indicate the number of solutions to test.
 
 # Files/Folders
 input_dir_root = './urine_particles/data/clinical_experiment/image_data/20180225_digital_urine/digital_urine_v1/'  
@@ -38,7 +42,7 @@ class_mapping =  {0:'10um', 1:'other', 2:'rbc', 3:'wbc'}
 # Anything at given threshold or below is Negative. Anything above is positive. 
 thresholds = {'10um': 5, 'other': 0, 'rbc': 5, 'wbc': 5} # A threshold of 0 indicates to exclude the particle.
 indicator_dict = {'rbc': 'red', 'wbc': 'black', '10um': 'blue', 'other': 'orange'} 
-total_HPF_per_solution = 2.0 # Number of HPFs taken to product a results. Global var (not pass through functions.)
+total_HPF_per_solution = 1.0 # Number of HPFs taken to product a results. Global var (not pass through functions.)
 min_other_particles_per_HPF = 1 # The minimum number of other particles in each HPF. 
 
 # Distributions are calculated in utility/particle_distributions.py
@@ -56,6 +60,7 @@ reuse_particles_count = 0 #Global var updated during execution
 def main():
 
 	# Create CNN model and data model.
+	# WARNING: PICK THE CORRECT MODEL IN CNN_FUNCTIONS
 	model, data = CNN_functions.initialize_classification_model(log_dir=input_dir_root)
 	# Make sure batch_size in configuration correctly setup. 
 	if (data.config.batch_size != 1):

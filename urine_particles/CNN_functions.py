@@ -16,10 +16,9 @@ from tensorflow.python.keras.utils import plot_model
 from tensorflow.python.keras._impl.keras import backend as K
 
 # import from local libraries
-from ClassifyParticlesData import ClassifyParticlesData
-import CNN_functions
-from classification_models import base_model_with_pos as createModel
-from ClassifyParticles_config import ClassifyParticles_Config
+import ClassifyParticlesData  
+import classification_models as createModel
+import ClassifyParticles_config
 
 
 def save_struct_to_file(history, file_path):
@@ -576,7 +575,7 @@ def initialize_classification_model(log_dir=None):
 	"""
 
 	# Instantiates configuration for training/validation
-	config = ClassifyParticles_Config()
+	config = ClassifyParticles_Config.ClassifyParticles_Config()
 
 	# Reroute/update logging
 	if (log_dir):
@@ -590,10 +589,10 @@ def initialize_classification_model(log_dir=None):
 
 
 	# Instantiate training/validation data
-	data = ClassifyParticlesData(config)
+	data = ClassifyParticlesData.ClassifyParticlesData(config)
 
-	# Builds model
-	model = createModel(input_shape = config.image_shape, base_weights = config.imagenet_weights_file, classes=config.nclasses)
+	# Builds model 
+	model = createModel.base_model_with_pos(input_shape = config.image_shape, base_weights = config.imagenet_weights_file, classes=config.nclasses)
 
 
 	# Load weights (if the load file exists)
