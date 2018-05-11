@@ -9,7 +9,7 @@ Description: Visualize confusion matrix.
 
 # Import homebrew functions
 base_directory = "./urine_particles/data/clinical_experiment/log/20180205_training_plus/classification_training_log/"
-log_name = "20180211_final_model_highAug_v2.log"
+log_name = "20180211_final_model_medAug.log"
 sys.path.append(base_directory)
 import config 
 

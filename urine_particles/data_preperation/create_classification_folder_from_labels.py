@@ -30,7 +30,7 @@ To Do:
 # User inputs (apply to any directories)
 input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
 output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180225_digital_urine/'  
-classification_folder_name = "particle_source/"
+classification_folder_name = "digital_urine_v2/"
 
 detection_radius = 30 # Radius (measured in pixels) that indicates the allowable distance between a predicted particle and a reference particle to be deemed accurate. Used on the orignal image
 indicator_radius = 20 # Indicator radius for segmentation mask

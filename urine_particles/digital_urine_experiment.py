@@ -22,6 +22,7 @@ Implementatinos Notes:
 + Creating digital urine: When creating digital urine: 1) determine the expected particles per HPF (with decimals), 2) multiply by the total of HPFs and 3) round. This allows to give you a better estimate of the exact concentration of the urine. If we round prior to multiplying by HPFs, then you will only get a few discrete solution concentrations. 
 + Running out of particles: When creating a digital solution, if we run out of particles, we reuse particles again. The reason for this: 1) if we run out of particles, we will be so far above the threshold that it won't matter for the results of that specific particle (although it could matter for other particles), 2) different runs of the same repeat particles through the network will give different results, which will reduce variability (this is the whole point of using more than 1 HPF), 3) this is a rare occurence due to the particle distributions. 
 + Drawbacks of this method: 1) We do not include error from segmentation 2) we re-use particles across different digital samples, 3) etc 
++ Distribution Estimation: Since we don't let counts go to inf, we are not a perfect distribtion. However, our range is close enough (way over 95 percent of counts)
 
 Execution Notes: 
 + Before running the script, make sure you selected the correct model in CNN_Functions (since model initialize there)
@@ -30,30 +31,35 @@ Execution Notes:
 
 """ Configuration """
 # Main Configuration Parameters
-total_solutions_to_run = 250 # indicate the number of solutions to test.
+total_solutions_to_run = 209 # indicate the number of solutions to test.
+# Reference thresholds are ground truth thresholds. Device thresholds are the custom thresholds set for our system to max spec/sens.
+# Anything at given threshold or below is Negative. Anything above is positive. 
+thresholds_ref = {'10um': 5, 'other': 0, 'rbc': 3, 'wbc': 5} # A threshold of 0 indicates to exclude the particle.
+#thresholds_device = {'10um': 5, 'other': 0, 'rbc': 5, 'wbc': 4}
+thresholds_device = {'10um': 5, 'other': 0, 'rbc': 4, 'wbc': 4}
 
 # Files/Folders
-input_dir_root = './urine_particles/data/clinical_experiment/image_data/20180225_digital_urine/digital_urine_v1/'  
+input_dir_root = './urine_particles/data/clinical_experiment/image_data/20180225_digital_urine/digital_urine_0p2val/'  
 validation_root_dir = input_dir_root + 'validation/'
 experimental_root_dir = input_dir_root + 'experiment_folder/'
 
 
 class_mapping =  {0:'10um', 1:'other', 2:'rbc', 3:'wbc'}
-# Anything at given threshold or below is Negative. Anything above is positive. 
-thresholds = {'10um': 5, 'other': 0, 'rbc': 5, 'wbc': 5} # A threshold of 0 indicates to exclude the particle.
 indicator_dict = {'rbc': 'red', 'wbc': 'black', '10um': 'blue', 'other': 'orange'} 
-total_HPF_per_solution = 1.0 # Number of HPFs taken to product a results. Global var (not pass through functions.)
+total_HPF_per_solution = 3.0 # Number of HPFs taken to product a results. Global var (not pass through functions.)
 min_other_particles_per_HPF = 1 # The minimum number of other particles in each HPF. 
 
 # Distributions are calculated in utility/particle_distributions.py
 urine_distributions = {
-	'10um': [ 0.2294182,  -0.13857566,  0.7705818,  -1.01251156],
-	'other': [ 0.2294182,  -0.13857566,  0.7705818,  -1.01251156],
-	'rbc': [ 0.82998251, -0.95769342,  0.1652328,  -0.04514385],
-	'wbc': [ 0.6399102,  -0.44225141,  0.3600898,  -0.0301516 ]
+	'10um': [-0.05702037, -0.03863947, -0.94297963, -0.2990867 ],
+	'other':[-0.05702037, -0.03863947, -0.94297963, -0.2990867 ],
+	'rbc': [-0.83476613, -0.95886132, -0.16523387, -0.04514418],
+	'wbc': [-0.14899523, -0.00707958, -0.85100477, -0.20460091]
 }
 
+# Global vars that are updated
 reuse_particles_count = 0 #Global var updated during execution 
+sample_count = 0
 
 
 
@@ -83,10 +89,10 @@ def run_all_digital_urine_samples(model, data, class_mapping):
 		reference_dict, results_dict = run_single_digital_urine_sample(model, data, class_mapping)
 
 		# Track overall results
-		for class_name in thresholds: 
+		for class_name in thresholds_ref: 
 
 			# Don't include any particles that have a 0 threshold in results. 
-			if thresholds[class_name] == 0:
+			if thresholds_ref[class_name] == 0:
 				continue
 
 			# Initialize list in dictionary if necessary
@@ -103,8 +109,9 @@ def run_all_digital_urine_samples(model, data, class_mapping):
 
 def run_single_digital_urine_sample(model, data, class_mapping):
 
-
-	data.config.logger.info("New Sample: ")
+	global sample_count
+	sample_count += 1 
+	data.config.logger.info("New Sample: %d", sample_count)
 
 	sample_reference_dict = create_digital_urine_reference(validation_root_dir, class_mapping, urine_distributions)
 
@@ -128,12 +135,12 @@ def create_digital_urine_reference(source_folder, class_mapping, urine_distribut
 		a1, b1, a2, b2 = urine_distributions[class_name]
 
 		# Obtain the PDF
-		counts = np.array(np.linspace(0,50,200))
-		pdf = -b1*a1*np.exp(b1*counts) + -b2*a2*np.exp(b2*counts)
+		counts = np.array(np.linspace(0,40,200))
+		pdf = b1*a1*np.exp(b1*counts) + b2*a2*np.exp(b2*counts)
 
 		# Sanity check that the sum of the PDF is within the range
 		pdf_sum =  np.trapz(pdf, counts)
-		if (pdf_sum > 1.1) or (pdf_sum < 0.9):
+		if (pdf_sum > 1.1) or (pdf_sum < 0.85):
 			print "Sum of Derivative: %f"%(pdf_sum)
 			raise ValueError("The PDF doesn't sum to a number that is sufficiently close to 1.")
 
@@ -229,13 +236,20 @@ def summarize_entire_urine_experiment(reference_all_dict, results_all_dict, conf
 	for class_name in reference_all_dict: 
 		reference_all_list.extend(reference_all_dict[class_name])
 		results_all_list.extend(results_all_dict[class_name])
+
+		# Update Scatter Plot
 		plt.scatter(reference_all_dict[class_name], results_all_dict[class_name], label=class_name, color=indicator_dict[class_name], s=60, facecolors='none')
+
+		# Print Per Particle Best Fit
+		slope, intercept, r_value, p_value, stderr = stats.linregress(reference_all_dict[class_name], results_all_dict[class_name])
+		r_squared = r_value**2
+		config.logger.info("** %s **: slope: %f, intercept: %f, r_squared: %f, p_value: %f, stderr: %f",class_name, slope, intercept, r_squared, p_value, stderr)
 	
 
 	# Add the best fit line
 	slope, intercept, r_value, p_value, stderr = stats.linregress(reference_all_list, results_all_list)
 	r_squared = r_value**2
-	config.logger.info("slope: %f, intercept: %f, r_squared: %f, p_value: %f, stderr: %f",slope, intercept, r_squared, p_value, stderr)
+	config.logger.info("** All **: slope: %f, intercept: %f, r_squared: %f, p_value: %f, stderr: %f",slope, intercept, r_squared, p_value, stderr)
 	fitted_line_range = int(max(reference_all_list))+1
 	fitted_line = [(intercept + slope*value) for value in range(fitted_line_range)]
 	fitted_legend_str = ("Fitted (r^2: %0.03f)")%(r_squared)
@@ -244,8 +258,8 @@ def summarize_entire_urine_experiment(reference_all_dict, results_all_dict, conf
 	# Plot configurations 
 	fig.patch.set_facecolor('white')
 	plt.legend(loc='upper left', prop={'size':12}, frameon=True)
-	plt.xlabel("Reference Results (Per HPF)", fontsize="20")
-	plt.ylabel("Classification Results (Per HPF)", fontsize="20")
+	plt.xlabel("Reference Counts (Per HPF)", fontsize="15")
+	plt.ylabel("AutoScope Counts (Per HPF)", fontsize="15")
 
 
 	# Print number of times particles had to be reused while making a digital solution
@@ -259,27 +273,29 @@ def summarize_entire_urine_experiment(reference_all_dict, results_all_dict, conf
 		a1, b1, a2, b2 = urine_distributions[class_name]
 
 		# Obtain the PDF
-		counts = np.array(np.linspace(0,50,200))
-		pdf = -b1*a1*np.exp(b1*counts) + -b2*a2*np.exp(b2*counts)
+		counts = np.array(np.linspace(0,40,200))
+		pdf = b1*a1*np.exp(b1*counts) + b2*a2*np.exp(b2*counts)
 
 		#Create graphs
 		fig = plt.figure()
-		n, bins, patches = plt.hist(reference_all_dict[class_name], bins=20, normed=True, facecolor='green', alpha=0.75)
-		plt.plot(counts, pdf)
+		n, bins, patches = plt.hist(reference_all_dict[class_name], bins=40, range=(0,40), normed=True, facecolor='green', alpha=0.75)
+		plt.plot(counts, pdf, color=indicator_dict[class_name])
 		# Plot configuration
 		fig.patch.set_facecolor('white')
+		plt.title(class_name)
 		plt.legend(loc='upper left', prop={'size':12}, frameon=True)
-		plt.xlabel("Reference Results (Per HPF)", fontsize="20")
-		plt.ylabel("Classification Results (Per HPF)", fontsize="20")
+		plt.xlabel("Reference Particle Counts (Per HPF)", fontsize="15")
+		plt.ylabel("Probablity Distribution", fontsize="15")
 		axes = fig.axes[0]
 		axes.set_xlim([0,30])
+		axes.set_ylim([0,1])
 
 	# Calculate Sensitivity + Specificity 
 	for class_name in reference_all_dict: 
 
 		# Determine if solution is labeled Positive/Negative
-		thresh_reference_list = np.array(reference_all_dict[class_name]) > thresholds[class_name]
-		thresh_results_list = np.array(results_all_dict[class_name]) > thresholds[class_name]
+		thresh_reference_list = np.array(reference_all_dict[class_name]) > thresholds_ref[class_name]
+		thresh_results_list = np.array(results_all_dict[class_name]) > thresholds_device[class_name]
 
 		# Calculate confusion Matrix
 		TP = 0.0
@@ -300,14 +316,49 @@ def summarize_entire_urine_experiment(reference_all_dict, results_all_dict, conf
 			if (thresh_reference == False) and (thresh_results == False):
 				TN += 1
 
-		# Display results
-		config.logger.info("Results for : %s", class_name)
+		# Calculate and display results. 
+		display_data = []
+		display_labels = []
+
 		# Sensitivity, hit rate, recall, or true positive rate
 		TPR = 'N/A' if ((TP+FN) == 0) else TP/(TP+FN)
-		config.logger.info("Sensitivity (TPR): %s", str(TPR))
+		display_data.append(TPR)
+		display_labels.append("Sensitivity (TPR):")
 		# Specificity or true negative rate
 		TNR = 'N/A' if ((TN+FP) == 0) else TN/(TN+FP) 
-		config.logger.info("Specificity (TNR): %s", str(TNR))
+		display_data.append(TNR)
+		display_labels.append("Specificity (TNR):")
+		# Precision or positive predictive value
+		PPV = 'N/A' if ((TP+FP)==0) else TP/(TP+FP)
+		display_data.append(PPV)
+		display_labels.append("Precision (PPV):")
+		# Negative predictive value
+		NPV = 'N/A' if ((TN+FN)==0) else TN/(TN+FN)
+		display_data.append(NPV)
+		display_labels.append("Negative Predictive Value (NPV):")
+		# Fall out or false positive rate
+		FPR = 'N/A' if ((FP+TN)==0) else FP/(FP+TN)
+		display_data.append(FPR)
+		display_labels.append("False Positive Rate (FPR):")
+		# False negative rate
+		FNR = 'N/A' if ((TP+FN)==0) else FN/(TP+FN)
+		display_data.append(FNR)
+		display_labels.append("False Negative Rate (FNR):")
+		# False discovery rate
+		FDR = 'N/A' if ((TP+FP)==0) else FP/(TP+FP)
+		display_data.append(FDR)
+		display_labels.append("False Dicovery Rate (FDR): ")
+		# Overall accuracy
+		ACC = 'N/A' if ((TP+FP+FN+TN)  == 0) else (TP+TN)/(TP+FP+FN+TN) 
+		display_data.append(ACC)
+		display_labels.append("Overall Accuracy (ACC):")
+
+	
+		# Print Final Results
+		config.logger.info("******** Results for : %s ********", class_name)
+		for i, row in enumerate(display_data):
+			output_results = '{0:<40} {1:>8}'.format(display_labels[i], ''.join(str(round(display_data[i], 2))))
+			config.logger.info(output_results)
 
 
 	plt.show()

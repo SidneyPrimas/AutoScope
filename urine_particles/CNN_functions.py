@@ -53,6 +53,8 @@ def validate_segmentation_config(config):
 def validate_classification_config(config):
 	assert(config.nclasses == config.classification_metadata["nclasses"]) # Check that the data creation nclasses is the same as the model nclasses. 
 	assert(config.nclasses == len(config.class_mapping))
+	print config.nclasses
+	print len(glob.glob(config.train_images_dir + "*"))
 	assert(config.nclasses == len(glob.glob(config.train_images_dir + "*")))
 	assert(config.nclasses == len(glob.glob(config.val_images_dir + "*")))
 
@@ -575,13 +577,13 @@ def initialize_classification_model(log_dir=None):
 	"""
 
 	# Instantiates configuration for training/validation
-	config = ClassifyParticles_Config.ClassifyParticles_Config()
+	config = ClassifyParticles_config.ClassifyParticles_Config()
 
 	# Reroute/update logging
 	if (log_dir):
 		prefix = log_dir.split('/')[-2]
 		log_file_name = prefix + "_classification_prediction.log" #If None, then name based on datetime.
-		config.logger = CNN_functions.create_logger(log_dir, file_name=log_file_name, log_name="predict_classify_logger")
+		config.logger = create_logger(log_dir, file_name=log_file_name, log_name="predict_classify_logger")
 
 
 	# Print configuration

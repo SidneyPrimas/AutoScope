@@ -14,7 +14,7 @@ import sys
 import bisect
 
 # Import homebrew functions
-sys.path.append("./classify_particles_tf/data/log/20171026_CICS_resampling/size_52px/")
+sys.path.append("./urine_particles/data/clinical_experiment/log/20180205_training_plus/classification_training_log/")
 import config 
 
 ### Execution Notes ####

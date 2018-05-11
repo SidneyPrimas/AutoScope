@@ -24,7 +24,7 @@ class ClassifyParticles_Config():
 		# Core Configurations: Manually updated by user. Always needed. 
 		self.project_folder = "20180225_digital_urine/"
 		self.root_data_dir =  "./urine_particles/data/clinical_experiment/"
-		self.weight_file_input_name =  '20180211_final_model_midAug.h5'	#Set to 'None' to disable.
+		self.weight_file_input_name =  '2018021126_final_model_medAug_0p2Val_v2.h5'	#Set to 'None' to disable.
 		self.weight_file_output_name = "classify_weights_" # Set to 'None' to disable. 
 		self.target_size = (64, 64) # Warning: Be careful if non-square dimensions (see above note). 
 		self.batch_size = 1

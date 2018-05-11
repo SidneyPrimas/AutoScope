@@ -38,7 +38,7 @@ To Do:
 
 """ Configuration """
 # Folder that contains the canvas files to be processed
-root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1_rev1/" 
+root_folder = "./urine_particles/data/clinical_experiment/prediction_folder/sol1/" 
 # If True, auto selectes all '.bmp' images in root folder. 
 auto_determine_inputs = True
 # Select 'crops' to produce crops from the segmentation. Select 'semantic' get particle statistics for images based on semantic segmentation.

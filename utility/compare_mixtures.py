@@ -132,7 +132,7 @@ def calculate_solution_metrics():
 
 
 
-def plot_results(results_dict, target_metrics_dict, title, log_avg=False, graph_classes=False, metric='percent'):
+def plot_results(results_dict, target_metrics_dict, title, log_avg=True, graph_classes=True, metric='percent'):
 
 	# Aggregate results
 	results_metrics = {} if graph_classes else []
