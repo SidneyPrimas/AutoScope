@@ -1,4 +1,0 @@
-GPU Notes:
-+ To monitor GPU status, use watch -n 1 nvidia-smi. 
-+ TF allocates GPU memory at runtime. Need to have a small enough batch size so that entire model fits in memeory, including weights and the placeholders that funnel that data through the system. 
-++ Another strategy for GPU memory, is to allow growth of GPU memory dynamically (config.gpu_options.allow_growth = True). This will make the implementation less efficient because it will cause data fragmentation, but might lead to a higher rescource training that can be run (because memory is allocated dynamically instead of pre-allocated). 

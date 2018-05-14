@@ -2,6 +2,7 @@
 /security/
 /demo_projects/
 data/
+.DS_Store
 
 /AutoScope_Algos/archive/
 /AutoScope_Algos/core_algo/data/
