@@ -18,7 +18,7 @@ import math
 import cv2
 
 # Configuration
-source_directory = "./data/meeting/"
+source_directory = "./data/20171027_5MPX/"
 
 # Obtain images from source_directory
 file_list = glob(source_directory + "*")
@@ -94,7 +94,6 @@ for ref_input in file_list:
 
 	# Histogram
 	fig = plt.figure()
-	fig.add_subplot(1,2,1)
 	plt.title("Original Image")
 	plt.imshow(im_range_median, cmap='gray', interpolation='nearest')
 	plt.axis('off')
@@ -102,7 +101,7 @@ for ref_input in file_list:
 	# Plot histogram
 	## normed indicates that the integral of the histogram is 1
 	## flatten(): Flattens the image into a single array
-	fig.add_subplot(1,2,2)
+	fig = plt.figure()
 	plt.title("Histogram of Pixels")
 	plt.xlabel("Pixel Intensity")
 
@@ -130,8 +129,14 @@ for ref_input in file_list:
 	# 3D Visualizations
 	# create the figure
 	fig = plt.figure()
-	ax = fig.gca(projection='3d')
-	ax.plot_surface(mesh_xx, mesh_yy, im_range_median_small ,rstride=1, cstride=1, cmap=plt.cm.gray,linewidth=0)
+	square_map = plt.pcolormesh(mesh_xx, mesh_yy, im_range_median_small, cmap= "hot", shading='gouraud') 
+	fig.colorbar(square_map, orientation="vertical", label='Get Label')
 
+	fig = plt.figure()
+	ax = fig.gca(projection='3d')
+	ax.plot_surface(mesh_xx, mesh_yy, im_range_median_small ,rstride=1, cstride=1, cmap=plt.cm.hot,linewidth=0)
+	ax.axes.get_xaxis().set_ticks([])
+	ax.axes.get_yaxis().set_ticks([])
+	ax.axes.get_zaxis().set_ticks([])
 
 plt.show()
