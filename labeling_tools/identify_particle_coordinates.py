@@ -9,12 +9,8 @@ from glob import glob
 
 
 # Configuration Variables
-TARGET_FILE = "./data/20171027/10um/selected1/.bmp"
+TARGET_FILE = "./data/20180120/rbc_half_rev1/selected/original/img5_sol3_rbcTrain.bmp"
 STEP_SIZE = 700
-
-# image_paths = glob(TARGET_DIR + "*")	
-# for target_file in image_paths: 
-# if os.path.isdir(target_file): continue
 
 def main(): 
 
@@ -58,8 +54,10 @@ class ParticleLocation:
 
 		### Creat Log (Append data, and flush to file)
 		fileName_start = image_path.rfind("/")
+		root_dir_end = image_path.rfind("/", 0, fileName_start)
+		root_dir = image_path[:root_dir_end+1]
 		coordinates_file_name = image_path[fileName_start+1:-4]
-		coordinates_dir_path = image_path[:fileName_start+1] + "coordinates/"
+		coordinates_dir_path = root_dir + "coordinates/"
 		if not os.path.exists(coordinates_dir_path):
 			os.makedirs(coordinates_dir_path)
 		coordinates_file_path = (coordinates_dir_path + coordinates_file_name + "_coordinates.json")

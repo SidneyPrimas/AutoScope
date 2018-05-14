@@ -220,7 +220,7 @@ def segmentReversed_Micro(inputImage, outputFolder, target_dim, classes):
 		# The first label is the background (zero label). We ignore it. 
 		if index == 0:
 			continue
-
+		
 		# Draw a rectangle around each segmented particle. 
 		# Find the corners (opposite sides) of the rectangle. They need to be integer tuples. 
 		centroid = centroids[index]

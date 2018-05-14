@@ -28,9 +28,9 @@ im_original = cv2.imread(args["image"], cv2.IMREAD_GRAYSCALE)
 im_output = im_original.copy()
 im_orignal_max_px = int(np.amax(im_original))
 im_orignal_min_px = int(np.amin(im_original))
-target_dim = 52
-min_particle_size = 50
-use_mask = True
+target_dim = 64
+min_particle_size = 3
+use_mask = False
 mask_path = "./data/20171027/reference/illumination_mask.jpg"
 
 
@@ -70,7 +70,7 @@ if use_mask:
 # We chose: Small blocksize to capture narrow transition at edge of particle (without having a huge boundary transition). And, not to get confused with multiple particles in block.
 # We chose: Small C so that we have sufficient contrast to definitely get the particle pixels. 
 # Mean (size: 5, C: 5) vs. Guassian (size: 9 since weighted, C: 5): Guassian gives slightly better edge detection since particle around the edge are weighted more heavily. 
-im_thresh = cv2.adaptiveThreshold(im_compensated, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 25, 6)
+im_thresh = cv2.adaptiveThreshold(im_compensated, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 5, 4)
 # 6um + 10um: 5,5
 
 
@@ -83,6 +83,7 @@ im_thresh = cv2.adaptiveThreshold(im_compensated, 255, cv2.ADAPTIVE_THRESH_MEAN_
 # Python: cv2.morphologyEx(src, op, kernel[, dst[, anchor[, iterations[, borderType[, borderValue]]]]]) -> dst
 # Reason: Go from sparse, closely connected pixels to more complete particles. 
 # Reason: Do this with small structures so that only background pixels in the sparse clusters are turned to foreground (and not random noise pixels)
+# Optional 
 struct_element = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (2,2))
 im_morph = cv2.morphologyEx(im_thresh, cv2.MORPH_CLOSE, struct_element, iterations = 1)
 
