@@ -1,0 +1,3 @@
+Organization: 
++ Batch process identifying particle coordinates and  classifying: Instead of indicating coordinates and classifying particles at the same time, we are going to indicate coordinates first and then after classify each particle. Through this process, we can focus on a single task at a time. 
++ Coordinate Datastructure: We keep the coordinate data structure a list of lists instead of a dictionary of classes. The reason for this is that we can more easily shuffle the list for later selection. 
