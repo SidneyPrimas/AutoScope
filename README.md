@@ -33,7 +33,7 @@ Over 200 million urine tests are ordered each year in the US alone. Due to the c
 #### 1. AutoScope_Algos
 This folder contains the algorithms for classification and segmentation AutoScope images. The most important scripts are contained in the core_algo directory. Within this directory, I want to highlight a few workhorse scripts that are starting points for different processes. 
  * **Data Preperation Scripts** - These scripts put the Autoscope's images into the proper folder structure necessary for model training. They include data_preperation/create_classification_folder_from_labels.py and data_preperation/create_segmentation_folder.py. 
- * **Training Scripts:*** Scripts that train neural networks to perform particle segmentation and classification. These include train_classification_particles.py and train_segment_particles.py. 
+ * **Training Scripts:** Scripts that train neural networks to perform particle segmentation and classification. These include train_classification_particles.py and train_segment_particles.py. 
  * **Prediction Scripts:** Scripts that used the trained models to predict the particle segmentation and classification on new AutoScope images. These include: process_urine_classify.py	and process_urine_segment.py. 
 
 #### 2. Labeling_Algos
