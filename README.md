@@ -23,13 +23,13 @@ Over 200 million urine tests are ordered each year in the US alone. Due to the c
   
 ## Description of Code Base
 
-Core tools used to build system: 
+### Core Tools
 * Python: numpy, matplotlib, cv2, etc
 * Tensorflow: Intially, I directly implemented machine learning with Tensorflow. Later, I switched to Keras. 
 * AWS: Training of models was done on AWS GPUs
 
 
-My code is organized into 3 folders: 
+### My code is organized into 3 folders 
 #### 1. AutoScope_Algos
 This folder contains the algorithms for classification and segmentation AutoScope images. The most important scripts are contained in the core_algo directory. Within this directory, I want to highlight a few workhorse scripts that are starting points for different processes. 
  * **Data Preperation Scripts** - These scripts put the Autoscope's images into the proper folder structure necessary for model training. They include data_preperation/create_classification_folder_from_labels.py and data_preperation/create_segmentation_folder.py. 
