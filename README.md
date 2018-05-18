@@ -2,9 +2,9 @@
 **Advisor:** [Prof. Charlie Sodini](http://imes.mit.edu/people/faculty/sodini-charles/), LeBel Professor of Electrical Engineering, MIT  
 **Sponsorship:** [Medical Electronic Device Realization Center (MEDRC)](http://medrc.mit.edu/) - Analog Devices, Inc. 
 
-I spent 2 years working on my Master's in Computer Science at MIT. I developed my own low-cost microscope (the Autoscope) and used neural networks to automatically classify particles in urine. My work enables doctors to do low-cost urinalysis at the point-of-care instead of sending it off to a laboratory and waiting a few days for the results. 
-My low-cost microscope does not have any magnification and so it *shouldn't* be possible to detect red blood cells. But the cool part is that... it does. 
-This work highlights the power of neural networks to take advantage of information that we, as humans, cannot. 
+I spent 2 years working on my Master's in Computer Science at MIT. I developed my own low-cost microscope (the Autoscope) and used neural networks to automatically classify particles in urine. My work enables doctors to do low-cost urinalysis at the point-of-care instead of sending it off to a laboratory and waiting a few days for the results.   
+My low-cost microscope does not have any magnification and so it *shouldn't* be possible to detect red blood cells. But the cool part is that... it does.   
+This work highlights the power of neural networks to take advantage of information that we, as humans, cannot.   
 
 
 **Video of Final Project Presentation (28min):**   
@@ -20,9 +20,8 @@ My code is written in Python and is organized into 3 folders:
 
 * **AutoScope_Algos** - this folder contains the machine learning algorithms for classification and segmentation of particles in the Autoscope's images. It contains 3 sub-folders:
   1. **core_algo** - this sub-folder contains the workhorse functions. 
-      * **data_preparation** - these scripts put my microscope's raw data into the proper formats and folder structure for analysis 
-      * **prediction_bash_scripts** - 
-      The **most important** scripts here are: 
+    * **data_preparation** - these scripts put my microscope's raw data into the proper formats and folder structure for analysis   
+    The **most important** scripts are: 
       * Scripts that train my neural network on both particle segmentation and classification: **train_classification_particles.py** and  **train_segment_particles.py**   
       * Scripts that perform both particle segmentation and classification: **process_urine_classify.py**	and **process_urine_segment.py** 
   2. **utility_functions** - supporting functions
