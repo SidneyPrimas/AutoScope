@@ -1,5 +1,7 @@
+*** Readme Note ***
+Needs to be updated to reflect current state of directory. With that said, parts of the below descriptions are still accurate (and can be used as a starting point). 
 
-###### File Description ######
+###### File Descriptions ######
 segment_micro.py: Defines segmentMicroImage funcion that performs segmentation on a single microscope image. Depending on the type of particle, we need to change the variables. Currently, micro_categorization.py is used for the microscope images, and not the reversed lens images. 
 micro_categorization.py: Takes a folder full of images, and calls segmentMicroImage on each. Stores the segmented images in the appropriate folder. 
 segment_reversed.py: Defines segmentReversedImage funcion that performs segmentation on a single microscope image. Both 6um and 10um particles have the same variables. Currently, reverse_categorization.py is used for the reversed lens images. 

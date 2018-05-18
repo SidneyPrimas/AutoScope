@@ -1,8 +1,9 @@
+*** Valuable information, but not kept up to date and for personal use ***
+
 Execution Instructions: 
 + Pre-crop images vs. real-time cropping: 
 ++ For pre-cropped images, we create an array of the paths to all the pre-cropped images and annotations. Then, we shuffle the array, and cycle through this array for training/validation. 
 ++ For real-time cropping of images, we create an array of all the original images. Then, for each batch of training/validation, we pass x images to the cropping generator (where x is the number of main folders). Then, the cropping generator cycles through these x images, cropping a single crop for each image, until the batch size of crops has been generated. 
-
 
 
 Possible To Dos: 
