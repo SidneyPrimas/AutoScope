@@ -27,10 +27,10 @@ My code is organized into 3 folders:
 #### 1. AutoScope_Algos
 This folder contains the algorithms for classification and segmentation of particles in images taken by the Autoscope. It contains 3 sub-folders:
 * **core_algo** - this sub-folder contains the workhorse functions. 
-  * **data_preparation** - these scripts put the Autoscope's images into the proper folder structure necessary for model training   
-  The **most important** scripts are: 
+  *The **most important** scripts are: 
     * Scripts that train my neural network on both particle segmentation and classification: **train_classification_particles.py** and  **train_segment_particles.py**   
     * Scripts that perform the particle segmentation and classification on new AutoScope images: **process_urine_classify.py**	and **process_urine_segment.py** 
+  * **data_preparation** - these scripts put the Autoscope's images into the proper folder structure necessary for model training   
 * **utility_functions** - supporting functions
 * **utility_graphing** - supporting functions
   
