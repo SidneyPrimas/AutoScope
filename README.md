@@ -10,7 +10,7 @@ This work highlights the power of neural networks to take advantage of informati
   
   
 **Video of Final Project Presentation (28min):** Available on [YouTube](https://youtu.be/SKFaWKCmoxo)  
-**Slides of Final Project Presentation:** Available on [slideshare](https://www.slideshare.net/SidneyPrimas/the-autoscope-an-automated-pointofcare-urinalysis-system)  
+**Slides of Final Project Presentation:** Available on [Slideshare](https://www.slideshare.net/SidneyPrimas/the-autoscope-an-automated-pointofcare-urinalysis-system)  
 **Master's Thesis:** Available [here](https://github.com/SidneyPrimas/AutoScope/blob/master/MIT_Master_Thesis.pdf)  
   
   
@@ -25,20 +25,11 @@ Over 200 million urine tests are ordered each year in the US alone. Due to the c
 My code is organized into 3 folders: 
 
 #### 1. AutoScope_Algos
-This folder contains the algorithms for classification and segmentation of particles in images taken by the Autoscope. It contains 3 sub-folders:
-<ul>
-  <li> <strong>core_algo</strong> - this sub-folder contains the workhorse functions. 
-  <ul>
-    <li> The <strong> most important</strong> scripts are: 
-      <ul>
-        <li> Scripts that train my neural network on both particle segmentation and classification: <strong>train_classification_particles.py</strong> and  <strong>train_segment_particles.py</strong>  
-        <li> Scripts that perform the particle segmentation and classification on new AutoScope images: <strong>process_urine_classify.py</strong>	and <strong>process_urine_segment.py</strong>
-      </ul>   
-  <li> <strong>data_preparation</strong> - these scripts put the Autoscope's images into the proper folder structure necessary for model training   
-  </ul>
-<li> <strong>utility_functions</strong> - supporting functions
-<li> <strong>utility_graphing</strong> - supporting functions
-</ul>  
+This folder contains the algorithms for classification and segmentation AutoScope images. The most important scripts are contained in the core_algo directory. 
+* The **most impmortant** scripts are: 
+  * Scripts that train neural networks to perform particle segmentation and classification: <strong>train_classification_particles.py</strong> and  <strong>train_segment_particles.py</strong>  
+  * Scripts that perform the particle segmentation and classification on new AutoScope images: <strong>process_urine_classify.py</strong>	and <strong>process_urine_segment.py</strong>
+ * strong>data_preparation</strong> - these scripts put the Autoscope's images into the proper folder structure necessary for model training   
 
 #### 2. Labeling_Algos
 These scripts build tools that allow a user to manually label the location and type of particle in Autoscope images. This is done to develop a training dataset. The training datasets are fed into the "train_*_particles.py" scripts above. 
