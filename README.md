@@ -9,8 +9,8 @@ This work highlights the power of neural networks to take advantage of informati
   
   
   
-**Video of Final Project Presentation (28min):** Available on [YouTube](https://youtu.be/SKFaWKCmoxo)
-**Slides of Final Project Presentation:** Available on [slideshare](https://www.slideshare.net/SidneyPrimas/the-autoscope-an-automated-pointofcare-urinalysis-system)
+**Video of Final Project Presentation (28min):** Available on [YouTube](https://youtu.be/SKFaWKCmoxo)  
+**Slides of Final Project Presentation:** Available on [slideshare](https://www.slideshare.net/SidneyPrimas/the-autoscope-an-automated-pointofcare-urinalysis-system)  
 **Master's Thesis:** Available [here](https://github.com/SidneyPrimas/AutoScope/blob/master/MIT_Master_Thesis.pdf)  
   
   
