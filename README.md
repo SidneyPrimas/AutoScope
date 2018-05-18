@@ -10,7 +10,7 @@ This work highlights the power of neural networks to take advantage of informati
 **Video of Final Project Presentation (28min):**   
 **Slides of Final Project Presentation:** put them on slideshare  
 **Master's Thesis:** pdf  
-<img src="https://github.com/SidneyPrimas/AutoScope/blob/master/AutoScope_cover_image.jpeg" alt="Cover Image" style="width: 100px;"/>
+<img src="https://github.com/SidneyPrimas/AutoScope/blob/master/AutoScope_cover_image.jpeg" alt="Cover Image" style="width: 10px;"/>
 
 
 ## Abstract  
