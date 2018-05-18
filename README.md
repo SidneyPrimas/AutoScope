@@ -9,9 +9,9 @@ This work highlights the power of neural networks to take advantage of informati
   
   
   
-**Video of Final Project Presentation (28min):**   
-**Slides of Final Project Presentation:** put them on slideshare  
-**Master's Thesis:** pdf  
+**Video of Final Project Presentation (28min):** Available on [YouTube](https://youtu.be/SKFaWKCmoxo)
+**Slides of Final Project Presentation:** Available on [slideshare](https://www.slideshare.net/SidneyPrimas/the-autoscope-an-automated-pointofcare-urinalysis-system)
+**Master's Thesis:** Available [here](https://github.com/SidneyPrimas/AutoScope/blob/master/MIT_Master_Thesis.pdf)  
   
   
   
@@ -29,7 +29,7 @@ This folder contains the algorithms for classification and segmentation of parti
 <ul>
   <li> <strong>core_algo</strong> - this sub-folder contains the workhorse functions. 
   <ul>
-    <li> The <emph> most important</emph> scripts are: 
+    <li> The <strong> most important</strong> scripts are: 
       <ul>
         <li> Scripts that train my neural network on both particle segmentation and classification: <strong>train_classification_particles.py</strong> and  <strong>train_segment_particles.py</strong>  
         <li> Scripts that perform the particle segmentation and classification on new AutoScope images: <strong>process_urine_classify.py</strong>	and <strong>process_urine_segment.py</strong>
