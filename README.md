@@ -9,7 +9,7 @@ This work highlights the power of neural networks to take advantage of informati
   
   
   
-**Video of Final Project Presentation (28min):** Available on [YouTube](https://youtu.be/SKFaWKCmoxo)  
+**Video of Final Project Presentation (26min):** Available on [YouTube](https://youtu.be/SKFaWKCmoxo)  
 **Slides of Final Project Presentation:** Available on [Slideshare](https://www.slideshare.net/SidneyPrimas/the-autoscope-an-automated-pointofcare-urinalysis-system)  
 **Master's Thesis:** Available [here](https://github.com/SidneyPrimas/AutoScope/blob/master/MIT_Master_Thesis.pdf)  
   
@@ -37,8 +37,8 @@ This folder contains the algorithms for classification and segmentation AutoScop
  * **Prediction Scripts:** Scripts that used the trained models to predict the particle segmentation and classification on new AutoScope images. These include: process_urine_classify.py	and process_urine_segment.py. 
 
 #### 2. Labeling_Algos
-These scripts build tools that allow a user to manually label the location and type of particle in Autoscope images. This is done to develop a training dataset. The training datasets are fed into the training scripts above. 
+This folder contains scripts to build tools that allow a user to manually label the location and type of particle in Autoscope images. This is done to develop a training dataset. The training datasets are fed into the training scripts above. 
 
 #### 3. Sub_Tasks
-These scripts perform other types of analyses needed for my Master's thesis that are not related to classification or segmentation of particles. For example, modeling the illumination pattern of the Autoscope, calculating the end-to-end resolution of the Autoscope system, etc.
+This folder contains scripts to perform other types of analyses needed for my Master's thesis that are not related to classification or segmentation of particles. For example, modeling the illumination pattern of the Autoscope, calculating the end-to-end resolution of the Autoscope system, etc.
 
