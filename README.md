@@ -22,16 +22,22 @@ Over 200 million urine tests are ordered each year in the US alone. Due to the c
 
   
 ## Description of Code Base
-My code is organized into 3 folders: 
 
+Core tools used to build system: 
+* Python: numpy, matplotlib, cv2, etc
+* Tensorflow: Intially, I directly implemented machine learning with Tensorflow. Later, I switched to Keras. 
+* AWS: Training of models was done on AWS GPUs
+
+
+My code is organized into 3 folders: 
 #### 1. AutoScope_Algos
-This folder contains the algorithms for classification and segmentation AutoScope images. The most important scripts are contained in the core_algo directory. Within this directory, I want to high-light a few work-horse scripts. 
- * Scripts that train neural networks to perform particle segmentation and classification: <strong>train_classification_particles.py</strong> and  <strong>train_segment_particles.py</strong>  
- * Scripts that perform the particle segmentation and classification on new AutoScope images: <strong>process_urine_classify.py</strong>	and <strong>process_urine_segment.py</strong>
- * <strong>data_preparation</strong> - these scripts put the Autoscope's images into the proper folder structure necessary for model training   
+This folder contains the algorithms for classification and segmentation AutoScope images. The most important scripts are contained in the core_algo directory. Within this directory, I want to highlight a few workhorse scripts that are starting points for different processes. 
+ * **Data Preperation Scripts** - These scripts put the Autoscope's images into the proper folder structure necessary for model training. They include data_preperation/create_classification_folder_from_labels.py and data_preperation/create_segmentation_folder.py. 
+ * **Training Scripts:*** Scripts that train neural networks to perform particle segmentation and classification. These include train_classification_particles.py and train_segment_particles.py. 
+ * **Prediction Scripts:** Scripts that used the trained models to predict the particle segmentation and classification on new AutoScope images. These include: process_urine_classify.py	and process_urine_segment.py. 
 
 #### 2. Labeling_Algos
-These scripts build tools that allow a user to manually label the location and type of particle in Autoscope images. This is done to develop a training dataset. The training datasets are fed into the "train_*_particles.py" scripts above. 
+These scripts build tools that allow a user to manually label the location and type of particle in Autoscope images. This is done to develop a training dataset. The training datasets are fed into the training scripts above. 
 
 #### 3. Sub_Tasks
 These scripts perform other types of analyses needed for my Master's thesis that are not related to classification or segmentation of particles. For example, modeling the illumination pattern of the Autoscope, calculating the end-to-end resolution of the Autoscope system, etc.
