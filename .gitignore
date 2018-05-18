@@ -9,8 +9,6 @@ data/
 /AutoScope_Algos/data_output/
 /AutoScope_Algos/data_storage/
 /AutoScope_Algos/model_storage/
-/AutoScope_Algos/readme_files/
-/segment_particles/personal_README.txt
 *.pyc
 
 /Sub_Tasks/data/

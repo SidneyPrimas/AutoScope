@@ -1,0 +1,98 @@
+#### With an Ubuntu Image on EC2 with CPU ####
+# On 20171202, used Ubuntu Server 16.04 LTS (HVM), SSD Volume Type - ami-82f4dae7
+
+# Update apt-get
+sudo apt-get update
+
+# Install git
+sudo apt-get install git
+
+# Get repp
+git clone https://github.com/SidneyPrimas/particle_recognition.git
+
+# Get data (make sure the link is directly to the appropriate zip)
+wget https://www.dropbox.com/s/xu0rax6kd7o3nhh/2016_11_27_IrisDB.zip
+# Get the original data organized into classes within validation/training. Original image size. 
+wget https://www.dropbox.com/s/1knqdxcv590x604/2017_04_IrisDB_resampling.zip
+
+# Get unzip
+sudo apt-get install unzip
+
+# Unzip the data folder
+unzip ./2016_11_27_IrisDB.zip
+
+# Install Pip (for Python 2.7)
+sudo apt-get install python-pip python-dev
+# Depending on implementation, install tk (for python GUIs)
+# Since many of my script might import these packages, install for consistency. 
+sudo apt-get install python-tk
+
+# Install numpy and matplotlib (and other packages, depending on implementation)
+pip install numpy
+pip install matplotlib
+pip install scipy (might need to use: pip --no-cache-dir install scipy)
+pip install Pillow
+
+# Setup TF (Python 2.7 on Ubuntu with only CPUs)
+# Simple Installation
+pip install tensorflow # for Python 2.7 on Ubuntu with only CPUs
+# Binary Installation
+export TF_BINARY_URL=https://storage.googleapis.com/tensorflow/linux/cpu/tensorflow-0.11.0-cp27-none-linux_x86_64.whl
+sudo pip install --upgrade $TF_BINARY_URL
+
+# Run the Python script (dont' need if I send nothing out to the terminal)
+# nohup ensures that you can exit the session and python will still run in the background. 
+# stderr and stdout is put into terminal_output.log. Needs to be deleted later as well. 
+nohup python ./urine_particles/train_classification_particles.py > ./urine_particles/data/clinical_experiment/terminal_output.log  &
+
+
+
+
+#### With an Ubuntu Image on EC2 with GPU ####
+# Note: Tutorial to setup GPU support on AWS from scratch: http://mortada.net/tips-for-running-tensorflow-with-gpu-support-on-aws.html
+# My Approach: Leverage a pre-configured AMI that has GPU libraries (like CUDA and CuDNN) already installed. 
+
+# Setup the following AMI through AWS: Deep Learning Base AMI (Ubuntu) => Can also use Deap Learning AMI with Conda where the ML libraries (like Torch, Tensorflow are already installed and managed by Conda)
+Use GPU computer instance type, which is optimized for floating point computations (CNN) => p2.xlarge provides a single GPU
+
+# Check to make sure that GPU installed, and running at optimal configuration
+#If the time is above 2 seconds, look at this tutorial: http://mortada.net/tips-for-running-tensorflow-with-gpu-support-on-aws.html
+time nvidia-smi
+# During runtime, usethe following command to monitor GPU usage allocation 
+watch -n 1 nvidia-smi
+
+
+# Install Tensorflow with GPU support
+pip install tensorflow-gpu
+
+# Tensorflow does not support CUDA 9. Instead, switch configuration to CUDA 8, which is preinstalled. 
+# To switch for this session: 
+$ export PATH="$PATH:/usr/local/cuda-8.0/bin" 
+$ export LD_LIBRARY_PATH="/usr/local/cuda-8.0/lib64"
+# To permanantly switch so that properly configured on boot
+Change ~/.bashrc to have updated PATH and LD_LIBRARY_PATH. They will have a generic cuda. Instead, change to:
+export PATH=/usr/local/cuda-8.0/bin:/usr/local/bin:/opt/aws/bin:/home/ubuntu/src/cntk/bin:/usr/local/mpi/bin:$PATH
+export LD_LIBRARY_PATH=/home/ubuntu/src/cntk/bindings/python/cntk/libs:/usr/local/cuda-8.0/lib64:/usr/local/lib:/usr/lib:/usr/local/cuda/extras/CUPTI/lib64:/usr/local/mpi/lib:$LD_LIBRARY_PATH
+
+# Follow the normal steps used for CPU based configuration 
+
+
+#### Getting documents from EC2 ####
+# Getting log from EC2
+scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-249-89.us-east-2.compute.amazonaws.com:particle_recognition/log/log_2017-04-18_18\:46\:55 ./log/downsampling_experiment/
+
+# Getting image from EC2
+#Single Image
+scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-120-151.us-east-2.compute.amazonaws.com:particle_recognition/data/IrisDB_resampling/Validation/IRIS-NHYAL-CELL/0.jpg ./1p4_NHYAL-CELL_0.jpg
+#Recursvie
+scp -r -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-18-217-91-192.us-east-2.compute.amazonaws.com:particle_recognition/urine_particles/data/clinical_experiment/image_data/20180120_training/segmentation/img_output/ ./data_output/
+
+# Getting models from EC2
+scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-180-230.us-east-2.compute.amazonaws.com:particle_recognition/data/particle_model_filters ./6classes_basicGraph_imagesPerClass_imagesPerClass_particle_model_filters 
+
+#### SIDE NOTES ####
+# To optimize Tensorflow for your CPU, need to install a custom TF.
+Follow this tutorial: http://mortada.net/tips-for-running-tensorflow-with-gpu-support-on-aws.html
+
+
+
