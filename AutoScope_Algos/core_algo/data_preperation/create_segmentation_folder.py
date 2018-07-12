@@ -23,13 +23,13 @@ Implementation Notes:
 """
 
 """ User Updated Configuration Parameters"""
-input_dir_root = './urine_particles/data/clinical_experiment/raw_image_data/'
-output_dir_root = './urine_particles/data/clinical_experiment/image_data/20180205_training_plus/'  
+input_dir_root = './core_algo/data/clinical_experiment/raw_image_data/'
+output_dir_root = './core_algo/data/clinical_experiment/image_data/20180711_seg_demo/'  
 segmentation_folder_name = 'segmentation/'
 
 indicator_radius = 20 # Moved from 15 to 20px because moved from 5MPx to 8MPx (scaled radius based on linear increase of width)
-crop_images_flag = False
-validation_proportion = 0.1
+crop_images_flag = True
+validation_proportion = 0.05
 
 
 # Implementation Notes: Labels need to start at 0 (with the bacgkround), and increment monotonically by 1. 
@@ -50,8 +50,8 @@ input_particle_folders = [
 
 
 """ Crop Parameters """
-crop_increment = 120 # How much the crop window is shifted for each crop 
-crop_size = 480 # The size of the crop: crop_size x crop_size 
+crop_increment = 240 # How much the crop window is shifted for each crop (usually 120)
+crop_size = 960 # The size of the crop: crop_size x crop_size (usually 480)
 
 
 """ Fixed + autocalculated parameters """
