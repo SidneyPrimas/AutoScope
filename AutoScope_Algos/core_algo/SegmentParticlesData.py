@@ -333,7 +333,7 @@ class SegmentParticlesData(object):
 			random_img_list = range(self.config.batch_size)
 			random.shuffle(random_img_list) # Determine which images from the batch to process
 			for i in range(2): 
-				random_img_list.pop() # removes the last item
+				img_num = random_img_list.pop() # removes the last item
 
 				file_prefix = self.config.output_img_dir + str(self.image_train_count) + "_" + str(img_num) + "_"
 				# Determine particle_accuracy
@@ -418,6 +418,12 @@ class SegmentParticlesData(object):
 
 			# Validation for single epoch
 			self.validate_epoch(model, val_generator, get_particle_accuracy = True)
+
+			
+			# Delete
+			self.config.batches_per_epoch_train = batches_per_epoch_train*2
+			if (self.config.batches_per_epoch_train > 256):
+				self.config.batches_per_epoch_train = 256
 
 	def train_entire_model(self, model, train_generator, val_generator,): 
 		# Compiles model
