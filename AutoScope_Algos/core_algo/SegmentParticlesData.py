@@ -430,7 +430,7 @@ class SegmentParticlesData(object):
 			count +=1
 			self.config.logger.info("######   Entire Model Training  ######")
 			self.train(model, train_generator, val_generator,)
-			CNN_functions.save_model(model, self.config.weight_file_output + str(self.image_train_count%1) + ".h5", self.config) # Save
+			CNN_functions.save_model(model, self.config.weight_file_output + str(self.image_train_count) + "_long.h5", self.config) # Save
 
 
 
