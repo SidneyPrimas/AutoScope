@@ -85,7 +85,7 @@ scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-249-89.u
 #Single Image
 scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-120-151.us-east-2.compute.amazonaws.com:particle_recognition/data/IrisDB_resampling/Validation/IRIS-NHYAL-CELL/0.jpg ./1p4_NHYAL-CELL_0.jpg
 #Recursvie
-scp -r -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-18-217-91-192.us-east-2.compute.amazonaws.com:particle_recognition/urine_particles/data/clinical_experiment/image_data/20180120_training/segmentation/img_output/ ./data_output/
+scp -i  ./security/sprimas_admin_key-pari_us-east-2.pem -r ubuntu@ec2-13-59-110-56.us-east-2.compute.amazonaws.com:particle_recognition/AutoScope_Algos/core_algo/data/clinical_experiment/image_data/20180711_seg_demo/segmentation/img_output ~/Desktop/training
 
 # Getting models from EC2
 scp -i ./security/sprimas_admin_key-pari_us-east-2.pem ubuntu@ec2-52-14-180-230.us-east-2.compute.amazonaws.com:particle_recognition/data/particle_model_filters ./6classes_basicGraph_imagesPerClass_imagesPerClass_particle_model_filters 

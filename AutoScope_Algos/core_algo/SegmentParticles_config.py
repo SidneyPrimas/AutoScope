@@ -31,9 +31,9 @@ class SegmentParticles_Config():
 		self.root_data_dir =  "./core_algo/data/clinical_experiment/"
 		self.weight_file_input_name = None # "20180125_base_segmentation.h5"   #Set to 'None' to disable.
 		self.weight_file_output_name = "seg_class_weights_" # Set to 'None' to disable. 
-		self.generate_images_with_cropping = False
+		self.generate_images_with_cropping = True
 		self.fullscale_target_size = None # (height, width) for numpy
-		self.target_size = (960,960) # (480, 480) for  crops or (2464,3264) for entire image at 8MPX
+		self.target_size = (480,480) # (480, 480) for  crops or (2464,3264) for entire image at 8MPX
 		self.batch_size = 8
 		self.num_epochs = 1 # Print validation results after each epoch. Save model after num_epochs.
 		self.batches_per_epoch_train = 8 # Batches for each training session.
