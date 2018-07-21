@@ -29,9 +29,7 @@ def label_single_image(input_image, particle_list, color_list, radius, segmentat
 		pixel_label = metadata_to_label(class_metadata, segmentation_labels)
 		indicator_color = color_list[pixel_label] 
 
-
 		cv2.circle(input_image, center=centroid_cv2, radius=radius, color=indicator_color, thickness=-1) # Label pixels on overlay image
-
 
 	return input_image
 

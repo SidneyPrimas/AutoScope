@@ -419,11 +419,6 @@ class SegmentParticlesData(object):
 			# Validation for single epoch
 			self.validate_epoch(model, val_generator, get_particle_accuracy = True)
 
-			
-			# Delete
-			self.config.batches_per_epoch_train = batches_per_epoch_train*2
-			if (self.config.batches_per_epoch_train > 256):
-				self.config.batches_per_epoch_train = 256
 
 	def train_entire_model(self, model, train_generator, val_generator,): 
 		# Compiles model
@@ -436,7 +431,7 @@ class SegmentParticlesData(object):
 			count +=1
 			self.config.logger.info("######   Entire Model Training  ######")
 			self.train(model, train_generator, val_generator,)
-			CNN_functions.save_model(model, self.config.weight_file_output + str(self.image_train_count) + "_long.h5", self.config) # Save
+			CNN_functions.save_model(model, self.config.weight_file_output + str(self.image_train_count%1) + ".h5", self.config) # Save
 
 
 

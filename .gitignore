@@ -13,6 +13,8 @@ data/
 
 /Sub_Tasks/data/
 /Sub_Tasks/20171030_resolution_exp/data
+/Sub_Tasks/20180720_classify_visualization/data
+/Sub_Tasks/20180721_seg_visualization/data
 
 /Labeling_Algos/data/
 /Labeling_Algos/data_output/

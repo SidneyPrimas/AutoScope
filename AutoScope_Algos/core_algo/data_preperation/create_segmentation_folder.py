@@ -37,9 +37,9 @@ validation_proportion = 0.1
 # Structure 2) key => folder_name 	: {key => sub-category}
 segmentation_labels = {
 	"background"	:	{"background": 0} ,# background always has a 0 label
-	"10um"			:	{"particle": 1, "other": 0, "discard": 0, "accident": 0}, 
-	"rbc"			:	{"particle": 1, "other": 0, "discard": 0, "accident": 0}, 
-	"wbc"			:	{"particle": 1, "other": 0, "discard": 0, "accident": 0}, 
+	"10um"			:	{"particle": 1, "other": 1, "discard": 1, "accident": 1}, 
+	"rbc"			:	{"particle": 1, "other": 1, "discard": 1, "accident": 1}, 
+	"wbc"			:	{"particle": 1, "other": 1, "discard": 1, "accident": 1}, 
 }
 nclasses = 2 # Total number of classes, including the background class. 
 input_particle_folders = [

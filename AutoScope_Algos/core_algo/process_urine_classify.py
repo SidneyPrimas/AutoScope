@@ -111,6 +111,7 @@ def main():
 
 		
 		original_img_dic = label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, data.config.colors)
+		
 		# Save the labeled iamges
 		for img_name in original_img_dic:
 			prefix_rootdir = root_folder.split('/')[-2]
