@@ -7,6 +7,7 @@ import math
 from datetime import datetime
 import re
 import argparse
+import json
 
 #Import keras libraries
 from tensorflow.python.keras.utils import plot_model
@@ -110,10 +111,17 @@ def main():
 			split_batch_into_class_folders(all_pred, all_path_list, sorted_output_path, class_mapping)
 
 		
-		original_img_dic = label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, data.config.colors)
+		original_img_dic, data_json = label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, data.config.colors)
+
+
+		prefix_rootdir = root_folder.split('/')[-2]
+		# Save json to log
+		json_path =  debug_output_path + prefix_rootdir +  "_data.json"
+		with open(json_path, 'w') as outfile:
+    			json.dump(data_json, outfile)
+
 		# Save the labeled iamges
 		for img_name in original_img_dic:
-			prefix_rootdir = root_folder.split('/')[-2]
 			cv2.imwrite(debug_output_path + prefix_rootdir + "_" + img_name + "_labeled_from_crops.jpg", original_img_dic[img_name])
 
 
@@ -141,6 +149,7 @@ def label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, 
 	original_img_dic: Dictionary that maps the base name (no extension) of the original image to the labeled original image
 	"""
 	original_img_dic = {}
+	data_json = {}
 	for index_path, crop_path in enumerate(all_path_list): 
 
 		# Identify crop_path file name
@@ -159,6 +168,7 @@ def label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, 
 			original_img_path = root_folder + original_img_name + ".bmp"
 			original_img = cv2.imread(original_img_path)
 			original_img_dic[original_img_name] = original_img
+			data_json[original_img_name] = [] 
 
 
 		# Identify particle centroid from crop image name
@@ -169,6 +179,10 @@ def label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, 
 
 		# Place indicator for each classified particle. 
 		label = label_list[index_path]
+		
+		# Update the meta-data dictionary for the classified particles
+                data_json[original_img_name].append({"center":circle_centroid, "label": label, "color":label_colors[label]})
+		
 		cv2.circle(
 			original_img, 
 			center=circle_centroid, 
@@ -177,7 +191,7 @@ def label_canvas_based_on_crop_filename(label_list, all_path_list, root_folder, 
 			thickness=3)
 
 
-	return original_img_dic
+	return original_img_dic, data_json
 
 
 
