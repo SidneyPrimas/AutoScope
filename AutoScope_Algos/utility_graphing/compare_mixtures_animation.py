@@ -4,9 +4,11 @@ import numpy as np
 import re
 import sys
 import pprint
+from random import shuffle
+from matplotlib.patches import Circle
 
 """
-Description: Used to compare classification results across different solution mixtures. 
+Description: Used to animate graphs produces by compare_mixtures.py
 """
 
 # Import homebrew functions
@@ -37,7 +39,7 @@ def main():
 
 	# Debug
 	pp = pprint.PrettyPrinter(indent=1)
-	pp.pprint(results_dict)
+	#pp.pprint(results_dict)
 	#pp.pprint(target_metrics_dict)
 
 	plot_results(results_dict, target_metrics_dict, title)
@@ -168,96 +170,67 @@ def plot_results(results_dict, target_metrics_dict, title, log_avg=True, graph_c
 					target_metrics.append(target_metrics_dict[sol_name][class_name][metric])
 
 
-	if (graph_classes):
-		plot_dict_results(target_metrics, results_metrics)
-	else: 
-		plot_list_results(target_metrics, results_metrics)
+	plot_dict_results_animation(target_metrics, results_metrics)
 
-def plot_dict_results(target_metrics, results_metrics):
-	
-	fig = plt.figure()
 
-	# Plot each class with a different color
-	for class_name in results_metrics: 
 
-		# Calculate relevant statistics 
-		slope, intercept, r_value, p_value, stderr = stats.linregress(target_metrics[class_name], results_metrics[class_name])
-		r_squared = r_value**2
-		print ("slope: %f, intercept: %f, r_squared: %f, p_value: %f, stderr: %f")%(slope, intercept, r_squared, p_value, stderr)
+def plot_dict_results_animation(target_metrics, results_metrics):
 
-		# Add class catter plot
-		if (class_name == 'wbc'):
-			plt.scatter(target_metrics[class_name], results_metrics[class_name], label=class_name, color=indicator_dict[class_name], s=120, facecolors='none')
-		else: 
-			plt.scatter(target_metrics[class_name], results_metrics[class_name], label=class_name, color=indicator_dict[class_name], s=120)
 
-		# User defined best fit plotting => auto fit for every class
-		if (False): 
-			fitted_line = [(intercept + slope*value) for value in target_metrics[class_name]]
-			fitted_legend_str = ("%s (r^2: %0.03f)")%(class_name, r_squared)
-			plt.plot(target_metrics[class_name], fitted_line, 'r', label=fitted_legend_str)
+	# Restructure data to plot single data point at a time [tuple(class_name, target_val, result_val)]
+	animation_data_struct = []
+	for class_name, target_list in target_metrics.iteritems():
+		for i, target_val in enumerate(target_list):
+			animation_data_struct.append((class_name, target_val, results_metrics[class_name][i]))
 
-	# User defined best fit plotting => manual, user defined fit. 
-	if (True): 
-		# With 'WBC Solo'
-		# intercept = 6.085599
-		# slope = 0.817443
-		# r_squared = 0.919007 
-		# Without 'WBC Solo'
-		# intercept = 3.138772
-		# slope = 0.905837
-		# r_squared = 0.980137 
-		# Day 1
-		# intercept = 3.508569
-		# slope = 0.894743
-		# r_squared = 0.974421 
-		# Day 2
-		# intercept = 1.945489
-		# slope = 0.941635
-		# r_squared = 0.999101 
-		# Without 'WBC Solo' (no average)
-		intercept = 3.318622
-		slope = 0.900432
-		r_squared = 0.945604 
-		fitted_line = [(intercept + slope*value) for value in range(100)]
-		fitted_legend_str = ("Fitted (r^2: %0.03f)")%(r_squared)
-		plt.plot(range(100), fitted_line, color='gray', label=fitted_legend_str)
 
-	# Plot characteristics
-	plt.title(title)
+	# Shuffle to randomly populate data points
+	shuffle(animation_data_struct)
+
+	fig = plt.figure(figsize = (10,6), dpi=250)
 	fig.patch.set_facecolor('white')
-	plt.legend(loc='upper left', prop={'size':12}, frameon=True)
 	plt.xlabel("Reference Results (%)", fontsize="20")
 	plt.ylabel("AutoScope Results (%)", fontsize="20")
-	# axes = fig.axes[0]
-	# axes.set_ylim([0,100])
-	# axes.set_xlim([0,100])
-	plt.show()
+	axes = fig.axes[0]
+	axes.set_ylim([-5,105])
+	axes.set_xlim([-5,105])
 
-def plot_list_results(target_metrics, results_metrics):
-	
+	# Force Legend from start
+	plt.plot([],[], 'or', label='Red Blood Cells (RBCs)', markersize=10)
+	plt.plot([],[], 'ob', label='10um Microbeads', markersize=10)
+	plt.plot([],[], 'ok', label='White Blood Cells (WBCs)', mfc='none', markersize=10)
+	leg = axes.legend(loc='upper left', prop={'size':14}, frameon=False)
+	# Change color of text within legend
+	for line, text in zip(leg.get_lines(), leg.get_texts()):
+		text.set_color(line.get_color())
 
-	fig = plt.figure()
+	# Save initial version 
+	output_path = './data_output/20180727_results_animation/00.png'
+	fig.savefig(output_path)
 
-	# Calculate relevant statistics 
-	slope, intercept, r_value, p_value, stderr = stats.linregress(target_metrics, results_metrics)
-	r_squared = r_value**2
-	print ("slope: %f, intercept: %f, r_squared: %f, p_value: %0.68f, stderr: %f")%(slope, intercept, r_squared, p_value, stderr)
+	for i, data_point in enumerate(animation_data_struct):
+		# Add point to scatter plot
+		class_name = data_point[0]
+		if (class_name == 'wbc'):
+			plt.scatter(data_point[1], data_point[2], label=class_name, color=indicator_dict[class_name], s=120, facecolors='none')
+		else: 
+			plt.scatter(data_point[1], data_point[2], label=class_name, color=indicator_dict[class_name], s=120)
 
-	# Plot
-	plt.title(title)
-	plt.scatter(target_metrics, results_metrics, label="metric")
-	fitted_line = [(intercept + slope*value) for value in target_metrics]
-	fitted_legend_str = ("Fitted (r^2: %0.03f)")%(r_squared)
-	plt.plot(target_metrics, fitted_line, color='gray', label=fitted_legend_str)
-	fig.patch.set_facecolor('white')
-	plt.legend(loc='lower right', prop={'size':12}, frameon=True)
-	plt.xlabel("Expected Proportion (%)", fontsize="20")
-	plt.ylabel("Measured Proportion (%)", fontsize="20")
-	# axes = fig.axes[0]
-	# axes.set_ylim([0,100])
-	# axes.set_xlim([0,100])
-	plt.show()
+		output_path = './data_output/20180727_results_animation/' + str(i) + '.png'
+		fig.savefig(output_path)
+
+
+
+	# Add fitted line
+	intercept = 3.138772
+	slope = 0.905837
+	r_squared = 0.980137 
+	fitted_legend_str = ("R-Squared: %0.03f")%(r_squared)
+	plt.text(65, 0, fitted_legend_str, fontsize=20)
+	fitted_line = [(intercept + slope*value) for value in range(100)]
+	plt.plot(range(100), fitted_line, color='gray', label=fitted_legend_str)
+	output_path = './data_output/20180727_results_animation/final.png'
+	fig.savefig(output_path)
 
 
 
